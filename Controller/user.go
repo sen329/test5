@@ -20,7 +20,7 @@ import (
 var db *sql.DB
 var err error
 
-var jwtKey = []byte("my_secret_key")
+var JwtKey = []byte("my_secret_key")
 
 func Open() {
 	db, err = sql.Open("mysql", "root:@/go_login_test")
@@ -39,7 +39,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	email := r.Form.Get("email")
 	password := r.Form.Get("password")
 
-	stmt, err := db.Query("SELECT email, password FROM users WHERE email LIKE ?  ", email) //include role later
+	stmt, err := db.Query("SELECT users.id, users.email, users.password, roles.id FROM users LEFT JOIN users_roles ON users.id = users_roles.user_id LEFT JOIN roles ON users_roles.role_id = roles.id WHERE email LIKE ?  ", email)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -47,9 +47,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	defer stmt.Close()
 
 	var user model.User
+	var role model.Roles
 
 	for stmt.Next() {
-		err := stmt.Scan(&user.Email, &user.Password)
+		err := stmt.Scan(&user.Id, &user.Email, &user.Password, &role.Id)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -71,7 +72,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		// Create the JWT claims, which includes the username and expiry time
 
 		claims := model.Claims{
-			Email: user.Email,
+			Email:   user.Email,
+			User_id: user.Id,
+			Role_id: role.Id,
 			StandardClaims: jwt.StandardClaims{
 				// In JWT, the expiry time is expressed as unix milliseconds
 				ExpiresAt: expirationTime.Unix(),
@@ -80,7 +83,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-		tokenString, err := token.SignedString(jwtKey)
+		tokenString, err := token.SignedString(JwtKey)
 		if err != nil {
 			// If there is an error in creating the JWT return an internal server error
 			w.WriteHeader(http.StatusInternalServerError)
@@ -110,7 +113,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	stmt, err := db.Prepare("INSERT INTO USERS(name, email, password) VALUES (?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO users(name, email, password) VALUES (?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -149,7 +152,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	tknStr := c.Value
 	claims := model.Claims{}
 	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-		return jwtKey, nil
+		return JwtKey, nil
 	})
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
@@ -177,7 +180,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims.ExpiresAt = expirationTime.Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(jwtKey)
+	tokenString, err := token.SignedString(JwtKey)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -191,4 +194,8 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	})
 
 	defer db.Close()
+}
+
+func Test(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Authorized works")
 }
