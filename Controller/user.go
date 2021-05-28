@@ -22,19 +22,13 @@ var err error
 
 var JwtKey = []byte("my_secret_key")
 
-func Open() {
-	db, err = sql.Open("mysql", "root:@/go_login_test")
-	if err != nil {
-		panic(err.Error())
-	}
-
-}
-
 func Login(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
 	}
+
+	Open()
 
 	email := r.Form.Get("email")
 	password := r.Form.Get("password")
@@ -58,9 +52,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	check := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if check != nil {
+		fmt.Fprintf(w, "{'invalid password'}")
 		panic(check.Error())
 	} else {
-		fmt.Println("SUCCESSSSSSSSSSSSSSSSSSSSS")
+		// fmt.Println("SUCCESSSSSSSSSSSSSSSSSSSSS")
 
 		// fmt.Fprintf(w, "JWT Should be here as JSON")
 
@@ -68,7 +63,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		// Declare the expiration time of the token
 		// here, we have kept it as 5 minutes
-		expirationTime := time.Now().Add(5 * time.Minute)
+		expirationTime := time.Now().Add(60 * time.Minute)
 		// Create the JWT claims, which includes the username and expiry time
 
 		claims := model.Claims{
@@ -96,11 +91,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		json.NewEncoder(w).Encode(jwtToken)
 
-		http.SetCookie(w, &http.Cookie{
-			Name:    "token",
-			Value:   tokenString,
-			Expires: expirationTime,
-		})
+		// http.SetCookie(w, &http.Cookie{
+		// 	Name:    "token",
+		// 	Value:   tokenString,
+		// 	Expires: expirationTime,
+		// })
 
 	}
 
@@ -113,6 +108,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	Open()
 	stmt, err := db.Prepare("INSERT INTO users(name, email, password) VALUES (?,?,?)")
 	if err != nil {
 		panic(err.Error())
@@ -187,15 +183,32 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set the new token as the users `token` cookie
-	http.SetCookie(w, &http.Cookie{
-		Name:    "token",
-		Value:   tokenString,
-		Expires: expirationTime,
-	})
+	// http.SetCookie(w, &http.Cookie{
+	// 	Name:    "token",
+	// 	Value:   tokenString,
+	// 	Expires: expirationTime,
+	// })
+
+	jwtToken := model.Token{
+		Token: tokenString,
+	}
+
+	json.NewEncoder(w).Encode(jwtToken)
 
 	defer db.Close()
 }
 
 func Test(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Authorized works")
+	user_id := r.Context().Value("user_id").(string)
+	role_id := r.Context().Value("role_id").(string)
+	if Checkuser(user_id, role_id) == true {
+		fmt.Fprintf(w, "Authorized works")
+		//here the main code for anything
+	} else {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Unauthorized"))
+	}
+
+	// fmt.Fprintf(w, r.Context().Value("user_id").(string))
+	// fmt.Fprintf(w, r.Context().Value("role_id").(string))
 }
