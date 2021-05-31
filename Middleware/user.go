@@ -39,17 +39,6 @@ func Middleware(next http.Handler) http.Handler {
 			if claims, ok := token.Claims.(*model.Claims); ok && token.Valid {
 				ctx := context.WithValue(context.Background(), "user_id", claims.User_id)
 				ctx = context.WithValue(ctx, "role_id", claims.Role_id)
-				// Access context values in handlers like this
-				// props, _ := r.Context().Value("props").(jwt.MapClaims)
-				// for key, val := range claims {
-				// 	fmt.Printf("%v, %v\n", key, val)
-				// }
-
-				// fmt.Printf("%v, %v\n", claims.Role_id, claims.User_id)
-				// fmt.Printf(ctx.Value("role_id").(string))
-				// fmt.Printf(ctx.Value("user_id").(string))
-
-				//get permissions list?
 
 				next.ServeHTTP(w, r.WithContext(ctx))
 

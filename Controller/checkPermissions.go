@@ -1,9 +1,6 @@
 package controller
 
 func Checkuser(user_id string, role_id string) bool {
-	// fmt.Fprintf(w, r.Context().Value("user_id").(string))
-	// fmt.Fprintf(w, r.Context().Value("role_id").(string))
-
 	var existsRole string
 	var existsPermission string
 	Open()
