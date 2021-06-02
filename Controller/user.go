@@ -113,10 +113,15 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+	stmt2, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
+	if err != nil {
+		panic(err.Error())
+	}
 
 	name := r.Form.Get("name")
 	email := r.Form.Get("email")
 	password := r.Form.Get("password")
+	role_id := r.Form.Get("role_id")
 
 	var pwd = []byte(password)
 
@@ -125,6 +130,27 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	_, err = stmt.Exec(name, email, pwdhash)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	stmt3, err := db.Query("SELECT users.id FROM users WHERE email LIKE ?  ", email)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	var user model.User
+
+	for stmt3.Next() {
+		err := stmt3.Scan(&user.Id)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	_, err = stmt2.Exec(user.Id, role_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -206,7 +232,7 @@ func Test(w http.ResponseWriter, r *http.Request) {
 		//here the main code for anything
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Unauthorized"))
+		w.Write([]byte("You don't have the permission to access this function"))
 	}
 
 	// fmt.Fprintf(w, r.Context().Value("user_id").(string))
