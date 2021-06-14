@@ -224,17 +224,21 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-func Test(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Context().Value("user_id").(string)
-	role_id := r.Context().Value("role_id").(string)
-	if Checkuser(user_id, role_id) == true {
-		fmt.Fprintf(w, "Authorized works")
-		//here the main code for anything
-	} else {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("You don't have the permission to access this function"))
-	}
+// func Checktest(w http.ResponseWriter, r *http.Request) {
+// 	user_id := r.Context().Value("user_id").(string)
+// 	role_id := r.Context().Value("role_id").(string)
+// 	if Checkuser(user_id, role_id) {
+// 		Test(w, r)
+// 		//here the main code for anything
+// 	} else {
+// 		w.WriteHeader(http.StatusUnauthorized)
+// 		json.NewEncoder(w).Encode("Not authorized")
+// 	}
 
-	// fmt.Fprintf(w, r.Context().Value("user_id").(string))
-	// fmt.Fprintf(w, r.Context().Value("role_id").(string))
+// 	// fmt.Fprintf(w, r.Context().Value("user_id").(string))
+// 	// fmt.Fprintf(w, r.Context().Value("role_id").(string))
+// }
+
+func Test(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode("Authorize works")
 }
