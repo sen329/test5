@@ -104,6 +104,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
