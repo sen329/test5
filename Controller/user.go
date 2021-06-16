@@ -23,6 +23,7 @@ var err error
 var JwtKey = []byte("my_secret_key")
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
