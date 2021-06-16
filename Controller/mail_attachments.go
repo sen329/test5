@@ -14,8 +14,6 @@ func Attachitem(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	Open()
-
 	stmt, err := db.Prepare("INSERT INTO t_mail_attachment(template_id, item_id, item_type, amount, custom_message_id) VALUES (?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
@@ -32,8 +30,6 @@ func Attachitem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	defer stmt.Close()
-
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -41,14 +37,10 @@ func Attachitem(w http.ResponseWriter, r *http.Request) {
 func Getmailattachments(w http.ResponseWriter, r *http.Request) {
 	var attachments []model.Mail_attachment
 
-	Open()
-
 	result, err := db.Query("SELECT * FROM t_mail_attachment")
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer result.Close()
 
 	for result.Next() {
 		var attachment model.Mail_attachment
@@ -66,17 +58,13 @@ func Getmailattachments(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getmailattachment(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
+	id := r.URL.Query().Get("id")
 	var attachment model.Mail_attachment
-
-	Open()
 
 	result, err := db.Query("SELECT * from t_mail_attachment where message_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer result.Close()
 
 	for result.Next() {
 		err := result.Scan(&attachment.Id, &attachment.Template_id, &attachment.Item_id, &attachment.Item_type, &attachment.Amount, &attachment.Custom_message_id)
@@ -90,13 +78,11 @@ func Getmailattachment(w http.ResponseWriter, r *http.Request) {
 }
 
 func Updatemailattachment(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
+	id := r.URL.Query().Get("id")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
 	}
-
-	Open()
 
 	stmt, err := db.Prepare("UPDATE t_mail_attachment SET template_id = ?, item_id = ?, item_type = ?, amount = ?, custom_message_id = ? WHERE id = ?")
 	if err != nil {
@@ -114,15 +100,11 @@ func Updatemailattachment(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	defer stmt.Close()
-
 	json.NewEncoder(w).Encode("Success")
 }
 
 func Removeitem(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
-
-	Open()
+	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_attachment WHERE id = ?")
 	if err != nil {
@@ -133,8 +115,6 @@ func Removeitem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gorilla/mux"
 
 	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
@@ -15,8 +14,6 @@ import (
 
 func Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		params := mux.Vars(r)
-		id := params["id"]
 		authHeader := strings.Split(r.Header.Get("Authorization"), "Bearer ")
 		if len(authHeader) != 2 {
 			fmt.Println("Malformed token")
@@ -35,7 +32,6 @@ func Middleware(next http.Handler) http.Handler {
 			if claims, ok := token.Claims.(*model.Claims); ok && token.Valid {
 				ctx := context.WithValue(context.Background(), "user_id", claims.User_id)
 				ctx = context.WithValue(ctx, "role_id", claims.Role_id)
-				ctx = context.WithValue(ctx, "id", id)
 				next.ServeHTTP(w, r.WithContext(ctx))
 
 			} else {

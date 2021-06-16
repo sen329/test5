@@ -14,8 +14,6 @@ func Createcustommail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	Open()
-
 	stmt, err := db.Prepare("INSERT INTO t_mail_custom_message(subject, message) VALUES (?,?)")
 	if err != nil {
 		panic(err.Error())
@@ -36,14 +34,10 @@ func Createcustommail(w http.ResponseWriter, r *http.Request) {
 func Getcustommails(w http.ResponseWriter, r *http.Request) {
 	var templates []model.Mail_template
 
-	Open()
-
 	result, err := db.Query("SELECT * from t_mail_custom_message")
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer result.Close()
 
 	for result.Next() {
 		var template model.Mail_template
@@ -61,17 +55,13 @@ func Getcustommails(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getcustommail(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
+	id := r.URL.Query().Get("id")
 	var template model.Mail_template
-
-	Open()
 
 	result, err := db.Query("SELECT * from t_mail_custom_message where message_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer result.Close()
 
 	for result.Next() {
 		err := result.Scan(&template.Template_id, &template.Subject, &template.Message)
@@ -86,14 +76,12 @@ func Getcustommail(w http.ResponseWriter, r *http.Request) {
 }
 
 func Updatecustommail(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
+	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
 	}
-
-	Open()
 
 	stmt, err := db.Prepare("UPDATE t_mail_custom_message SET subject = ?, message = ? where message_id = ? WHERE message_id = ?")
 	if err != nil {
@@ -113,9 +101,7 @@ func Updatecustommail(w http.ResponseWriter, r *http.Request) {
 }
 
 func Deletecustommail(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
-
-	Open()
+	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_custom_message WHERE message_id = ?")
 	if err != nil {

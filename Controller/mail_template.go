@@ -14,9 +14,7 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	Open()
-
-	stmt, err := db.Prepare("INSERT INTO t_mail_template(subject, message) VALUES (?,?)")
+	stmt, err := db.Prepare("INSERT INTO t_mail_template(subject, message) VALUES (@subject,@message)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -29,8 +27,6 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	defer stmt.Close()
-
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -38,14 +34,10 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 func Gettemplates(w http.ResponseWriter, r *http.Request) {
 	var templates []model.Mail_template
 
-	Open()
-
 	result, err := db.Query("SELECT * from t_mail_template")
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer result.Close()
 
 	for result.Next() {
 		var template model.Mail_template
@@ -63,16 +55,13 @@ func Gettemplates(w http.ResponseWriter, r *http.Request) {
 }
 
 func Gettemplate(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
+	id := r.URL.Query().Get("id")
 
-	Open()
 	var template model.Mail_template
 	result, err := db.Query("SELECT * from t_mail_template where template_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer result.Close()
 
 	for result.Next() {
 
@@ -88,14 +77,12 @@ func Gettemplate(w http.ResponseWriter, r *http.Request) {
 }
 
 func Updatetemplates(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
+	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
 	}
-
-	Open()
 
 	stmt, err := db.Prepare("UPDATE t_mail_template SET subject = ?, message = ? where template_id = ?")
 	if err != nil {
@@ -110,16 +97,12 @@ func Updatetemplates(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	defer stmt.Close()
-
 	json.NewEncoder(w).Encode("Success")
 
 }
 
 func DeleteTemplates(w http.ResponseWriter, r *http.Request) {
-	id := r.Context().Value("id").(string)
-
-	Open()
+	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_template WHERE template_id = ?")
 	if err != nil {
@@ -130,8 +113,6 @@ func DeleteTemplates(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-
-	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
