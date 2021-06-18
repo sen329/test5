@@ -32,7 +32,7 @@ func Createcustommail(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getcustommails(w http.ResponseWriter, r *http.Request) {
-	var templates []model.Mail_template
+	var custom_mails []model.Custom_mail
 
 	result, err := db.Query("SELECT * from t_mail_custom_message")
 	if err != nil {
@@ -40,23 +40,23 @@ func Getcustommails(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
-		var template model.Mail_template
-		err := result.Scan(&template.Template_id, &template.Subject, &template.Message)
+		var custom_mail model.Custom_mail
+		err := result.Scan(&custom_mail.Message_id, &custom_mail.Subject, &custom_mail.Message)
 		if err != nil {
 			panic(err.Error())
 		}
 
-		templates = append(templates, template)
+		custom_mails = append(custom_mails, custom_mail)
 
 	}
 
-	json.NewEncoder(w).Encode(templates)
+	json.NewEncoder(w).Encode(custom_mails)
 
 }
 
 func Getcustommail(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
-	var template model.Mail_template
+	var custom_mail model.Custom_mail
 
 	result, err := db.Query("SELECT * from t_mail_custom_message where message_id = ?", id)
 	if err != nil {
@@ -64,14 +64,14 @@ func Getcustommail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
-		err := result.Scan(&template.Template_id, &template.Subject, &template.Message)
+		err := result.Scan(&custom_mail.Message_id, &custom_mail.Subject, &custom_mail.Message)
 		if err != nil {
 			panic(err.Error())
 		}
 
 	}
 
-	json.NewEncoder(w).Encode(template)
+	json.NewEncoder(w).Encode(custom_mail)
 
 }
 
