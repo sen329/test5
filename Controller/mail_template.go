@@ -14,7 +14,7 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_mail_template(subject, message) VALUES (@subject,@message)")
+	stmt, err := db.Prepare("INSERT INTO t_mail_template(subject, message) VALUES (?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
