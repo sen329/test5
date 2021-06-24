@@ -91,9 +91,10 @@ type Gacha struct {
 }
 
 type Gacha_item struct {
-	Item_type int64 `json:"item_type"`
-	Item_id   int64 `json:"item_id"`
-	Amount    int   `json:"amount"`
+	Gacha_item_id int64 `json:"gacha_item_id"`
+	Item_type     int64 `json:"item_type"`
+	Item_id       int64 `json:"item_id"`
+	Amount        int   `json:"amount"`
 }
 
 type Gacha_feature struct {

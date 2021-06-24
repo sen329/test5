@@ -11,7 +11,7 @@ import (
 
 var db *sql.DB
 
-func AddNewItem(w http.ResponseWriter, r *http.Request) {
+func LotusAddNewItem(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -36,7 +36,7 @@ func AddNewItem(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
-func GetShopItems(w http.ResponseWriter, r *http.Request) {
+func LotusGetShopItems(w http.ResponseWriter, r *http.Request) {
 	var shop_items []model.Shop_lotus_item
 
 	result, err := db.Query("SELECT * from t_shop_lotus_item")
@@ -59,7 +59,7 @@ func GetShopItems(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetShopItem(w http.ResponseWriter, r *http.Request) {
+func LotusGetShopItem(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var shop_item model.Shop_lotus_item
@@ -81,7 +81,7 @@ func GetShopItem(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
+func LotusUpdateShopItem(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -109,7 +109,7 @@ func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func DeleteTemplates(w http.ResponseWriter, r *http.Request) {
+func LotusDeleteShopItem(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_shop_lotus_item WHERE shop_lotus_item_id = ?")
