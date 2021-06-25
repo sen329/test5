@@ -77,7 +77,7 @@ func Gettemplate(w http.ResponseWriter, r *http.Request) {
 }
 
 func Updatetemplates(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+	id := r.URL.Query().Get("template_id")
 
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
@@ -102,7 +102,7 @@ func Updatetemplates(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteTemplates(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+	id := r.URL.Query().Get("template_id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_template WHERE template_id = ?")
 	if err != nil {

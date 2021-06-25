@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	controller "github.com/sen329/test5/Controller"
-	"github.com/sen329/test5/Controller/shop/lotto"
 	middleware "github.com/sen329/test5/Middleware"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -59,34 +58,88 @@ func main() {
 	route.HandleFunc("/updateMailAttachment", controller.AttachItemUpdate).Methods("PUT")
 	route.HandleFunc("deleteMailAttachment", controller.AttachItemDelete).Methods("DELETE")
 
-	route.HandleFunc("/addLottos", lotto.AddnewLotto).Methods("POST")
-	route.HandleFunc("/getLottos", lotto.GetallLottos).Methods("GET")
+	route.HandleFunc("/addLottos", controller.LottoAddNew).Methods("POST")
+	route.HandleFunc("/getLottos", controller.LottoAddNew).Methods("GET")
 
-	route.HandleFunc("/addLottoFeature", lotto.AddlottoFeature).Methods("POST")
-	route.HandleFunc("/getLottoFeatures", lotto.GetlottoFeatures).Methods("GET")
-	route.HandleFunc("/getLottoFeature", lotto.GetlottoFeature).Methods("GET")
-	route.HandleFunc("/getLottoFeatureOf", lotto.GetlottoFeatureByLottoId).Methods("GET")
-	route.HandleFunc("/updateLottoFeature", lotto.UpdatelottoFeature).Methods("PUT")
-	route.HandleFunc("/deleteLottoFeature", lotto.DeletelottoFeature).Methods("DELETE")
+	route.HandleFunc("/addLottoFeature", controller.LottoAddFeature).Methods("POST")
+	route.HandleFunc("/getLottoFeatures", controller.LottoGetFeatures).Methods("GET")
+	route.HandleFunc("/getLottoFeature", controller.LottoGetFeatures).Methods("GET")
+	route.HandleFunc("/getLottoFeatureOf", controller.LottoGetFeatureByLottoId).Methods("GET")
+	route.HandleFunc("/updateLottoFeature", controller.LottoUpdateFeature).Methods("PUT")
+	route.HandleFunc("/deleteLottoFeature", controller.LottoDeleteFeature).Methods("DELETE")
 
-	route.HandleFunc("/addLottoItem", lotto.AddlottoItem).Methods("POST")
-	route.HandleFunc("/getLottoItems", lotto.GetlottoItems).Methods("GET")
-	route.HandleFunc("/getLottoItem", lotto.GetlottoItem).Methods("GET")
-	route.HandleFunc("/updateLottoItem", lotto.UpdatelottoItem).Methods("PUT")
-	route.HandleFunc("/deleteLottoItem", lotto.DeletelottoItem).Methods("DELETE")
+	route.HandleFunc("/addLottoItem", controller.LottoAdditem).Methods("POST")
+	route.HandleFunc("/getLottoItems", controller.LottoGetItems).Methods("GET")
+	route.HandleFunc("/getLottoItem", controller.LottoGetItem).Methods("GET")
+	route.HandleFunc("/updateLottoItem", controller.LottoUpdateItem).Methods("PUT")
+	route.HandleFunc("/deleteLottoItem", controller.LottoDeleteItem).Methods("DELETE")
 
-	route.HandleFunc("/addLottoColor", lotto.AddlottoColor).Methods("POST")
-	route.HandleFunc("/getLottoColors", lotto.GetlottoColors).Methods("GET")
-	route.HandleFunc("/getLottoColor", lotto.GetlottoColor).Methods("GET")
-	route.HandleFunc("/updateLottoColor", lotto.UpdatelottoColor).Methods("PUT")
-	route.HandleFunc("/deleteLottoColor", lotto.DeletelottoColor).Methods("DELETE")
+	route.HandleFunc("/addLottoColor", controller.LottoAddItemColor).Methods("POST")
+	route.HandleFunc("/getLottoColors", controller.LottoGetitemColors).Methods("GET")
+	route.HandleFunc("/getLottoColor", controller.LottoGetitemColor).Methods("GET")
+	route.HandleFunc("/updateLottoColor", controller.LottoUpdateitemColor).Methods("PUT")
+	route.HandleFunc("/deleteLottoColor", controller.LottoDeleteitemColor).Methods("DELETE")
 
-	route.HandleFunc("/addLottoLoot", lotto.AddlottoLoot).Methods("POST")
-	route.HandleFunc("/getLottoLoots", lotto.GetlottoLoots).Methods("GET")
-	route.HandleFunc("/getLottoLoot", lotto.GetlottoLoot).Methods("GET")
-	route.HandleFunc("/getLottoLootOf", lotto.GetlottoLootByLottoId).Methods("GET")
-	route.HandleFunc("/updateLottoLoot", lotto.UpdatelottoLoot).Methods("PUT")
-	route.HandleFunc("/deleteLottoLoot", lotto.DeletelottoLoot).Methods("DELETE")
+	route.HandleFunc("/addLottoLoot", controller.LottoAddLoot).Methods("POST")
+	route.HandleFunc("/getLottoLoots", controller.LottoGetLoots).Methods("GET")
+	route.HandleFunc("/getLottoLoot", controller.LottoGetLoot).Methods("GET")
+	route.HandleFunc("/getLottoLootOf", controller.LottoGetLootByLottoId).Methods("GET")
+	route.HandleFunc("/updateLottoLoot", controller.LottoUpdateLoot).Methods("PUT")
+	route.HandleFunc("/deleteLottoLoot", controller.LottoDeleteLoot).Methods("DELETE")
+
+	route.HandleFunc("/addGacha", controller.GachaAdd).Methods("POST")
+	route.HandleFunc("/getGachaAll", controller.GachaGetAll).Methods("GET")
+	route.HandleFunc("/getGacha", controller.GachaGet).Methods("GET")
+	route.HandleFunc("/updateGacha", controller.GachaUpdate).Methods("PUT")
+	route.HandleFunc("/deleteGacha", controller.GachaDelete).Methods("DELETE")
+
+	route.HandleFunc("/addGachaItem", controller.GachaAdditem).Methods("POST")
+	route.HandleFunc("/getGachaAllItems", controller.GachaGetAllItems).Methods("GET")
+	route.HandleFunc("/getGachaItem", controller.GachaGetItem).Methods("GET")
+	route.HandleFunc("/updateGachaItem", controller.GachaUpdateItem).Methods("PUT")
+	route.HandleFunc("/deleteGachaItem", controller.GachaDeleteItem).Methods("DELETE")
+
+	route.HandleFunc("/addGachaFeatured", controller.GachaAddFeatured).Methods("POST")
+	route.HandleFunc("/getGachaAllFeatured", controller.GachaGetAllFeatured).Methods("GET")
+	route.HandleFunc("/getGachaFeatured", controller.GachaGetFeatured).Methods("GET")
+	route.HandleFunc("/updateGachaFeatured", controller.GachaUpdateFeatured).Methods("PUT")
+	route.HandleFunc("/deleteGachaFeatured", controller.GachaDeleteFeatured).Methods("DELETE")
+
+	route.HandleFunc("/addGachaLoot", controller.GachaAddLoot).Methods("POST")
+	route.HandleFunc("/getGachaAllLoot", controller.GachaGetAllLoot).Methods("GET")
+	route.HandleFunc("/getGachaLoot", controller.GachaGetLoot).Methods("GET")
+	route.HandleFunc("/updateGachaLoot", controller.GachaUpdateLoot).Methods("PUT")
+	route.HandleFunc("/deleteGachaLoot", controller.GachaDeleteLoot).Methods("DELETE")
+
+	route.HandleFunc("/addLotus", controller.LotusAdd).Methods("POST")
+	route.HandleFunc("/getLotusAll", controller.LotusGetAll).Methods("GET")
+	route.HandleFunc("/getLotus", controller.LotusGet).Methods("GET")
+	route.HandleFunc("/updateLotus", controller.LotusUpdate).Methods("PUT")
+	route.HandleFunc("/deleteLotus", controller.LotusDelete).Methods("DELETE")
+
+	route.HandleFunc("/addLotusItem", controller.LotusAddItem).Methods("POST")
+	route.HandleFunc("/getLotusAllItem", controller.LotusGetAllItem).Methods("GET")
+	route.HandleFunc("/getLotusItem", controller.LotusGetItem).Methods("GET")
+	route.HandleFunc("/updateLotusItem", controller.LotusUpdateItem).Methods("PUT")
+	route.HandleFunc("/deleteLotusItem", controller.LotusDeleteItem).Methods("DELETE")
+
+	route.HandleFunc("/addLotusPeriod", controller.LotusAddPeriod).Methods("POST")
+	route.HandleFunc("/getLotusAllPeriod", controller.LotusGetAllPeriods).Methods("GET")
+	route.HandleFunc("/getLotusPeriod", controller.LotusGetPeriod).Methods("GET")
+	route.HandleFunc("/updateLotusPeriod", controller.LotusUpdatePeriod).Methods("PUT")
+	route.HandleFunc("/deleteLotusPeriod", controller.LotusDeletePeriod).Methods("DELETE")
+
+	route.HandleFunc("/shopAddItem", controller.ShopAddItem).Methods("POST")
+	route.HandleFunc("/shopGetAllItems", controller.ShopGetAllItems).Methods("GET")
+	route.HandleFunc("/shopGetItem", controller.ShopGetItem).Methods("GET")
+	route.HandleFunc("/shopUpdateItem", controller.ShopUpdateItem).Methods("PUT")
+	route.HandleFunc("/shopDeleteItem", controller.ShopDeleteItem).Methods("DELETE")
+
+	route.HandleFunc("/shopAddBundle", controller.ShopAddBundle).Methods("POST")
+	route.HandleFunc("/shopGetAllBundles", controller.ShopGetAllBundles).Methods("GET")
+	route.HandleFunc("/shopGetBundle", controller.ShopGetBundle).Methods("GET")
+	route.HandleFunc("/shopUpdateBundle", controller.ShopUpdateBundle).Methods("PUT")
+	route.HandleFunc("/shopDeleteBundle", controller.ShopDeleteBundle).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }

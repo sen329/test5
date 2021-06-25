@@ -31,7 +31,7 @@ func AddFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
-func GetAllGachaFeatured(w http.ResponseWriter, r *http.Request) {
+func GetAllFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 	var gacha_features []model.Gacha_feature
 
 	result, err := db.Query("SELECT * from t_gacha_feature")
@@ -54,7 +54,7 @@ func GetAllGachaFeatured(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetGachaFeatured(w http.ResponseWriter, r *http.Request) {
+func GetFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var gacha_feature model.Gacha_feature
@@ -76,7 +76,7 @@ func GetGachaFeatured(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UpdateGachaFeatured(w http.ResponseWriter, r *http.Request) {
+func UpdateFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -102,7 +102,7 @@ func UpdateGachaFeatured(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func DeleteGachaFeatured(w http.ResponseWriter, r *http.Request) {
+func DeleteFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_gacha_feature WHERE gacha_feature_id = ?")

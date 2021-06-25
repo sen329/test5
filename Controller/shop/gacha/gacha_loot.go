@@ -113,7 +113,7 @@ func UpdateGachaLoot(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func LotusDeleteShop(w http.ResponseWriter, r *http.Request) {
+func DeleteGachaLoot(w http.ResponseWriter, r *http.Request) {
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 

@@ -31,7 +31,7 @@ func AddLotus(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
-func LotusGet(w http.ResponseWriter, r *http.Request) {
+func GetAllLotus(w http.ResponseWriter, r *http.Request) {
 	var shop_lotuss []model.Shop_lotus
 
 	result, err := db.Query("SELECT * from t_shop_lotus")
@@ -54,7 +54,7 @@ func LotusGet(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func LotusGetShop(w http.ResponseWriter, r *http.Request) {
+func GetLotus(w http.ResponseWriter, r *http.Request) {
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 
@@ -82,7 +82,7 @@ func LotusGetShop(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func LotusUpdateShop(w http.ResponseWriter, r *http.Request) {
+func UpdateLotusShop(w http.ResponseWriter, r *http.Request) {
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 
@@ -109,7 +109,7 @@ func LotusUpdateShop(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func LotusDeleteShop(w http.ResponseWriter, r *http.Request) {
+func DeleteLotusShop(w http.ResponseWriter, r *http.Request) {
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 
