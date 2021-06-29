@@ -98,8 +98,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	defer db.Close()
-
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -108,7 +106,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	Open()
 	stmt, err := db.Prepare("INSERT INTO users(name, email, password) VALUES (?,?,?)")
 	if err != nil {
 		panic(err.Error())
@@ -157,7 +154,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	defer db.Close()
 }
 
 func Refresh(w http.ResponseWriter, r *http.Request) {

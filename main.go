@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 
@@ -14,7 +15,11 @@ import (
 
 func main() {
 
+	var db *sql.DB
+
 	controller.Open()
+
+	defer db.Close()
 
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
