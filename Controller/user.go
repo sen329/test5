@@ -20,7 +20,7 @@ import (
 var db *sql.DB
 var err error
 
-var JwtKey = []byte("my_secret_key")
+var JwtKey = []byte(goDotEnvVariable("SECRET_KEY"))
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
@@ -28,8 +28,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-
-	Open()
 
 	email := r.Form.Get("email")
 	password := r.Form.Get("password")

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 	"net/http"
 
@@ -15,15 +14,7 @@ import (
 
 func main() {
 
-	var db *sql.DB
-	var err error
-
-	db, err = sql.Open("mysql", "root:@/gm_tool_test")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	defer db.Close()
+	controller.Open()
 
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
