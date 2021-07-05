@@ -22,11 +22,11 @@ func AddGacha(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	shop_lotus_period_id := r.Form.Get("start_date")
-	shop_lotus_item_id := r.Form.Get("end_date")
+	start_date := r.Form.Get("start_date")
+	end_date := r.Form.Get("end_date")
 	random_value := r.Form.Get("random_value")
 
-	_, err = stmt.Exec(shop_lotus_period_id, shop_lotus_item_id, random_value)
+	_, err = stmt.Exec(start_date, end_date, random_value)
 	if err != nil {
 		panic(err.Error())
 	}

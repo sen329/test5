@@ -17,7 +17,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 
 	Open()
 
-	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,receiver_id,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,reciever_id,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}

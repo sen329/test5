@@ -21,12 +21,12 @@ func goDotEnvVariable(key string) string {
 }
 
 func Open() {
-	driver := goDotEnvVariable("DRIVER")
-	username := goDotEnvVariable("USER_NAME")
-	password := goDotEnvVariable("PASSWORD")
-	address := goDotEnvVariable("ADDRESS")
-	database := goDotEnvVariable("DATABASE")
-	db, err = sql.Open(driver, username+":"+password+"@"+address+"/"+database)
+	driver := goDotEnvVariable("DB_DRIVER")
+	username := goDotEnvVariable("DB_USER_NAME")
+	password := goDotEnvVariable("DB_PASSWORD")
+	address := goDotEnvVariable("DB_ADDRESS")
+	database := goDotEnvVariable("DB_DATABASE")
+	db, err = sql.Open(driver, username+":"+password+"@tcp("+address+")"+"/"+database)
 	if err != nil {
 		panic(err.Error())
 	}

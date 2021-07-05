@@ -137,5 +137,94 @@ func main() {
 	route.HandleFunc("/shopUpdateBundle", controller.ShopUpdateBundle).Methods("PUT")
 	route.HandleFunc("/shopDeleteBundle", controller.ShopDeleteBundle).Methods("DELETE")
 
+	//	icon_frame
+	route.HandleFunc("/addIconFrame", controller.AddiconFrame).Methods("POST")
+	route.HandleFunc("/getIconFrames", controller.GeticonFrames).Methods("GET")
+	route.HandleFunc("/getIconFrame", controller.GeticonFrame).Methods("GET")
+	route.HandleFunc("/updateIconFrame", controller.UpdateiconFrame).Methods("PUT")
+	route.HandleFunc("/deleteIconFrame", controller.DeleteiconFrame).Methods("DELETE")
+
+	//	icon_avatar
+	route.HandleFunc("/addIconAvatar", controller.AddiconAvatar).Methods("POST")
+	route.HandleFunc("/getIconAvatars", controller.GeticonAvatars).Methods("GET")
+	route.HandleFunc("/getIconAvatar", controller.GeticonAvatar).Methods("GET")
+	route.HandleFunc("/updateIconAvatar", controller.UpdateiconAvatar).Methods("PUT")
+	route.HandleFunc("/deleteIconAvatar", controller.DeleteiconAvatar).Methods("DELETE")
+
+	//	ksatriya
+	route.HandleFunc("/addKsatriya", controller.AddnewKsatriya).Methods("POST")
+	route.HandleFunc("/getKsatriyas", controller.GetKsatriyas).Methods("GET")
+	route.HandleFunc("/getKsatriya", controller.GetKsatriya).Methods("GET")
+	route.HandleFunc("/updateKsatriya", controller.UpdateKsatriya).Methods("PUT")
+	route.HandleFunc("/deleteKsatriya", controller.DeleteKsatriya).Methods("DELETE")
+
+	//	ksatriya_fragment
+	route.HandleFunc("/addKsatriyaFragment", controller.AddKsatriyaFragment).Methods("POST")
+	route.HandleFunc("/getKsatriyaFragments", controller.GetKsatriyaFragments).Methods("GET")
+	route.HandleFunc("/getKsatriyaFragment", controller.GetKsatriyaFragment).Methods("GET")
+	route.HandleFunc("/updateKsatriyaFragment", controller.UpdateKsatriyaFragment).Methods("PUT")
+	route.HandleFunc("/deleteKsatriyaFragment", controller.DeleteKsatriyaFragment).Methods("DELETE")
+
+	//ksatriya_skin
+	route.HandleFunc("/addKsatriyaSkin", controller.AddKsatriyaSkin).Methods("POST")
+	route.HandleFunc("/getAllKsatriyaSkin", controller.GetAllKsatriyaSkin).Methods("GET")
+	route.HandleFunc("/getKsatriyaSkin", controller.GetKsatriyaSkin).Methods("GET")
+	route.HandleFunc("/updateKsatriyaSkin", controller.UpdateKsatriyaSkin).Methods("PUT")
+	route.HandleFunc("/deleteKsatriyaSkin", controller.DeleteKsatriyaSkin).Methods("DELETE")
+
+	//	ksatriya_skin_part
+	route.HandleFunc("/addKsatriyaSkinPart", controller.AddKsatriyaSkinPart).Methods("POST")
+	route.HandleFunc("/getKsatriyaSkinParts", controller.GetKsatriyaSkinParts).Methods("GET")
+	route.HandleFunc("/getKsatriyaSkinPart", controller.GetKsatriyaSkinPart).Methods("GET")
+	route.HandleFunc("/deleteKsatriyaSkinPart", controller.DeleteKsatriyaSkinPart).Methods("DELETE")
+
+	//	rune
+	route.HandleFunc("/addRune", controller.AddRune).Methods("POST")
+	route.HandleFunc("/getRunes", controller.GetRunes).Methods("GET")
+	route.HandleFunc("/getRune", controller.GetRune).Methods("GET")
+	route.HandleFunc("/updateRune", controller.UpdateRune).Methods("PUT")
+	route.HandleFunc("/deleteRune", controller.DeleteRune).Methods("DELETE")
+
+	//	premium
+	route.HandleFunc("/addPremium", controller.AddPremium).Methods("POST")
+	route.HandleFunc("/getPremiums", controller.GetPremiums).Methods("GET")
+	route.HandleFunc("/getPremium", controller.GetPremium).Methods("GET")
+	route.HandleFunc("/updatePremium", controller.UpdatePremium).Methods("PUT")
+	route.HandleFunc("/deletePremium", controller.DeletePremium).Methods("DELETE")
+
+	//	energy
+	route.HandleFunc("/addEnergy", controller.AddEnergy).Methods("POST")
+	route.HandleFunc("/getEnergies", controller.GetEnergies).Methods("GET")
+	route.HandleFunc("/getEnergy", controller.GetEnergy).Methods("GET")
+	route.HandleFunc("/updateEnergy", controller.UpdateEnergy).Methods("PUT")
+	route.HandleFunc("/deleteEnergy", controller.DeleteEnergy).Methods("DELETE")
+
+	//currency type
+	route.HandleFunc("/addCurrency", controller.AddCurrencyType).Methods("POST")
+	route.HandleFunc("/getCurrencies", controller.GetAllCurrencyTypes).Methods("GET")
+	route.HandleFunc("/getCurrency", controller.GetCurrencyType).Methods("GET")
+	route.HandleFunc("/updateCurrency", controller.UpdateCurrencyType).Methods("PUT")
+	route.HandleFunc("/deleteCurrency", controller.DeleteCurrencyType).Methods("DELETE")
+
+	//box
+	route.HandleFunc("/addBox", controller.AddBox).Methods("POST")
+	route.HandleFunc("/getBoxes", controller.GetAllBox).Methods("GET")
+	route.HandleFunc("/getBox", controller.GetBox).Methods("GET")
+	route.HandleFunc("/updateBox", controller.UpdateBox).Methods("PUT")
+	route.HandleFunc("/deleteBox", controller.DeleteBox).Methods("DELETE")
+
+	route.HandleFunc("/addBoxLoot", controller.AddBoxLoot).Methods("POST")
+	route.HandleFunc("/getBoxLoots", controller.GetAllBoxLoot).Methods("GET")
+	route.HandleFunc("/getBoxLoot", controller.GetBoxLoot).Methods("GET")
+	route.HandleFunc("/updateBoxLoot", controller.UpdateBoxLoot).Methods("PUT")
+	route.HandleFunc("/deleteBoxLoot", controller.DeleteBoxLoot).Methods("DELETE")
+
+	//chest
+	route.HandleFunc("/addChest", controller.AddChest).Methods("POST")
+	route.HandleFunc("/getChests", controller.GetAllChest).Methods("GET")
+	route.HandleFunc("/getChest", controller.GetChest).Methods("GET")
+	route.HandleFunc("/updateChest", controller.UpdateChest).Methods("PUT")
+	route.HandleFunc("/deleteChest", controller.DeleteChest).Methods("DELETE")
+
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
