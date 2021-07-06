@@ -21,8 +21,7 @@ services:
       - MYSQL_DATABASE=${DB_DATABASE}
       # - MYSQL_USER=${DB_USER_NAME}
       # - MYSQL_PASSWORD=${DB_PASSWORD}
-      # - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./database_mysql:/var/lib/mysql 
       - ./db:/docker-entrypoint-initdb.d
