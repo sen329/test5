@@ -19,10 +19,28 @@ func Createcustommail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	stmt2, err := db.Prepare("INSERT INTO t_mail_attachment(item_id, item_type, amount, custom_message_id) VALUES (?,?,?,?)")
+	if err != nil {
+		panic(err.Error())
+	}
+
 	subject := r.Form.Get("subject")
 	message := r.Form.Get("message")
 
-	_, err = stmt.Exec(subject, message)
+	res, err := stmt.Exec(subject, message)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	item_type_id := r.Form.Get("item_type_id")
+	item_id := r.Form.Get("item_id")
+	amount := r.Form.Get("amount")
+	custom_message_id, err := res.LastInsertId()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	_, err = stmt2.Exec(item_id, item_type_id, amount, custom_message_id)
 	if err != nil {
 		panic(err.Error())
 	}

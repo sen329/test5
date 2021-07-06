@@ -61,7 +61,7 @@ func Getmailattachment(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	var attachment model.Mail_attachment
 
-	result, err := db.Query("SELECT * from t_mail_attachment where message_id = ?", id)
+	result, err := db.Query("SELECT * from t_mail_attachment where id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
