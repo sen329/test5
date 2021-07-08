@@ -82,7 +82,7 @@ func UpdateChest(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_box SET duration = ? where duration = ?")
+	stmt, err := db.Prepare("UPDATE t_chest SET duration = ? where duration = ?")
 	if err != nil {
 		panic(err.Error())
 	}

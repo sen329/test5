@@ -46,13 +46,13 @@ func main() {
 	route.HandleFunc("/getCustomMails", controller.CustomMailAll).Methods("GET")
 	route.HandleFunc("/getCustomMail", controller.CustomMailGet).Methods("GET")
 	route.HandleFunc("/updateCustomMail", controller.CustomMailUpdate).Methods("PUT")
-	route.HandleFunc("deleteCustomMail", controller.CustomMailDelete).Methods("DELETE")
+	route.HandleFunc("/deleteCustomMail", controller.CustomMailDelete).Methods("DELETE")
 
 	route.HandleFunc("/attachItem", controller.AttachItemCreate).Methods("POST")
 	route.HandleFunc("/getMailAttachments", controller.AttachItemAll).Methods("GET")
 	route.HandleFunc("/getMailAttachment", controller.AttachItemGet).Methods("GET")
 	route.HandleFunc("/updateMailAttachment", controller.AttachItemUpdate).Methods("PUT")
-	route.HandleFunc("deleteMailAttachment", controller.AttachItemDelete).Methods("DELETE")
+	route.HandleFunc("/deleteMailAttachment", controller.AttachItemDelete).Methods("DELETE")
 
 	route.HandleFunc("/addLottos", controller.LottoAddNew).Methods("POST")
 	route.HandleFunc("/getLottos", controller.LottoAddNew).Methods("GET")

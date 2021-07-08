@@ -123,7 +123,7 @@ func AddBoxLoot(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_box(box_id, item_id, item_type, amount, chance, min, max) VALUES (?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO t_box_loot_table(box_id, item_id, item_type, amount, chance, min, max) VALUES (?,?,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -197,7 +197,7 @@ func UpdateBoxLoot(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_box_loot_table SET box_id = ?, item_id = ? item_type = ?, amount = ?, chance = ?, min = ?, max =? where uid = ?")
+	stmt, err := db.Prepare("UPDATE t_box_loot_table SET box_id = ?, item_id = ?, item_type = ?, amount = ?, chance = ?, min = ?, max =? where uid = ?")
 	if err != nil {
 		panic(err.Error())
 	}

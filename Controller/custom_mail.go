@@ -101,7 +101,7 @@ func Updatecustommail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_mail_custom_message SET subject = ?, message = ? where message_id = ? WHERE message_id = ?")
+	stmt, err := db.Prepare("UPDATE t_mail_custom_message SET subject = ?, message = ? where message_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
