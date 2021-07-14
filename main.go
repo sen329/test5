@@ -55,11 +55,11 @@ func main() {
 	route.HandleFunc("/deleteMailAttachment", controller.AttachItemDelete).Methods("DELETE")
 
 	route.HandleFunc("/addLottos", controller.LottoAddNew).Methods("POST")
-	route.HandleFunc("/getLottos", controller.LottoAddNew).Methods("GET")
+	route.HandleFunc("/getLottos", controller.LottoGetAll).Methods("GET")
 
 	route.HandleFunc("/addLottoFeature", controller.LottoAddFeature).Methods("POST")
 	route.HandleFunc("/getLottoFeatures", controller.LottoGetFeatures).Methods("GET")
-	route.HandleFunc("/getLottoFeature", controller.LottoGetFeatures).Methods("GET")
+	route.HandleFunc("/getLottoFeature", controller.LottoGetFeature).Methods("GET")
 	route.HandleFunc("/getLottoFeatureOf", controller.LottoGetFeatureByLottoId).Methods("GET")
 	route.HandleFunc("/updateLottoFeature", controller.LottoUpdateFeature).Methods("PUT")
 	route.HandleFunc("/deleteLottoFeature", controller.LottoDeleteFeature).Methods("DELETE")
@@ -225,6 +225,20 @@ func main() {
 	route.HandleFunc("/getChest", controller.GetChest).Methods("GET")
 	route.HandleFunc("/updateChest", controller.UpdateChest).Methods("PUT")
 	route.HandleFunc("/deleteChest", controller.DeleteChest).Methods("DELETE")
+
+	//roles
+	route.HandleFunc("/addRole", controller.RoleCreate).Methods("POST")
+	route.HandleFunc("/getRoles", controller.RoleGetAll).Methods("GET")
+	route.HandleFunc("/getRole", controller.RoleGet).Methods("GET")
+	route.HandleFunc("/updateRole", controller.RoleUpdate).Methods("PUT")
+	route.HandleFunc("/deleteRole", controller.RoleDelete).Methods("DELETE")
+
+	//roles permission control
+	route.HandleFunc("/addPermissionToRole", controller.RolePermissionAdd).Methods("POST")
+	route.HandleFunc("/getAllRolesPermission", controller.RolePermissionGetAll).Methods("GET")
+	route.HandleFunc("/getRolePermission", controller.RolePermissionGet).Methods("GET")
+	route.HandleFunc("/removePermissionFromRole", controller.RolePermissionRemove).Methods("DELETE")
+	route.HandleFunc("/getAllPermission", controller.PermissionGetAll).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }

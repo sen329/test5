@@ -1,15 +1,12 @@
-package lotus
+package controller
 
 import (
-	"database/sql"
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 	model "github.com/sen329/test5/Model"
 )
-
-var db *sql.DB
 
 func LotusAddNewItem(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)

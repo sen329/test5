@@ -1,15 +1,12 @@
-package shop
+package controller
 
 import (
-	"database/sql"
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 	model "github.com/sen329/test5/Model"
 )
-
-var db *sql.DB
 
 func AddShopItem(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)
@@ -29,7 +26,7 @@ func AddShopItem(w http.ResponseWriter, r *http.Request) {
 	price_citrine := r.Form.Get("price_citrine")
 	price_lotus := r.Form.Get("price_lotus")
 	release_date := r.Form.Get("release_date")
-	description := r.Form.Get("description")
+	var description string = r.Form.Get("description")
 
 	_, err = stmt.Exec(item_id, item_type, amount, price_coin, price_citrine, price_lotus, release_date, description)
 	if err != nil {
@@ -49,7 +46,7 @@ func GetShopItems(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var shop model.Shop
-		err := result.Scan(&shop.Item_id, &shop.Item_type, &shop.Amount, &shop.Price_coin, &shop.Price_citrine, &shop.Price_lotus, &shop.Release_date, &shop.Description)
+		err := result.Scan(&shop.Shop_id, &shop.Item_id, &shop.Item_type, &shop.Amount, &shop.Price_coin, &shop.Price_citrine, &shop.Price_lotus, &shop.Release_date, &shop.Description)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -73,7 +70,7 @@ func GetShopItem(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 
-		err := result.Scan(&shop.Item_id, &shop.Item_type, &shop.Amount, &shop.Price_coin, &shop.Price_citrine, &shop.Price_lotus, &shop.Release_date, &shop.Description)
+		err := result.Scan(&shop.Shop_id, &shop.Item_id, &shop.Item_type, &shop.Amount, &shop.Price_coin, &shop.Price_citrine, &shop.Price_lotus, &shop.Release_date, &shop.Description)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -92,7 +89,7 @@ func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_shop SET item_id = ?, item_type = ?, amount = ?, price_coin = ?, price_citrine = ?, price_lotus = ?, release_date =?. description =?  where shop_id = ?")
+	stmt, err := db.Prepare("UPDATE t_shop SET item_id = ?, item_type = ?, amount = ?, price_coin = ?, price_citrine = ?, price_lotus = ?, release_date =?, description =?  where shop_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

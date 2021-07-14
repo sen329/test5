@@ -238,3 +238,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 func Test(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Authorize works")
 }
+
+func NewRole(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode("Authorize works")
+}

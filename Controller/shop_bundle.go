@@ -1,4 +1,4 @@
-package shop
+package controller
 
 import (
 	"encoding/json"
@@ -14,16 +14,17 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_shop_bundle(item_type, item_id, amount) VALUES (?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO t_shop_bundle(shop_id, item_type, item_id, amount) VALUES (?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
 
+	shop_id := r.Form.Get("shop_id")
 	item_type := r.Form.Get("item_type")
 	item_id := r.Form.Get("item_id")
 	amount := r.Form.Get("amount")
 
-	_, err = stmt.Exec(item_type, item_id, amount)
+	_, err = stmt.Exec(shop_id, item_type, item_id, amount)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -98,11 +99,11 @@ func UpdateShopBundle(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	item_type := r.Form.Get("item_type")
-	item_id := r.Form.Get("item_id")
+	item_type_new := r.Form.Get("item_type_new")
+	item_id_new := r.Form.Get("item_id_new")
 	amount := r.Form.Get("amount")
 
-	_, err = stmt.Exec(item_id, item_type, amount, id1, id2, id3)
+	_, err = stmt.Exec(item_id_new, item_type_new, amount, id1, id2, id3)
 	if err != nil {
 		panic(err.Error())
 	}

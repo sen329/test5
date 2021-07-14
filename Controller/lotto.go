@@ -1,7 +1,6 @@
-package lotto
+package controller
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,8 +8,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	model "github.com/sen329/test5/Model"
 )
-
-var db *sql.DB
 
 func AddnewLotto(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)

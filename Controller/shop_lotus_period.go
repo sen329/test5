@@ -1,4 +1,4 @@
-package lotus
+package controller
 
 import (
 	"encoding/json"
@@ -57,7 +57,7 @@ func LotusGetShopPeriod(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var shop_item model.Shop_lotus_item
-	result, err := db.Query("SELECT * from t_shop_lotus_period where shop_lotus_item_id = ?", id)
+	result, err := db.Query("SELECT * from t_shop_lotus_period where shop_lotus_period_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -83,7 +83,7 @@ func LotusUpdateShopPeriod(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_shop_lotus_period SET start_date = ?, end_date = ? where shop_lotus_item_id = ?")
+	stmt, err := db.Prepare("UPDATE t_shop_lotus_period SET start_date = ?, end_date = ? where shop_lotus_period_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

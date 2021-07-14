@@ -47,9 +47,9 @@ type Shop_bundle struct {
 //fortune of the north
 
 type Lotto struct {
-	Lotto_id   int64 `json:"lotto_id"`
-	Start_date int64 `json:"start_date"`
-	End_date   int64 `json:"end_date"`
+	Lotto_id   int64  `json:"lotto_id"`
+	Start_date string `json:"start_date"`
+	End_date   string `json:"end_date"`
 }
 
 type Lotto_item struct {

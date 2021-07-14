@@ -5,110 +5,110 @@ import (
 	"net/http"
 )
 
-func ShopAddItem(w http.ResponseWriter, r *http.Request) {
+func RoleCreate(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		AddShopItem(w, r)
+	if Checkuser(user_id, role_id) {
+		AddRoles(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopGetAllItems(w http.ResponseWriter, r *http.Request) {
+func RoleGetAll(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		GetShopItems(w, r)
+	if Checkuser(user_id, role_id) {
+		GetAllRoles(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopGetItem(w http.ResponseWriter, r *http.Request) {
+func RoleGet(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		GetShopItem(w, r)
+	if Checkuser(user_id, role_id) {
+		GetRole(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopUpdateItem(w http.ResponseWriter, r *http.Request) {
+func RoleUpdate(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		UpdateShopItem(w, r)
+	if Checkuser(user_id, role_id) {
+		UpdateRole(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopDeleteItem(w http.ResponseWriter, r *http.Request) {
+func RoleDelete(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		DeleteShopItem(w, r)
+	if Checkuser(user_id, role_id) {
+		DeleteRole(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopAddBundle(w http.ResponseWriter, r *http.Request) {
+func RolePermissionAdd(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		AddShopBundle(w, r)
+	if Checkuser(user_id, role_id) {
+		AddNewPermissionToRole(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopGetAllBundles(w http.ResponseWriter, r *http.Request) {
+func RolePermissionRemove(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		GetShopBundles(w, r)
+	if Checkuser(user_id, role_id) {
+		RemovePermissionFromRole(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopGetBundle(w http.ResponseWriter, r *http.Request) {
+func RolePermissionGetAll(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		GetShopBundle(w, r)
+	if Checkuser(user_id, role_id) {
+		GetAllRolesPermissions(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopUpdateBundle(w http.ResponseWriter, r *http.Request) {
+func RolePermissionGet(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		UpdateShopBundle(w, r)
+	if Checkuser(user_id, role_id) {
+		GetRolePermission(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")
 	}
 }
 
-func ShopDeleteBundle(w http.ResponseWriter, r *http.Request) {
+func PermissionGetAll(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Context().Value("user_id").(string)
 	role_id := r.Context().Value("role_id").(string)
-	if Checkshop(user_id, role_id) {
-		DeleteShopBundle(w, r)
+	if Checkuser(user_id, role_id) {
+		GetAllPermissions(w, r)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode("Not authorized")

@@ -534,7 +534,7 @@ CREATE TABLE `t_shop` (
   `price_citrine` int(11) DEFAULT NULL,
   `price_lotus` int(11) DEFAULT NULL,
   `release_date` datetime DEFAULT NULL,
-  `description` tinyint(4) NOT NULL
+  `description` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

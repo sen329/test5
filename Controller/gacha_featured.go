@@ -1,4 +1,4 @@
-package gacha
+package controller
 
 import (
 	"encoding/json"
