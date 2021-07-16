@@ -31,7 +31,6 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/register", controller.Register).Methods("POST")
 	router.HandleFunc("/login", controller.Login).Methods("POST")
 
 	// ---- normal route ---- //
@@ -264,6 +263,9 @@ func main() {
 	route_role.HandleFunc("/getRolePermission", controller.GetRolePermission).Methods("GET")
 	route_role.HandleFunc("/removePermissionFromRole", controller.RemovePermissionFromRole).Methods("DELETE")
 	route_role.HandleFunc("/getAllPermission", controller.GetAllPermissions).Methods("GET")
+
+	//register
+	route_role.HandleFunc("/register", controller.Register).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
