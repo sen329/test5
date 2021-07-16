@@ -1,4 +1,10 @@
-package controller
+package middleware
+
+import (
+	"database/sql"
+)
+
+var db *sql.DB
 
 func Checkuser(user_id string, role_id string) bool {
 	var check []string
