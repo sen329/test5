@@ -23,6 +23,8 @@ var err error
 var JwtKey = []byte(goDotEnvVariable("SECRET_KEY"))
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	w.Header().Add("Content-Type", "application/json")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
@@ -101,6 +103,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	w.Header().Add("Content-Type", "application/json")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {

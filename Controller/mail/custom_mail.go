@@ -1,14 +1,17 @@
-package controller
+package mail
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func Createcustommail(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -50,6 +53,8 @@ func Createcustommail(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getcustommails(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var custom_mails []model.Custom_mail
 
 	result, err := db.Query("SELECT * from t_mail_custom_message")
@@ -73,6 +78,8 @@ func Getcustommails(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getcustommail(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 	var custom_mail model.Custom_mail
 
@@ -94,6 +101,8 @@ func Getcustommail(w http.ResponseWriter, r *http.Request) {
 }
 
 func Updatecustommail(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -119,6 +128,8 @@ func Updatecustommail(w http.ResponseWriter, r *http.Request) {
 }
 
 func Deletecustommail(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_custom_message WHERE message_id = ?")

@@ -1,14 +1,17 @@
-package controller
+package lotto
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddlottoColor(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -31,6 +34,8 @@ func AddlottoColor(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoColors(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var l_colors []model.Lotto_item_color
 	result, err := db.Query("SELECT * FROM t_lotto_item_color")
 	if err != nil {
@@ -50,6 +55,8 @@ func GetlottoColors(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoColor(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var l_color model.Lotto_item_color
@@ -68,6 +75,8 @@ func GetlottoColor(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatelottoColor(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -92,6 +101,8 @@ func UpdatelottoColor(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletelottoColor(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_lotto_item_color WHERE color_id = ?")

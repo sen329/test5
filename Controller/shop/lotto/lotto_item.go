@@ -1,14 +1,17 @@
-package controller
+package lotto
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddlottoItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -35,6 +38,8 @@ func AddlottoItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoItems(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var l_items []model.Lotto_item
 	result, err := db.Query("SELECT * FROM t_lotto_item")
 	if err != nil {
@@ -55,6 +60,8 @@ func GetlottoItems(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var l_item model.Lotto_item
@@ -75,6 +82,8 @@ func GetlottoItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatelottoItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -103,6 +112,8 @@ func UpdatelottoItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletelottoItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_lotto_item WHERE lotto_item_id = ?")

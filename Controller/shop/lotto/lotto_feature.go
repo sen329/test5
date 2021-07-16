@@ -1,14 +1,17 @@
-package controller
+package lotto
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddlottoFeature(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -32,6 +35,8 @@ func AddlottoFeature(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoFeatures(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var l_features []model.Lotto_feature
 	result, err := db.Query("SELECT * FROM t_lotto_feature")
 	if err != nil {
@@ -51,6 +56,8 @@ func GetlottoFeatures(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoFeature(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var l_feature model.Lotto_feature
@@ -70,6 +77,8 @@ func GetlottoFeature(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoFeatureByLottoId(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var l_features []model.Lotto_feature
@@ -90,6 +99,8 @@ func GetlottoFeatureByLottoId(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatelottoFeature(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -115,6 +126,8 @@ func UpdatelottoFeature(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletelottoFeature(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_lotto_feature WHERE lotto_feature_id = ?")

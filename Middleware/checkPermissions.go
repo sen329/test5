@@ -2,14 +2,16 @@ package middleware
 
 import (
 	"database/sql"
+
+	controller "github.com/sen329/test5/Controller"
 )
 
 var db *sql.DB
 
 func Checkuser(user_id string, role_id string) bool {
 	var check []string
-
-	Open()
+	db := controller.Open()
+	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
 	if err != nil {
@@ -42,8 +44,8 @@ func Checkuser(user_id string, role_id string) bool {
 
 func Checkmail(user_id string, role_id string) bool {
 	var check []string
-
-	Open()
+	db := controller.Open()
+	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
 	if err != nil {
@@ -76,8 +78,8 @@ func Checkmail(user_id string, role_id string) bool {
 
 func Checkshop(user_id string, role_id string) bool {
 	var check []string
-
-	Open()
+	db := controller.Open()
+	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
 	if err != nil {

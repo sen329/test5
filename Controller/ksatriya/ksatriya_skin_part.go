@@ -1,14 +1,17 @@
-package controller
+package ksatriya
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -31,6 +34,8 @@ func AddKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyaSkinParts(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var parts []model.Ksatriya_skin_part
 	result, err := db.Query("SELECT * FROM t_ksatriya_skin_part")
 	if err != nil {
@@ -51,6 +56,8 @@ func GetKsatriyaSkinParts(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var part model.Ksatriya_skin_part
@@ -70,7 +77,9 @@ func GetKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
 }
 
 /* func UpdateKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
- 	id := r.URL.Query().Get("id")
+     db := controller.Open()
+    defer db.Close()
+	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
@@ -93,6 +102,8 @@ func GetKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
 } */
 
 func DeleteKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_ksatriya_skin_part WHERE skin_part_id = ?")

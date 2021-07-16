@@ -1,14 +1,17 @@
-package controller
+package ksatriya
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -33,6 +36,8 @@ func AddKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var ksatriya_skin_fragments []model.Ksatriya_skin_fragment
 
 	result, err := db.Query("SELECT * from t_ksatriya_skin")
@@ -56,6 +61,8 @@ func GetAllKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	ksatriya_skin_id := r.URL.Query().Get("ksatriya_skin_id")
 
 	var ksatriya_skin_fragment model.Ksatriya_skin_fragment
@@ -78,6 +85,8 @@ func GetKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	ksatriya_skin_id := r.URL.Query().Get("ksatriya_skin_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -104,6 +113,8 @@ func UpdateKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	ksatriya_skin_id := r.URL.Query().Get("ksatriya_skin_id")
 
 	stmt, err := db.Prepare("DELETE FROM t_ksatriya_skin_fragment WHERE ksatriya_skin_id = ?")

@@ -1,14 +1,17 @@
-package controller
+package mail
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func Createtemplate(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -50,6 +53,8 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 }
 
 func Gettemplates(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var templates []model.Mail_template
 
 	result, err := db.Query("SELECT * from t_mail_template")
@@ -73,6 +78,8 @@ func Gettemplates(w http.ResponseWriter, r *http.Request) {
 }
 
 func Gettemplate(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var template model.Mail_template
@@ -95,6 +102,8 @@ func Gettemplate(w http.ResponseWriter, r *http.Request) {
 }
 
 func Updatetemplates(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("template_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -120,6 +129,8 @@ func Updatetemplates(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteTemplates(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("template_id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_template WHERE template_id = ?")

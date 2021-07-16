@@ -1,14 +1,17 @@
-package controller
+package ksatriya
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddnewKsatriya(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -33,6 +36,8 @@ func AddnewKsatriya(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyas(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var ksatriyas []model.Ksatriya
 	result, err := db.Query("SELECT * FROM t_ksatriya")
 	if err != nil {
@@ -53,6 +58,8 @@ func GetKsatriyas(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriya(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_id")
 
 	var ksatriya model.Ksatriya
@@ -72,6 +79,8 @@ func GetKsatriya(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateKsatriya(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -97,6 +106,8 @@ func UpdateKsatriya(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteKsatriya(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_id")
 
 	stmt, err := db.Prepare("DELETE FROM t_ksatriya WHERE ksatriya_id = ?")

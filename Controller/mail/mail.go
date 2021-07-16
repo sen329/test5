@@ -1,4 +1,4 @@
-package controller
+package mail
 
 import (
 	"encoding/json"
@@ -6,16 +6,17 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func Sendmail(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
 	}
-
-	Open()
 
 	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,reciever_id,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?)")
 	if err != nil {
@@ -40,10 +41,10 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getmails(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 
 	var mails []model.Mail
-
-	Open()
 
 	result, err := db.Query("SELECT * from t_mail")
 	if err != nil {

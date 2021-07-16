@@ -1,14 +1,17 @@
-package controller
+package lotus
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func LotusAddNewItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -34,6 +37,8 @@ func LotusAddNewItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusGetShopItems(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var shop_items []model.Shop_lotus_item
 
 	result, err := db.Query("SELECT * from t_shop_lotus_item")
@@ -57,6 +62,8 @@ func LotusGetShopItems(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusGetShopItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var shop_item model.Shop_lotus_item
@@ -79,6 +86,8 @@ func LotusGetShopItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusUpdateShopItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -107,6 +116,8 @@ func LotusUpdateShopItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusDeleteShopItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_shop_lotus_item WHERE shop_lotus_item_id = ?")

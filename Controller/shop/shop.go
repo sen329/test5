@@ -1,14 +1,20 @@
-package controller
+package shop
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
+var db *sql.DB
+
 func AddShopItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -37,8 +43,10 @@ func AddShopItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetShopItems(w http.ResponseWriter, r *http.Request) {
-	var shops []model.Shop
+	db := controller.Open()
+	defer db.Close()
 
+	var shops []model.Shop
 	result, err := db.Query("SELECT * from t_shop")
 	if err != nil {
 		panic(err.Error())
@@ -60,6 +68,8 @@ func GetShopItems(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetShopItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var shop model.Shop
@@ -82,6 +92,8 @@ func GetShopItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -113,6 +125,8 @@ func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteShopItem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_shop WHERE shop_id = ?")

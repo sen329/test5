@@ -1,14 +1,17 @@
-package controller
+package lotto
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddlottoLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -32,6 +35,8 @@ func AddlottoLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoLoots(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var l_loots []model.Lotto_loot_table
 	result, err := db.Query("SELECT * FROM t_lotto_loot_table")
 	if err != nil {
@@ -52,6 +57,8 @@ func GetlottoLoots(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	l_id := r.URL.Query().Get("id")
 	l_item_id := r.URL.Query().Get("item_id")
 
@@ -77,6 +84,8 @@ func GetlottoLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoLootByLottoId(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var l_loot model.Lotto_loot_table
@@ -95,6 +104,8 @@ func GetlottoLootByLottoId(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatelottoLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	l_id := r.URL.Query().Get("id")
 	l_item_id := r.URL.Query().Get("item_id")
 
@@ -119,6 +130,8 @@ func UpdatelottoLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletelottoLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	l_id := r.URL.Query().Get("id")
 	l_item_id := r.URL.Query().Get("item_id")
 

@@ -1,14 +1,17 @@
-package controller
+package lotus
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddLotus(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -32,6 +35,8 @@ func AddLotus(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllLotus(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var shop_lotuss []model.Shop_lotus
 
 	result, err := db.Query("SELECT * from t_shop_lotus")
@@ -55,6 +60,8 @@ func GetAllLotus(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetLotus(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 
@@ -83,6 +90,8 @@ func GetLotus(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateLotusShop(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 
@@ -110,6 +119,8 @@ func UpdateLotusShop(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteLotusShop(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 

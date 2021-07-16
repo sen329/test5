@@ -1,14 +1,17 @@
-package controller
+package mail
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func Attachitem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -35,6 +38,8 @@ func Attachitem(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getmailattachments(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var attachments []model.Mail_attachment
 
 	result, err := db.Query("SELECT * FROM t_mail_attachment")
@@ -58,6 +63,8 @@ func Getmailattachments(w http.ResponseWriter, r *http.Request) {
 }
 
 func Getmailattachment(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 	var attachment model.Mail_attachment
 
@@ -78,6 +85,8 @@ func Getmailattachment(w http.ResponseWriter, r *http.Request) {
 }
 
 func Updatemailattachment(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
@@ -104,6 +113,8 @@ func Updatemailattachment(w http.ResponseWriter, r *http.Request) {
 }
 
 func Removeitem(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_attachment WHERE id = ?")

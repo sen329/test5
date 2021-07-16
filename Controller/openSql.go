@@ -20,15 +20,15 @@ func goDotEnvVariable(key string) string {
 	return os.Getenv(key)
 }
 
-func Open() {
+func Open() (dbase *sql.DB) {
 	driver := goDotEnvVariable("DB_DRIVER")
 	username := goDotEnvVariable("DB_USER_NAME")
 	password := goDotEnvVariable("DB_PASSWORD")
 	address := goDotEnvVariable("DB_ADDRESS")
 	database := goDotEnvVariable("DB_DATABASE")
-	db, err = sql.Open(driver, username+":"+password+"@tcp("+address+")"+"/"+database)
+	dbase, err := sql.Open(driver, username+":"+password+"@tcp("+address+")"+"/"+database)
 	if err != nil {
 		panic(err.Error())
 	}
-
+	return dbase
 }

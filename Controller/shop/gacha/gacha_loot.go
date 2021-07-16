@@ -1,14 +1,17 @@
-package controller
+package gacha
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddGachaLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -34,6 +37,8 @@ func AddGachaLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllGachaLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var gacha_loots []model.Gacha_loot_table
 
 	result, err := db.Query("SELECT * from t_gacha_loot_table")
@@ -57,6 +62,8 @@ func GetAllGachaLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGachaLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 
@@ -85,6 +92,8 @@ func GetGachaLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateGachaLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 
@@ -114,6 +123,8 @@ func UpdateGachaLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteGachaLoot(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("id1")
 	id2 := r.URL.Query().Get("id2")
 

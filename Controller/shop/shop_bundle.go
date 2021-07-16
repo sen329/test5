@@ -1,14 +1,17 @@
-package controller
+package shop
 
 import (
 	"encoding/json"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	controller "github.com/sen329/test5/Controller"
 	model "github.com/sen329/test5/Model"
 )
 
 func AddShopBundle(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -33,6 +36,8 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetShopBundles(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	var shop_bundles []model.Shop_bundle
 
 	result, err := db.Query("SELECT * from t_shop_bundle")
@@ -56,6 +61,8 @@ func GetShopBundles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetShopBundle(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("shop_id")
 	id2 := r.URL.Query().Get("item_id")
 	id3 := r.URL.Query().Get("item_type")
@@ -85,6 +92,8 @@ func GetShopBundle(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateShopBundle(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("shop_id")
 	id2 := r.URL.Query().Get("item_id")
 	id3 := r.URL.Query().Get("item_type")
@@ -113,6 +122,8 @@ func UpdateShopBundle(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteShopBundle(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
 	id1 := r.URL.Query().Get("shop_id")
 	id2 := r.URL.Query().Get("item_id")
 	id3 := r.URL.Query().Get("item_type")
