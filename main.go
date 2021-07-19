@@ -21,9 +21,9 @@ import (
 
 func main() {
 
-	db := controller.Open()
+	// db := controller.Open()
 
-	defer db.Close()
+	// defer db.Close()
 
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
@@ -38,46 +38,8 @@ func main() {
 	route.Use(middleware.Middleware)
 	route.HandleFunc("/test", controller.Test).Methods("GET")
 
-	//	icon_frame
-	route.HandleFunc("/addIconFrame", icon.AddiconFrame).Methods("POST")
-	route.HandleFunc("/getIconFrames", icon.GeticonFrames).Methods("GET")
-	route.HandleFunc("/getIconFrame", icon.GeticonFrame).Methods("GET")
-	route.HandleFunc("/updateIconFrame", icon.UpdateiconFrame).Methods("PUT")
-	route.HandleFunc("/deleteIconFrame", icon.DeleteiconFrame).Methods("DELETE")
-
-	//	icon_avatar
-	route.HandleFunc("/addIconAvatar", icon.AddiconAvatar).Methods("POST")
-	route.HandleFunc("/getIconAvatars", icon.GeticonAvatars).Methods("GET")
-	route.HandleFunc("/getIconAvatar", icon.GeticonAvatar).Methods("GET")
-	route.HandleFunc("/updateIconAvatar", icon.UpdateiconAvatar).Methods("PUT")
-	route.HandleFunc("/deleteIconAvatar", icon.DeleteiconAvatar).Methods("DELETE")
-
-	//	ksatriya
-	route.HandleFunc("/addKsatriya", ksatriya.AddnewKsatriya).Methods("POST")
-	route.HandleFunc("/getKsatriyas", ksatriya.GetKsatriyas).Methods("GET")
-	route.HandleFunc("/getKsatriya", ksatriya.GetKsatriya).Methods("GET")
-	route.HandleFunc("/updateKsatriya", ksatriya.UpdateKsatriya).Methods("PUT")
-	route.HandleFunc("/deleteKsatriya", ksatriya.DeleteKsatriya).Methods("DELETE")
-
-	//	ksatriya_fragment
-	route.HandleFunc("/addKsatriyaFragment", ksatriya.AddKsatriyaFragment).Methods("POST")
-	route.HandleFunc("/getKsatriyaFragments", ksatriya.GetKsatriyaFragments).Methods("GET")
-	route.HandleFunc("/getKsatriyaFragment", ksatriya.GetKsatriyaFragment).Methods("GET")
-	route.HandleFunc("/updateKsatriyaFragment", ksatriya.UpdateKsatriyaFragment).Methods("PUT")
-	route.HandleFunc("/deleteKsatriyaFragment", ksatriya.DeleteKsatriyaFragment).Methods("DELETE")
-
-	// ksatriya_skin
-	route.HandleFunc("/addKsatriyaSkin", ksatriya.AddKsatriyaSkin).Methods("POST")
-	route.HandleFunc("/getAllKsatriyaSkin", ksatriya.GetAllKsatriyaSkin).Methods("GET")
-	route.HandleFunc("/getKsatriyaSkin", ksatriya.GetKsatriyaSkin).Methods("GET")
-	route.HandleFunc("/updateKsatriyaSkin", ksatriya.UpdateKsatriyaSkin).Methods("PUT")
-	route.HandleFunc("/deleteKsatriyaSkin", ksatriya.DeleteKsatriyaSkin).Methods("DELETE")
-
-	//	ksatriya_skin_part
-	route.HandleFunc("/addKsatriyaSkinPart", ksatriya.AddKsatriyaSkinPart).Methods("POST")
-	route.HandleFunc("/getKsatriyaSkinParts", ksatriya.GetKsatriyaSkinParts).Methods("GET")
-	route.HandleFunc("/getKsatriyaSkinPart", ksatriya.GetKsatriyaSkinPart).Methods("GET")
-	route.HandleFunc("/deleteKsatriyaSkinPart", ksatriya.DeleteKsatriyaSkinPart).Methods("DELETE")
+	route.Handle("/", icon.Route(route))
+	route.Handle("/", ksatriya.Route(route))
 
 	//	rune
 	route.HandleFunc("/addRune", controller.AddRune).Methods("POST")
@@ -128,123 +90,17 @@ func main() {
 	route.HandleFunc("/deleteChest", controller.DeleteChest).Methods("DELETE")
 
 	// ---- Mail Subroute ---- //
-	route_mail := router.PathPrefix("/mail").Subrouter()
-	route_mail.Use(middleware.Middleware, middleware.CheckRoleMail)
-	route_mail.HandleFunc("/send", mail.Sendmail).Methods("POST")
-	route_mail.HandleFunc("/get", mail.Getmails).Methods("GET")
-
-	route_mail.HandleFunc("/createTemplate", mail.Createtemplate).Methods("POST")
-	route_mail.HandleFunc("/getTemplates", mail.Gettemplates).Methods("GET")
-	route_mail.HandleFunc("/getTemplate", mail.Gettemplate).Methods("GET")
-	route_mail.HandleFunc("/updateTemplate", mail.Updatetemplates).Methods("PUT")
-	route_mail.HandleFunc("/deleteTemplate", mail.DeleteTemplates).Methods("DELETE")
-
-	route_mail.HandleFunc("/createCustom", mail.Createcustommail).Methods("POST")
-	route_mail.HandleFunc("/getCustoms", mail.Getcustommails).Methods("GET")
-	route_mail.HandleFunc("/getCustom", mail.Getcustommail).Methods("GET")
-	route_mail.HandleFunc("/updateCustom", mail.Updatecustommail).Methods("PUT")
-	route_mail.HandleFunc("/deleteCustom", mail.Deletecustommail).Methods("DELETE")
-
-	route_mail.HandleFunc("/attachItem", mail.Attachitem).Methods("POST")
-	route_mail.HandleFunc("/getAttachments", mail.Getmailattachments).Methods("GET")
-	route_mail.HandleFunc("/getAttachment", mail.Getmailattachment).Methods("GET")
-	route_mail.HandleFunc("/updateAttachment", mail.Updatemailattachment).Methods("PUT")
-	route_mail.HandleFunc("/deleteAttachment", mail.Removeitem).Methods("DELETE")
+	route.Handle("/", mail.Route(route))
 
 	// ---- Lotto Subroute ---- //
-	route_lotto := router.PathPrefix("/lotto").Subrouter()
-	route_lotto.Use(middleware.Middleware, middleware.CheckRoleShop)
-
-	route_lotto.HandleFunc("/addLottos", lotto.AddnewLotto).Methods("POST")
-	route_lotto.HandleFunc("/getLottos", lotto.GetallLottos).Methods("GET")
-
-	route_lotto.HandleFunc("/addFeature", lotto.AddlottoFeature).Methods("POST")
-	route_lotto.HandleFunc("/getFeatures", lotto.GetlottoFeatures).Methods("GET")
-	route_lotto.HandleFunc("/getFeature", lotto.GetlottoFeature).Methods("GET")
-	route_lotto.HandleFunc("/getFeatureOf", lotto.GetlottoFeatureByLottoId).Methods("GET")
-	route_lotto.HandleFunc("/updateFeature", lotto.UpdatelottoFeature).Methods("PUT")
-	route_lotto.HandleFunc("/deleteFeature", lotto.DeletelottoFeature).Methods("DELETE")
-
-	route_lotto.HandleFunc("/addItem", lotto.AddlottoItem).Methods("POST")
-	route_lotto.HandleFunc("/getItems", lotto.GetlottoItems).Methods("GET")
-	route_lotto.HandleFunc("/getItem", lotto.GetlottoItem).Methods("GET")
-	route_lotto.HandleFunc("/updateItem", lotto.UpdatelottoItem).Methods("PUT")
-	route_lotto.HandleFunc("/deleteItem", lotto.DeletelottoItem).Methods("DELETE")
-
-	route_lotto.HandleFunc("/addColor", lotto.AddlottoColor).Methods("POST")
-	route_lotto.HandleFunc("/getColors", lotto.GetlottoColors).Methods("GET")
-	route_lotto.HandleFunc("/getColor", lotto.GetlottoColor).Methods("GET")
-	route_lotto.HandleFunc("/updateColor", lotto.UpdatelottoColor).Methods("PUT")
-	route_lotto.HandleFunc("/deleteColor", lotto.DeletelottoColor).Methods("DELETE")
-
-	route_lotto.HandleFunc("/addLoot", lotto.AddlottoLoot).Methods("POST")
-	route_lotto.HandleFunc("/getLoots", lotto.GetlottoLoots).Methods("GET")
-	route_lotto.HandleFunc("/getLoot", lotto.GetlottoLoot).Methods("GET")
-	route_lotto.HandleFunc("/getLootOf", lotto.GetlottoLootByLottoId).Methods("GET")
-	route_lotto.HandleFunc("/updateLoot", lotto.UpdatelottoLoot).Methods("PUT")
-	route_lotto.HandleFunc("/deleteLoot", lotto.DeletelottoLoot).Methods("DELETE")
+	route.Handle("/", lotto.Route(route))
 
 	// ---- Gacha Subroute ---- //
-	route_gacha := router.PathPrefix("/gacha").Subrouter()
-	route_gacha.Use(middleware.Middleware, middleware.CheckRoleShop)
-
-	route_gacha.HandleFunc("/add", gacha.AddGacha).Methods("POST")
-	route_gacha.HandleFunc("/getAll", gacha.GetAllGacha).Methods("GET")
-	route_gacha.HandleFunc("/get", gacha.GetGacha).Methods("GET")
-	route_gacha.HandleFunc("/update", gacha.UpdateGacha).Methods("PUT")
-	route_gacha.HandleFunc("/delete", gacha.DeleteGacha).Methods("DELETE")
-
-	route_gacha.HandleFunc("/addItem", gacha.AddGachaItem).Methods("POST")
-	route_gacha.HandleFunc("/getAllItem", gacha.GetAllGachaItem).Methods("GET")
-	route_gacha.HandleFunc("/getItem", gacha.GetGachaItem).Methods("GET")
-	route_gacha.HandleFunc("/updateItem", gacha.UpdateGachaItem).Methods("PUT")
-	route_gacha.HandleFunc("/deleteItem", gacha.DeleteGachaItem).Methods("DELETE")
-
-	route_gacha.HandleFunc("/addFeatured", gacha.AddFeaturedGacha).Methods("POST")
-	route_gacha.HandleFunc("/getAllFeatured", gacha.GetAllFeaturedGacha).Methods("GET")
-	route_gacha.HandleFunc("/getFeatured", gacha.GetFeaturedGacha).Methods("GET")
-	route_gacha.HandleFunc("/updateFeatured", gacha.UpdateFeaturedGacha).Methods("PUT")
-	route_gacha.HandleFunc("/deleteFeatured", gacha.DeleteFeaturedGacha).Methods("DELETE")
-
-	route_gacha.HandleFunc("/addLoot", gacha.AddGachaLoot).Methods("POST")
-	route_gacha.HandleFunc("/getAllLoot", gacha.GetAllGachaLoot).Methods("GET")
-	route_gacha.HandleFunc("/getLoot", gacha.GetGachaLoot).Methods("GET")
-	route_gacha.HandleFunc("/updateLoot", gacha.UpdateGachaLoot).Methods("PUT")
-	route_gacha.HandleFunc("/deleteLoot", gacha.DeleteGachaLoot).Methods("DELETE")
+	route.Handle("/", gacha.Route(route))
 
 	// ---- Shop Subroute ---- //
-	route_shop := router.PathPrefix("/shop").Subrouter()
-	route_shop.Use(middleware.Middleware, middleware.CheckRoleShop)
-
-	route_shop.HandleFunc("/lotus/add", lotus.AddLotus).Methods("POST")
-	route_shop.HandleFunc("/lotus/getAll", lotus.GetAllLotus).Methods("GET")
-	route_shop.HandleFunc("/lotus/get", lotus.GetLotus).Methods("GET")
-	route_shop.HandleFunc("/lotus/update", lotus.UpdateLotusShop).Methods("PUT")
-	route_shop.HandleFunc("/lotus/delete", lotus.DeleteLotusShop).Methods("DELETE")
-
-	route_shop.HandleFunc("/lotus/addItem", lotus.LotusAddNewItem).Methods("POST")
-	route_shop.HandleFunc("/lotus/getAllItem", lotus.LotusGetShopItems).Methods("GET")
-	route_shop.HandleFunc("/lotus/getItem", lotus.LotusGetShopItem).Methods("GET")
-	route_shop.HandleFunc("/lotus/updateItem", lotus.LotusUpdateShopItem).Methods("PUT")
-	route_shop.HandleFunc("/lotus/deleteItem", lotus.LotusDeleteShopItem).Methods("DELETE")
-
-	route_shop.HandleFunc("/lotus/addPeriod", lotus.AddLotusPeriod).Methods("POST")
-	route_shop.HandleFunc("/lotus/getAllPeriod", lotus.LotusGetShopPeriods).Methods("GET")
-	route_shop.HandleFunc("/lotus/getPeriod", lotus.LotusGetShopPeriod).Methods("GET")
-	route_shop.HandleFunc("/lotus/updatePeriod", lotus.LotusUpdateShopPeriod).Methods("PUT")
-	route_shop.HandleFunc("/lotus/deletePeriod", lotus.LotusDeleteShopPeriod).Methods("DELETE")
-
-	route_shop.HandleFunc("/addItem", shop.AddShopItem).Methods("POST")
-	route_shop.HandleFunc("/getAllItems", shop.GetShopItems).Methods("GET")
-	route_shop.HandleFunc("/getItem", shop.GetShopItem).Methods("GET")
-	route_shop.HandleFunc("/updateItem", shop.UpdateShopItem).Methods("PUT")
-	route_shop.HandleFunc("/deleteItem", shop.DeleteShopItem).Methods("DELETE")
-
-	route_shop.HandleFunc("/addBundle", shop.AddShopBundle).Methods("POST")
-	route_shop.HandleFunc("/getAllBundles", shop.GetShopBundles).Methods("GET")
-	route_shop.HandleFunc("/getBundle", shop.GetShopBundle).Methods("GET")
-	route_shop.HandleFunc("/updateBundle", shop.UpdateShopBundle).Methods("PUT")
-	route_shop.HandleFunc("/deleteBundle", shop.DeleteShopBundle).Methods("DELETE")
+	route.Handle("/", lotus.Route(route))
+	route.Handle("/", shop.Route(route))
 
 	// ---- Role Subroute ---- //
 	route_role := router.PathPrefix("/role").Subrouter()
@@ -269,3 +125,12 @@ func main() {
 
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
+
+// func mount(r *mux.Router, path string, handler http.Handler) {
+// 	r.PathPrefix(path).Handler(
+// 		http.StripPrefix(
+// 			strings.TrimSuffix(path, "/"),
+// 			handler,
+// 		),
+// 	)
+// }

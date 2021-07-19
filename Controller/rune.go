@@ -9,6 +9,8 @@ import (
 )
 
 func AddRune(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -33,6 +35,8 @@ func AddRune(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetRunes(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	var runes []model.Rune
 	result, err := db.Query("SELECT * FROM t_rune")
 	if err != nil {
@@ -52,6 +56,8 @@ func GetRunes(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetRune(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("rune_id")
 
 	var rune model.Rune
@@ -71,6 +77,8 @@ func GetRune(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateRune(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("rune_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -96,6 +104,8 @@ func UpdateRune(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteRune(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("rune_id")
 
 	stmt, err := db.Prepare("DELETE FROM t_rune WHERE rune_id = ?")

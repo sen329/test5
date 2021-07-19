@@ -9,6 +9,8 @@ import (
 )
 
 func AddRoles(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -31,6 +33,8 @@ func AddRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllRoles(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	var roles []model.Roles
 
 	result, err := db.Query("SELECT id, role_name, description from roles")
@@ -54,6 +58,8 @@ func GetAllRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetRole(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var role model.Roles
@@ -76,6 +82,8 @@ func GetRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateRole(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -101,6 +109,8 @@ func UpdateRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteRole(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM roles WHERE id = ?")

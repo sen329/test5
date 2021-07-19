@@ -9,6 +9,8 @@ import (
 )
 
 func AddEnergy(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -32,6 +34,8 @@ func AddEnergy(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetEnergies(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	var energies []model.Energy
 	result, err := db.Query("SELECT * FROM t_energy")
 	if err != nil {
@@ -52,6 +56,8 @@ func GetEnergies(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetEnergy(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("energy_id")
 
 	var energy model.Energy
@@ -71,6 +77,8 @@ func GetEnergy(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateEnergy(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("energy_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -95,6 +103,8 @@ func UpdateEnergy(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteEnergy(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("energy_id")
 
 	stmt, err := db.Prepare("DELETE FROM t_energy WHERE energy_id = ?")

@@ -9,6 +9,8 @@ import (
 )
 
 func AddPremium(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -31,6 +33,8 @@ func AddPremium(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPremiums(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	var premiums []model.Premium
 	result, err := db.Query("SELECT * FROM t_premium")
 	if err != nil {
@@ -51,6 +55,8 @@ func GetPremiums(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPremium(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("item_id")
 
 	var premium model.Premium
@@ -70,6 +76,8 @@ func GetPremium(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatePremium(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("item_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -93,6 +101,8 @@ func UpdatePremium(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletePremium(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
 	id := r.URL.Query().Get("item_id")
 
 	stmt, err := db.Prepare("DELETE FROM t_premium WHERE item_id = ?")
