@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2021 at 06:29 AM
+-- Generation Time: Jul 22, 2021 at 06:11 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -434,7 +434,7 @@ CREATE TABLE `t_lotto_loot_table` (
 
 CREATE TABLE `t_mail` (
   `mail_id` int(11) NOT NULL,
-  `mail_type` enum('Friend','System','Update','Gifts') NOT NULL,
+  `mail_type` varchar(255) NOT NULL,
   `sender_id` int(11) DEFAULT NULL,
   `reciever_id` int(11) NOT NULL,
   `send_date` datetime NOT NULL DEFAULT current_timestamp(),
@@ -461,6 +461,13 @@ CREATE TABLE `t_mail_attachment` (
   `amount` int(11) NOT NULL,
   `custom_message_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_mail_attachment`
+--
+
+INSERT INTO `t_mail_attachment` (`id`, `template_id`, `item_id`, `item_type`, `amount`, `custom_message_id`) VALUES
+(1, 5, 1, 1, 100000, NULL);
 
 -- --------------------------------------------------------
 
@@ -493,7 +500,48 @@ CREATE TABLE `t_mail_template` (
 INSERT INTO `t_mail_template` (`template_id`, `subject`, `message`) VALUES
 (1, 'test subject', 'this is a test message'),
 (3, 'test subject no 32', 'this is a test message 32'),
-(4, 'test subject no 3', 'this is a test message 3');
+(4, 'test subject no 3', 'this is a test message 3'),
+(5, 'test subject no 4', 'this is a test message 4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_news`
+--
+
+CREATE TABLE `t_news` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `release_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `type` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_news_detail`
+--
+
+CREATE TABLE `t_news_detail` (
+  `news_id` int(11) NOT NULL,
+  `lang` char(2) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `banner` varchar(15) NOT NULL,
+  `banner_checksum` varchar(32) NOT NULL,
+  `content` int(15) NOT NULL,
+  `content_checksum` int(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_news_type`
+--
+
+CREATE TABLE `t_news_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -516,7 +564,7 @@ CREATE TABLE `t_rune` (
   `rune_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT 'Default',
-  `rune_color` enum('Red','Blue','Green','Yellow','White') NOT NULL DEFAULT 'Red'
+  `rune_color` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -534,8 +582,15 @@ CREATE TABLE `t_shop` (
   `price_citrine` int(11) DEFAULT NULL,
   `price_lotus` int(11) DEFAULT NULL,
   `release_date` datetime DEFAULT NULL,
-  `description` tinytext NOT NULL
+  `description` tinytext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_shop`
+--
+
+INSERT INTO `t_shop` (`shop_id`, `item_id`, `item_type`, `amount`, `price_coin`, `price_citrine`, `price_lotus`, `release_date`, `description`) VALUES
+(1, 2, 2, 1, NULL, 100000, NULL, '2021-07-06 07:23:22', '0');
 
 -- --------------------------------------------------------
 
@@ -829,6 +884,24 @@ ALTER TABLE `t_mail_template`
   ADD PRIMARY KEY (`template_id`);
 
 --
+-- Indexes for table `t_news`
+--
+ALTER TABLE `t_news`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `t_news_detail`
+--
+ALTER TABLE `t_news_detail`
+  ADD PRIMARY KEY (`news_id`,`lang`);
+
+--
+-- Indexes for table `t_news_type`
+--
+ALTER TABLE `t_news_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `t_premium`
 --
 ALTER TABLE `t_premium`
@@ -998,7 +1071,7 @@ ALTER TABLE `t_mail`
 -- AUTO_INCREMENT for table `t_mail_attachment`
 --
 ALTER TABLE `t_mail_attachment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `t_mail_custom_message`
@@ -1010,7 +1083,13 @@ ALTER TABLE `t_mail_custom_message`
 -- AUTO_INCREMENT for table `t_mail_template`
 --
 ALTER TABLE `t_mail_template`
-  MODIFY `template_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `template_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `t_news`
+--
+ALTER TABLE `t_news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_premium`
@@ -1028,7 +1107,7 @@ ALTER TABLE `t_rune`
 -- AUTO_INCREMENT for table `t_shop`
 --
 ALTER TABLE `t_shop`
-  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `t_shop_lotus_item`
@@ -1147,6 +1226,12 @@ ALTER TABLE `t_mail_attachment`
   ADD CONSTRAINT `t_mail_attachment_ibfk_3` FOREIGN KEY (`item_type`) REFERENCES `t_item_type` (`item_type_id`);
 
 --
+-- Constraints for table `t_news_detail`
+--
+ALTER TABLE `t_news_detail`
+  ADD CONSTRAINT `t_news_detail_ibfk_1` FOREIGN KEY (`news_id`) REFERENCES `t_news` (`id`);
+
+--
 -- Constraints for table `t_shop`
 --
 ALTER TABLE `t_shop`
@@ -1183,7 +1268,6 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
 CREATE USER 'anantarupa'@'localhost' IDENTIFIED BY '8n8nt8rup8';
 GRANT ALL PRIVILEGES ON * . * TO 'anantarupa'@'localhost';
 FLUSH PRIVILEGES;
