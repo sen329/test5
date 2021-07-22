@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2021 at 06:11 AM
+-- Generation Time: Jul 22, 2021 at 09:37 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -16,10 +16,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
--- CREATE USER 'anantarupa'@'localhost' IDENTIFIED BY '8n8nt8rup8';
--- GRANT ALL PRIVILEGES ON * . * TO 'anantarupa'@'localhost';
--- FLUSH PRIVILEGES;
 
 --
 -- Database: `gm_tool_test`
@@ -136,15 +132,6 @@ CREATE TABLE `t_chest` (
   `duration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `t_chest`
---
-
-INSERT INTO `t_chest` (`duration`) VALUES
-(3),
-(6),
-(12);
-
 -- --------------------------------------------------------
 
 --
@@ -155,15 +142,6 @@ CREATE TABLE `t_currency_type` (
   `currency_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `t_currency_type`
---
-
-INSERT INTO `t_currency_type` (`currency_id`, `name`) VALUES
-(1, 'Ori'),
-(2, 'Citrine'),
-(3, 'Lotus');
 
 -- --------------------------------------------------------
 
@@ -176,18 +154,6 @@ CREATE TABLE `t_energy` (
   `description` tinytext NOT NULL,
   `target` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `t_energy`
---
-
-INSERT INTO `t_energy` (`energy_id`, `description`, `target`) VALUES
-(1, '10 Energy', 10),
-(2, '35 Energy', 35),
-(4, '50 Energy', 50),
-(8, '75 Energy', 75),
-(16, '225 Energy', 225),
-(32, '500 Energy', 500);
 
 -- --------------------------------------------------------
 
@@ -276,28 +242,6 @@ CREATE TABLE `t_item_type` (
   `item_type_id` int(11) NOT NULL,
   `item_type_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `t_item_type`
---
-
-INSERT INTO `t_item_type` (`item_type_id`, `item_type_name`) VALUES
-(1, 'currency'),
-(2, 'ksatriya'),
-(3, 'Skin'),
-(4, 'Rune'),
-(5, 'Item'),
-(6, 'Box'),
-(7, 'Chest'),
-(8, 'Energy'),
-(9, 'Skin Part'),
-(10, 'Premium'),
-(11, 'Frame'),
-(12, 'Avatar'),
-(13, 'Vikara'),
-(14, 'Vahana'),
-(15, 'Ksatriya Fragment'),
-(16, 'Skin Fragment');
 
 -- --------------------------------------------------------
 
@@ -462,13 +406,6 @@ CREATE TABLE `t_mail_attachment` (
   `custom_message_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `t_mail_attachment`
---
-
-INSERT INTO `t_mail_attachment` (`id`, `template_id`, `item_id`, `item_type`, `amount`, `custom_message_id`) VALUES
-(1, 5, 1, 1, 100000, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -493,16 +430,6 @@ CREATE TABLE `t_mail_template` (
   `message` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `t_mail_template`
---
-
-INSERT INTO `t_mail_template` (`template_id`, `subject`, `message`) VALUES
-(1, 'test subject', 'this is a test message'),
-(3, 'test subject no 32', 'this is a test message 32'),
-(4, 'test subject no 3', 'this is a test message 3'),
-(5, 'test subject no 4', 'this is a test message 4');
-
 -- --------------------------------------------------------
 
 --
@@ -526,10 +453,10 @@ CREATE TABLE `t_news_detail` (
   `news_id` int(11) NOT NULL,
   `lang` char(2) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `banner` varchar(15) NOT NULL,
-  `banner_checksum` varchar(32) NOT NULL,
-  `content` int(15) NOT NULL,
-  `content_checksum` int(32) NOT NULL
+  `banner` varchar(15) DEFAULT NULL,
+  `banner_checksum` varchar(32) DEFAULT NULL,
+  `content` varchar(15) NOT NULL,
+  `content_checksum` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -584,13 +511,6 @@ CREATE TABLE `t_shop` (
   `release_date` datetime DEFAULT NULL,
   `description` tinytext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `t_shop`
---
-
-INSERT INTO `t_shop` (`shop_id`, `item_id`, `item_type`, `amount`, `price_coin`, `price_citrine`, `price_lotus`, `release_date`, `description`) VALUES
-(1, 2, 2, 1, NULL, 100000, NULL, '2021-07-06 07:23:22', '0');
 
 -- --------------------------------------------------------
 
@@ -999,7 +919,7 @@ ALTER TABLE `t_box_loot_table`
 -- AUTO_INCREMENT for table `t_currency_type`
 --
 ALTER TABLE `t_currency_type`
-  MODIFY `currency_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `currency_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_gacha`
@@ -1023,7 +943,7 @@ ALTER TABLE `t_gacha_item`
 -- AUTO_INCREMENT for table `t_item_type`
 --
 ALTER TABLE `t_item_type`
-  MODIFY `item_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `item_type_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_ksatriya`
@@ -1071,7 +991,7 @@ ALTER TABLE `t_mail`
 -- AUTO_INCREMENT for table `t_mail_attachment`
 --
 ALTER TABLE `t_mail_attachment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_mail_custom_message`
@@ -1083,7 +1003,7 @@ ALTER TABLE `t_mail_custom_message`
 -- AUTO_INCREMENT for table `t_mail_template`
 --
 ALTER TABLE `t_mail_template`
-  MODIFY `template_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `template_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_news`
@@ -1107,7 +1027,7 @@ ALTER TABLE `t_rune`
 -- AUTO_INCREMENT for table `t_shop`
 --
 ALTER TABLE `t_shop`
-  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_shop_lotus_item`
@@ -1268,6 +1188,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-CREATE USER 'anantarupa'@'localhost' IDENTIFIED BY '8n8nt8rup8';
-GRANT ALL PRIVILEGES ON * . * TO 'anantarupa'@'localhost';
-FLUSH PRIVILEGES;

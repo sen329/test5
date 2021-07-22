@@ -7,4 +7,6 @@ WORKDIR /gm-tool-backend
 
 RUN go build -o main
 
+RUN mkdir /gm-tool-backend/storage
+
 CMD ["/gm-tool-backend/main"]
