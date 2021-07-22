@@ -1,28 +1,37 @@
 package newsinfo
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
-func FileUpload(r *http.Request) (string, error) {
+func FileUpload(w http.ResponseWriter, r *http.Request) {
 	//this function returns the filename(to save in database) of the saved file or an error if it occurs
-	r.ParseMultipartForm(32 << 20)
-	//ParseMultipartForm parses a request body as multipart/form-data
-	file, handler, err := r.FormFile("file") //retrieve the file from form data
-	//replace file with the key your sent your image with
+	err := r.ParseMultipartForm(10 * 1024 * 1024)
 	if err != nil {
-		return "", err
+		panic(err)
 	}
-	defer file.Close() //close the file when we finish
-	//this is path which  we want to store the file
-	f, err := os.OpenFile("path/to/save/image/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+
+	testFile, fileHandler, err := r.FormFile("uploadFile")
 	if err != nil {
-		return "", err
+		panic(err.Error())
 	}
-	defer f.Close()
-	io.Copy(f, file)
-	//here we save our file to our path
-	return handler.Filename, nil
+	defer testFile.Close()
+
+	workdir, err := os.Getwd()
+	if err != nil {
+		panic(err.Error())
+	}
+	fileLocation := filepath.Join(workdir, "storage", fileHandler.Filename)
+	locate, err := os.OpenFile(fileLocation, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	io.Copy(locate, testFile)
+
+	json.NewEncoder(w).Encode(fileHandler.Filename)
 }
