@@ -8,7 +8,7 @@ import (
 func Route(r *mux.Router) *mux.Router {
 
 	route_news := r.PathPrefix("/news").Subrouter()
-	route_news.Use(middleware.Middleware, middleware.CheckRoleMail)
+	route_news.Use(middleware.Middleware)
 
 	return r
 }
