@@ -10,18 +10,18 @@ package model
 // )
 
 type Mail struct {
-	Mail_id           int    `json:"mail_id"`
-	Mail_type         string `json:"mail_type"`
-	Sender_id         int    `json:"sender_id"`
-	Reciever_id       int    `json:"reciever_id"`
-	Send_date         string `json:"send_date"`
-	Mail_template     int    `json:"mail_template"`
-	Confirm_read      int    `json:"confirm_read"`
-	Read_Date         string `json:"read_date"`
-	Confirm_claim     int    `json:"confirm_claim"`
-	Claim_date        string `json:"claim_date"`
-	Parameter         string `json:"parameter"`
-	Custom_message_id int    `json:"custom_message_id"`
+	Mail_id           *int    `json:"mail_id"`
+	Mail_type         *string `json:"mail_type"`
+	Sender_id         *int    `json:"sender_id"`
+	Reciever_id       *int    `json:"reciever_id"`
+	Send_date         *string `json:"send_date"`
+	Mail_template     *int    `json:"mail_template"`
+	Confirm_read      *int    `json:"confirm_read"`
+	Read_Date         *string `json:"read_date"`
+	Confirm_claim     *int    `json:"confirm_claim"`
+	Claim_date        *string `json:"claim_date"`
+	Parameter         *string `json:"parameter"`
+	Custom_message_id *int    `json:"custom_message_id"`
 }
 
 type Mail_template struct {

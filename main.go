@@ -69,6 +69,10 @@ func main() {
 	// ---- Role Subroute ---- //
 	route.Handle("/", Routers.RouteRole(route))
 
+	route.Handle("/", Routers.RoutePlayers(route))
+
+	route.Handle("/", Routers.RouteKsaRot(route))
+
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
 

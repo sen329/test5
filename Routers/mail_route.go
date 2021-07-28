@@ -13,6 +13,7 @@ func RouteMail(r *mux.Router) *mux.Router {
 
 	route_mail.HandleFunc("/send", mail.Sendmail).Methods("POST")
 	route_mail.HandleFunc("/get", mail.Getmails).Methods("GET")
+	route_mail.HandleFunc("/setSendDate", mail.SetSendDate).Methods("PUT")
 
 	route_mail.HandleFunc("/createTemplate", mail.Createtemplate).Methods("POST")
 	route_mail.HandleFunc("/getTemplates", mail.Gettemplates).Methods("GET")

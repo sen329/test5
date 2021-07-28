@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2021 at 09:37 AM
+-- Generation Time: Jul 27, 2021 at 12:11 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -45,7 +45,9 @@ CREATE TABLE `permissions` (
 INSERT INTO `permissions` (`id`, `permission_name`, `description`, `active`, `created_at`, `updated_at`) VALUES
 (1, 'modify_user', 'Create, edit, delete users', 1, '2021-05-19 07:13:46', '2021-05-19 07:13:46'),
 (2, 'shop_control', 'Create, edit, delete shop data', 1, '2021-06-24 07:53:16', '2021-06-24 07:53:16'),
-(4, 'send_mail', 'Send mail', 1, '2021-05-20 10:05:16', '2021-05-20 10:05:16');
+(3, 'player_report_control', 'modify player and view reports', 1, '2021-07-27 08:41:44', '2021-07-27 08:41:44'),
+(4, 'send_mail', 'Send mail', 1, '2021-05-20 10:05:16', '2021-05-20 10:05:16'),
+(6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38');
 
 -- --------------------------------------------------------
 
@@ -91,7 +93,9 @@ CREATE TABLE `roles_permissions` (
 INSERT INTO `roles_permissions` (`id`, `role_id`, `permission_id`, `created_at`) VALUES
 (1, 1, 1, '2021-05-20 11:28:40'),
 (4, 1, 4, '2021-06-09 09:38:39'),
-(6, 1, 2, '2021-06-24 07:59:39');
+(6, 1, 2, '2021-06-24 07:59:39'),
+(7, 1, 3, '2021-07-27 08:44:59'),
+(8, 1, 6, '2021-07-27 11:07:57');
 
 -- --------------------------------------------------------
 
@@ -267,6 +271,19 @@ CREATE TABLE `t_ksatriya_fragment` (
   `amount_needed` int(11) NOT NULL,
   `sell_currency_id` int(11) NOT NULL,
   `sell_value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_ksatriya_rotation`
+--
+
+CREATE TABLE `t_ksatriya_rotation` (
+  `ksatriya_rotation_id` int(11) NOT NULL,
+  `ksatriya_id` smallint(6) NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -721,6 +738,13 @@ ALTER TABLE `t_ksatriya_fragment`
   ADD PRIMARY KEY (`ksatriya_id`);
 
 --
+-- Indexes for table `t_ksatriya_rotation`
+--
+ALTER TABLE `t_ksatriya_rotation`
+  ADD PRIMARY KEY (`ksatriya_rotation_id`),
+  ADD KEY `ksatriya_id` (`ksatriya_id`);
+
+--
 -- Indexes for table `t_ksatriya_skin`
 --
 ALTER TABLE `t_ksatriya_skin`
@@ -889,7 +913,7 @@ ALTER TABLE `users_roles`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -901,7 +925,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `roles_permissions`
 --
 ALTER TABLE `roles_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `t_box`
@@ -950,6 +974,12 @@ ALTER TABLE `t_item_type`
 --
 ALTER TABLE `t_ksatriya`
   MODIFY `ksatriya_id` smallint(6) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_ksatriya_rotation`
+--
+ALTER TABLE `t_ksatriya_rotation`
+  MODIFY `ksatriya_rotation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_ksatriya_skin`
@@ -1096,6 +1126,12 @@ ALTER TABLE `t_gacha_loot_table`
 --
 ALTER TABLE `t_ksatriya_fragment`
   ADD CONSTRAINT `t_ksatriya_fragment_ibfk_1` FOREIGN KEY (`ksatriya_id`) REFERENCES `t_ksatriya` (`ksatriya_id`);
+
+--
+-- Constraints for table `t_ksatriya_rotation`
+--
+ALTER TABLE `t_ksatriya_rotation`
+  ADD CONSTRAINT `t_ksatriya_rotation_ibfk_1` FOREIGN KEY (`ksatriya_id`) REFERENCES `t_ksatriya` (`ksatriya_id`);
 
 --
 -- Constraints for table `t_ksatriya_skin`

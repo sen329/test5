@@ -1,6 +1,7 @@
 package mail
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -10,6 +11,16 @@ import (
 	model "github.com/sen329/test5/Model"
 )
 
+func NewNullString(s string) sql.NullString {
+	if len(s) == 0 {
+		return sql.NullString{}
+	}
+	return sql.NullString{
+		String: s,
+		Valid:  true,
+	}
+}
+
 func Sendmail(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
@@ -18,7 +29,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,reciever_id,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,reciever_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -26,11 +37,12 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 	mail_type := r.Form.Get("mail_type")
 	sender_id := r.Form.Get("sender_id")
 	receiver_id := r.Form.Get("reciever_id")
+	send_date := r.Form.Get("send_date")
 	mail_template := r.Form.Get("mail_template")
 	parameter := r.Form.Get("parameter")
 	custom_message_id := r.Form.Get("custom_message_id")
 
-	_, err = stmt.Exec(mail_type, sender_id, receiver_id, mail_template, parameter, custom_message_id)
+	_, err = stmt.Exec(mail_type, sender_id, receiver_id, NewNullString(send_date), NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
 	if err != nil {
 		panic(err)
 	}
@@ -66,4 +78,29 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(mails)
 
+}
+
+func SetSendDate(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+	id := r.URL.Query().Get("ksatriya_rotation_id")
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("UPDATE t_mail SET send_date = ? WHERE mail_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	send_date_new := r.Form.Get("send_date")
+
+	_, err = stmt.Exec(send_date_new, id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.NewEncoder(w).Encode("Success")
 }
