@@ -25,9 +25,5 @@ func RouteRole(r *mux.Router) *mux.Router {
 	route_role.HandleFunc("/removePermissionFromRole", controller.RemovePermissionFromRole).Methods("DELETE")
 	route_role.HandleFunc("/getAllPermission", controller.GetAllPermissions).Methods("GET")
 
-	//register
-	route_register := r.PathPrefix("/user").Subrouter()
-	route_register.Use(middleware.Middleware, middleware.CheckRoleUser)
-	route_register.HandleFunc("/register", controller.Register).Methods("POST")
 	return r
 }

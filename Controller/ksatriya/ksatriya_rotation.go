@@ -87,7 +87,7 @@ func UpdateKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_ksatriya_rotation SET ksatriya_id = ?, start_date = ?, end_name = ? WHERE ksatriya_rotation_id = ?")
+	stmt, err := db.Prepare("UPDATE t_ksatriya_rotation SET ksatriya_id = ?, start_date = ?, end_date = ? WHERE ksatriya_rotation_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

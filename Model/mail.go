@@ -44,3 +44,10 @@ type Custom_mail struct {
 	Subject    string `json:"subject"`
 	Message    string `json:"message"`
 }
+
+type Login_mail struct {
+	Template_id int64   `json:"template_id"`
+	Parameter   *string `json:"parameter"`
+	Start_date  string  `json:"start_date"`
+	End_date    string  `json:"end_date"`
+}
