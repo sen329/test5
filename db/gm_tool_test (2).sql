@@ -47,6 +47,7 @@ INSERT INTO `permissions` (`id`, `permission_name`, `description`, `active`, `cr
 (2, 'shop_control', 'Create, edit, delete shop data', 1, '2021-06-24 07:53:16', '2021-06-24 07:53:16'),
 (3, 'player_report_control', 'modify player and view reports', 1, '2021-07-27 08:41:44', '2021-07-27 08:41:44'),
 (4, 'send_mail', 'Send mail', 1, '2021-05-20 10:05:16', '2021-05-20 10:05:16'),
+(5, 'match_control', 'Overview and cancel matches', 1, '2021-05-20 10:05:16', '2021-05-20 10:05:16'),
 (6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38');
 
 -- --------------------------------------------------------
@@ -96,6 +97,7 @@ INSERT INTO `roles_permissions` (`id`, `role_id`, `permission_id`, `created_at`)
 (6, 1, 2, '2021-06-24 07:59:39'),
 (7, 1, 3, '2021-07-27 08:44:59'),
 (8, 1, 6, '2021-07-27 11:07:57');
+(9, 1, 5, '2021-07-27 11:07:57');
 
 -- --------------------------------------------------------
 
