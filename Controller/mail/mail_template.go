@@ -22,11 +22,6 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	stmt2, err := db.Prepare("INSERT INTO t_mail_attachment(template_id, item_id, item_type, amount) VALUES (?,?,?,?)")
-	if err != nil {
-		panic(err.Error())
-	}
-
 	subject := r.Form.Get("subject")
 	message := r.Form.Get("message")
 
@@ -43,9 +38,18 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 	item_id := r.Form.Get("item_id")
 	amount := r.Form.Get("amount")
 
-	_, err = stmt2.Exec(template_id, item_id, item_type_id, amount)
-	if err != nil {
-		panic(err.Error())
+	if item_type_id != "" && item_id != "" && amount != "" {
+
+		stmt2, err := db.Prepare("INSERT INTO t_mail_attachment(template_id, item_id, item_type, amount) VALUES (?,?,?,?)")
+		if err != nil {
+			panic(err.Error())
+		}
+
+		_, err = stmt2.Exec(template_id, item_id, item_type_id, amount)
+		if err != nil {
+			panic(err.Error())
+		}
+
 	}
 
 	json.NewEncoder(w).Encode("Success")
