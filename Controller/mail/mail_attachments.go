@@ -28,7 +28,7 @@ func Attachitem(w http.ResponseWriter, r *http.Request) {
 	amount := r.Form.Get("amount")
 	custom_message_id := r.Form.Get("custom_message_id")
 
-	_, err = stmt.Exec(template_id, item_id, item_type, amount, custom_message_id)
+	_, err = stmt.Exec(NewNullString(template_id), item_id, item_type, amount, NewNullString(custom_message_id))
 	if err != nil {
 		panic(err.Error())
 	}
