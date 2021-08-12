@@ -7,6 +7,7 @@ import (
 	"io"
 	"math/rand"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -17,63 +18,10 @@ import (
 
 const latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01233456789"
 
-func UploadFtp(r *http.Request, form string, paths ...string) (string, string, error) {
-	connect := controller.FTP()
-	defer connect.Close()
-
-	err := r.ParseMultipartForm(10 * 1024 * 1024)
-	if err != nil {
-		panic(err)
-	}
-
-	uploadedFile, fileHandler, err := r.FormFile(form)
-	if err != nil {
-		panic(err.Error())
-	}
-	defer uploadedFile.Close()
-
-	// Checksum
-	hash := md5.New()
-	if _, err := io.Copy(hash, uploadedFile); err != nil {
-		panic(err.Error())
-	}
-	hashInBytes := hash.Sum(nil)[:16]
-	checksum := hex.EncodeToString(hashInBytes)
-
-	// Random Name . Extension
-	buffer := randomName(7)
-	fileExtension := strings.Split(fileHandler.Filename, ".")
-	newRandName := buffer + "." + fileExtension[len(fileExtension)-1]
-
-	// Get Path
-	fileLocation, err := connect.Getwd()
-	if err != nil {
-		panic(err.Error())
-	}
-	for _, path := range paths {
-		fileLocation = filepath.Join(fileLocation, path)
-	}
-	fileLocation = filepath.Join(fileLocation, newRandName)
-
-	// Re Open file
-	reopenFile, err := fileHandler.Open()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer reopenFile.Close()
-
-	// Save reopen file to ftp
-	err = connect.Store(fileLocation, reopenFile)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return newRandName, checksum, nil
-}
-
 func UploadFile(r *http.Request, form string, paths ...string) (string, string, error) {
 	connect := controller.FTP()
 	defer connect.Close()
+
 	err := r.ParseMultipartForm(10 * 1024 * 1024)
 	if err != nil {
 		panic(err)
@@ -99,7 +47,7 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	newRandName := buffer + "." + fileExtension[len(fileExtension)-1]
 
 	// Get Path
-	fileLocation, err := connect.Getwd()
+	fileLocation, err := os.Getwd()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -115,13 +63,11 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	}
 	defer reopenFile.Close()
 
-	// Save file to Docker
-	// Save reopen file to ftp
+	// Save file to FTP
 	err = connect.Store(fileLocation, reopenFile)
 	if err != nil {
 		panic(err.Error())
 	}
-
 	return newRandName, checksum, nil
 }
 
