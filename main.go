@@ -71,7 +71,14 @@ func main() {
 
 	route.Handle("/", Routers.RouteUser(route))
 
-	handler := cors.Default().Handler(router)
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET, HEAD, POST, PUT, OPTIONS, DELETE"},
+		AllowedHeaders:   []string{"Accept, Content-Type, Content-Length, Authorization"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(router)
 
 	log.Fatal(http.ListenAndServe(":8000", handler))
 }
