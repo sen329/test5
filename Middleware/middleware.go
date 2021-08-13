@@ -69,6 +69,15 @@ func CheckRoleShop(next http.Handler) http.Handler {
 
 func CheckRoleMail(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
 		user_id := r.Context().Value("user_id").(string)
 		role_id := r.Context().Value("role_id").(string)
 		if Checkmail(user_id, role_id) {
