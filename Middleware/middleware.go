@@ -19,6 +19,7 @@ func Middleware(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Authorization, X-Requested-With")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, OPTIONS, DELETE")
+		w.Header().Set("Accept", "*/*")
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
 			return
