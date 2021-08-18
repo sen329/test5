@@ -25,55 +25,55 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/login", controller.Login).Methods("POST")
+	router.HandleFunc("/api/login", controller.Login).Methods("POST")
 
 	// ---- normal route ---- //
 	route := router.PathPrefix("/").Subrouter()
 	route.Use(middleware.Middleware)
 	route.HandleFunc("/test", controller.Test).Methods("GET")
 
-	route.Handle("/", Routers.RouteIcon(route))
-	route.Handle("/", Routers.RouteKsatriya(route))
+	route.Handle("/api", Routers.RouteIcon(route))
+	route.Handle("/api", Routers.RouteKsatriya(route))
 
 	//	rune
-	route.Handle("/", Routers.RouteRune(route))
+	route.Handle("/api", Routers.RouteRune(route))
 
 	//	premium
-	route.Handle("/", Routers.RoutePremium(route))
+	route.Handle("/api", Routers.RoutePremium(route))
 
 	//	energy
-	route.Handle("/", Routers.RouteEnergy(route))
+	route.Handle("/api", Routers.RouteEnergy(route))
 
 	//currency type
-	route.Handle("/", Routers.RouteCurrency(route))
+	route.Handle("/api", Routers.RouteCurrency(route))
 
 	//box
-	route.Handle("/", Routers.RouteBox(route))
+	route.Handle("/api", Routers.RouteBox(route))
 
 	//chest
-	route.Handle("/", Routers.RouteChest(route))
+	route.Handle("/api", Routers.RouteChest(route))
 
 	// ---- Mail Subroute ---- //
-	route.Handle("/", Routers.RouteMail(route))
+	route.Handle("/api", Routers.RouteMail(route))
 
 	// ---- Lotto Subroute ---- //
-	route.Handle("/", Routers.RouteLotto(route))
+	route.Handle("/api", Routers.RouteLotto(route))
 
 	// ---- Gacha Subroute ---- //
-	route.Handle("/", Routers.RouteGacha(route))
+	route.Handle("/api", Routers.RouteGacha(route))
 
 	// ---- Shop Subroute ---- //
-	route.Handle("/", Routers.RouteLotus(route))
-	route.Handle("/", Routers.RouteShop(route))
+	route.Handle("/api", Routers.RouteLotus(route))
+	route.Handle("/api", Routers.RouteShop(route))
 
 	// ---- Role Subroute ---- //
-	route.Handle("/", Routers.RouteRole(route))
+	route.Handle("/api", Routers.RouteRole(route))
 
-	route.Handle("/", Routers.RoutePlayers(route))
+	route.Handle("/api", Routers.RoutePlayers(route))
 
-	route.Handle("/", Routers.RouteKsaRot(route))
+	route.Handle("/api", Routers.RouteKsaRot(route))
 
-	route.Handle("/", Routers.RouteUser(route))
+	route.Handle("/api", Routers.RouteUser(route))
 
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }

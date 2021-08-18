@@ -1,16 +1,22 @@
 version: '3.3'
 services:
-  app:
+  backend:
     container_name: gm_tool_backend
-    build: .
-    ports: 
-      - 8080:8000 
+    build: 
+      context: ./test5
+      dockerfile: Dockerfile
     restart: on-failure
-    volumes:
-      - ./api:/usr/src/app/
     depends_on:
       - fullstack-mysql          
 
+  frontend:
+    container_name: gm_tool_frontend
+    build: 
+     context: ./lokapala-gmtool-frontend
+     dockerfile: Dockerfile
+    ports: 
+      - '3000:80' 
+    restart: on-failure 
 
   fullstack-mysql:
     image: mysql:latest
