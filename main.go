@@ -4,13 +4,13 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	controller "github.com/sen329/test5/Controller"
 	middleware "github.com/sen329/test5/Middleware"
 	"github.com/sen329/test5/Routers"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/rs/cors"
 )
 
 func main() {
@@ -18,6 +18,10 @@ func main() {
 	// db := controller.Open()
 
 	// defer db.Close()
+
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS", "DELETE"})
 
 	router := mux.NewRouter()
 
@@ -71,16 +75,7 @@ func main() {
 
 	route.Handle("/", Routers.RouteUser(route))
 
-	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowedMethods:   []string{"GET, HEAD, POST, PUT, OPTIONS, DELETE"},
-		AllowedHeaders:   []string{"Accept, Content-Type, Content-Length, Authorization"},
-		AllowCredentials: true,
-	})
-
-	handler := c.Handler(router)
-
-	log.Fatal(http.ListenAndServe(":8000", handler))
+	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
 
 // func mount(r *mux.Router, path string, handler http.Handler) {
