@@ -104,7 +104,7 @@ func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE users SET name = ?, email = ?, password = ? where id = ?")
+	stmt, err := db.Prepare("UPDATE users SET password = ? where id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

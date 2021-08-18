@@ -5,7 +5,6 @@ package controller
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -53,7 +52,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	check := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if check != nil {
-		fmt.Fprintf(w, "{'invalid password'}")
+		json.NewEncoder(w).Encode("Wrong Password")
 		panic(check.Error())
 	} else {
 		// fmt.Println("SUCCESSSSSSSSSSSSSSSSSSSSS")
