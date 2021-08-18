@@ -16,7 +16,7 @@ func RouteMail(r *mux.Router) *mux.Router {
 	route_mail.HandleFunc("/setSendDate", mail.SetSendDate).Methods("PUT")
 
 	route_mail.HandleFunc("/createTemplate", mail.Createtemplate).Methods("POST")
-	route_mail.HandleFunc("/getTemplates", mail.Gettemplates).Methods("GET")
+	route_mail.HandleFunc("/getTemplates", mail.Gettemplates).Methods("GET", "OPTIONS")
 	route_mail.HandleFunc("/getTemplate", mail.Gettemplate).Methods("GET")
 	route_mail.HandleFunc("/updateTemplate", mail.Updatetemplates).Methods("PUT")
 	route_mail.HandleFunc("/deleteTemplate", mail.DeleteTemplates).Methods("DELETE")
