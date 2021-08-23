@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2021 at 05:36 AM
+-- Generation Time: Aug 20, 2021 at 09:35 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -47,7 +47,9 @@ INSERT INTO `permissions` (`id`, `permission_name`, `description`, `active`, `cr
 (2, 'shop_control', 'Create, edit, delete shop data', 1, '2021-06-24 07:53:16', '2021-06-24 07:53:16'),
 (3, 'player_report_control', 'modify player and view reports', 1, '2021-07-27 08:41:44', '2021-07-27 08:41:44'),
 (4, 'send_mail', 'Send mail', 1, '2021-05-20 10:05:16', '2021-05-20 10:05:16'),
-(6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38');
+(5, 'matches', 'manage matches', 1, '2021-08-19 11:27:03', '2021-08-19 11:27:03'),
+(6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38'),
+(7, 'player_reports', 'read player reports and take action', 1, '2021-08-19 11:27:30', '2021-08-19 11:27:30');
 
 -- --------------------------------------------------------
 
@@ -989,7 +991,7 @@ ALTER TABLE `users_roles`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `roles`
