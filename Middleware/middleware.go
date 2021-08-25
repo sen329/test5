@@ -136,3 +136,31 @@ func CheckRoleMatches(next http.Handler) http.Handler {
 		}
 	})
 }
+
+func CheckRoleReport(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user_id := r.Context().Value("user_id").(string)
+		role_id := r.Context().Value("role_id").(string)
+		if Check_player_report(user_id, role_id) {
+			next.ServeHTTP(w, r)
+		} else {
+			fmt.Println("Role doesn't match")
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Not authorized")
+		}
+	})
+}
+
+func CheckRoleBlacklist(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user_id := r.Context().Value("user_id").(string)
+		role_id := r.Context().Value("role_id").(string)
+		if Check_blacklist(user_id, role_id) {
+			next.ServeHTTP(w, r)
+		} else {
+			fmt.Println("Role doesn't match")
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Not authorized")
+		}
+	})
+}

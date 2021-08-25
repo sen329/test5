@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2021 at 09:35 AM
+-- Generation Time: Aug 25, 2021 at 07:32 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -49,7 +49,8 @@ INSERT INTO `permissions` (`id`, `permission_name`, `description`, `active`, `cr
 (4, 'send_mail', 'Send mail', 1, '2021-05-20 10:05:16', '2021-05-20 10:05:16'),
 (5, 'matches', 'manage matches', 1, '2021-08-19 11:27:03', '2021-08-19 11:27:03'),
 (6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38'),
-(7, 'player_reports', 'read player reports and take action', 1, '2021-08-19 11:27:30', '2021-08-19 11:27:30');
+(7, 'player_reports', 'read player reports and take action', 1, '2021-08-19 11:27:30', '2021-08-19 11:27:30'),
+(8, 'blacklist_player_chat', 'blacklist players from chatting', 1, '2021-08-24 09:25:08', '2021-08-24 09:25:08');
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,9 @@ INSERT INTO `roles_permissions` (`id`, `role_id`, `permission_id`, `created_at`)
 (4, 1, 4, '2021-06-09 09:38:39'),
 (6, 1, 2, '2021-06-24 07:59:39'),
 (7, 1, 3, '2021-07-27 08:44:59'),
-(8, 1, 6, '2021-07-27 11:07:57');
+(8, 1, 6, '2021-07-27 11:07:57'),
+(9, 1, 5, '2021-08-20 13:34:26'),
+(10, 1, 7, '2021-08-20 13:34:26');
 
 -- --------------------------------------------------------
 
@@ -462,6 +465,13 @@ CREATE TABLE `t_mail` (
   `custom_message_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `t_mail`
+--
+
+INSERT INTO `t_mail` (`mail_id`, `mail_type`, `sender_id`, `reciever_id`, `send_date`, `mail_template`, `confirm_read`, `read_date`, `confirn_claim`, `claim_date`, `parameter`, `custom_message_id`) VALUES
+(1, 'Friend', NULL, 1, '2021-08-27 14:13:03', 1, 0, '2021-08-27 14:13:03', 0, '2021-08-27 14:13:03', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -494,6 +504,19 @@ CREATE TABLE `t_mail_custom_message` (
   `message_id` int(11) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `message` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_mail_login`
+--
+
+CREATE TABLE `t_mail_login` (
+  `template_id` int(11) NOT NULL,
+  `parameter` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `start_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `end_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -900,6 +923,12 @@ ALTER TABLE `t_mail_custom_message`
   ADD PRIMARY KEY (`message_id`);
 
 --
+-- Indexes for table `t_mail_login`
+--
+ALTER TABLE `t_mail_login`
+  ADD PRIMARY KEY (`template_id`);
+
+--
 -- Indexes for table `t_mail_template`
 --
 ALTER TABLE `t_mail_template`
@@ -991,7 +1020,7 @@ ALTER TABLE `users_roles`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -1003,7 +1032,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `roles_permissions`
 --
 ALTER TABLE `roles_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `t_box`
@@ -1093,7 +1122,7 @@ ALTER TABLE `t_lotto_item_color`
 -- AUTO_INCREMENT for table `t_mail`
 --
 ALTER TABLE `t_mail`
-  MODIFY `mail_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `mail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `t_mail_attachment`
@@ -1258,6 +1287,12 @@ ALTER TABLE `t_mail_attachment`
   ADD CONSTRAINT `t_mail_attachment_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `t_mail_template` (`template_id`),
   ADD CONSTRAINT `t_mail_attachment_ibfk_2` FOREIGN KEY (`custom_message_id`) REFERENCES `t_mail_custom_message` (`message_id`),
   ADD CONSTRAINT `t_mail_attachment_ibfk_3` FOREIGN KEY (`item_type`) REFERENCES `t_item_type` (`item_type_id`);
+
+--
+-- Constraints for table `t_mail_login`
+--
+ALTER TABLE `t_mail_login`
+  ADD CONSTRAINT `t_mail_login_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `t_mail_template` (`template_id`);
 
 --
 -- Constraints for table `t_news_detail`
