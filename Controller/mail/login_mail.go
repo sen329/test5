@@ -17,7 +17,7 @@ func AddnewMailLogin(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_mail_login(template_id,parameter,start_date,end_date) VALUES (?,?,STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s'),STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s'))")
+	stmt, err := db.Prepare("INSERT INTO t_mail_login(template_id,parameter,start_date,end_date) VALUES (?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -88,7 +88,7 @@ func UpdateMailLogin(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_mail_login SET parameter = ?, start_date = STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s'), end_date = STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s') WHERE template_id = ?")
+	stmt, err := db.Prepare("UPDATE t_mail_login SET parameter = ?, start_date = ?, end_date = ? WHERE template_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
