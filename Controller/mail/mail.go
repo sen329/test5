@@ -83,7 +83,7 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 func SetSendDate(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
-	id := r.URL.Query().Get("ksatriya_rotation_id")
+	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
