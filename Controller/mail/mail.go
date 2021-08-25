@@ -29,7 +29,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,reciever_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,STR_TO_DATE(?, '%d/%m/%Y %H:%i:%s'),?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,reciever_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s'),?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -90,7 +90,7 @@ func SetSendDate(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_mail SET send_date = STR_TO_DATE(?) WHERE mail_id = ?")
+	stmt, err := db.Prepare("UPDATE t_mail SET send_date = STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s) WHERE mail_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
