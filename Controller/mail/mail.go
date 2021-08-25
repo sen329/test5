@@ -90,7 +90,7 @@ func SetSendDate(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_mail SET send_date = ? WHERE mail_id = ?")
+	stmt, err := db.Prepare("UPDATE t_mail SET send_date = STR_TO_DATE(?) WHERE mail_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
