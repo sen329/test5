@@ -31,7 +31,7 @@ func BlacklistPlayer(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
-func GetBlacklists(w http.ResponseWriter, r *http.Request) {
+func GetAllBlacklists(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 	var blacklists []model.Blacklist

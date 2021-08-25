@@ -75,6 +75,12 @@ func main() {
 
 	route.Handle("/", Routers.RouteUser(route))
 
+	route.Handle("/", Routers.RouteMatches(route))
+
+	route.Handle("/", Routers.RouteReports(route))
+
+	route.Handle("/", Routers.RouteBlacklists(route))
+
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
 
