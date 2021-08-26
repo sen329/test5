@@ -29,14 +29,14 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail(mail_type,sender_id,reciever_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail(mail_type,sender_id,receiver_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	mail_type := r.Form.Get("mail_type")
 	sender_id := r.Form.Get("sender_id")
-	receiver_id := r.Form.Get("reciever_id")
+	receiver_id := r.Form.Get("receiver_id")
 	send_date := r.Form.Get("send_date")
 	mail_template := r.Form.Get("mail_template")
 	parameter := r.Form.Get("parameter")
@@ -67,7 +67,7 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var mail model.Mail
-		err := result.Scan(&mail.Mail_id, &mail.Mail_type, &mail.Sender_id, &mail.Reciever_id, &mail.Send_date, &mail.Mail_template, &mail.Confirm_read, &mail.Read_Date, &mail.Confirm_claim, &mail.Claim_date, &mail.Parameter, &mail.Custom_message_id)
+		err := result.Scan(&mail.Mail_id, &mail.Mail_type, &mail.Sender_id, &mail.Receiver_id, &mail.Send_date, &mail.Mail_template, &mail.Confirm_read, &mail.Read_Date, &mail.Confirm_claim, &mail.Claim_date, &mail.Parameter, &mail.Custom_message_id)
 		if err != nil {
 			panic(err.Error())
 		}

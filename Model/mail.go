@@ -13,7 +13,7 @@ type Mail struct {
 	Mail_id           *int    `json:"mail_id"`
 	Mail_type         *string `json:"mail_type"`
 	Sender_id         *int    `json:"sender_id"`
-	Reciever_id       *int    `json:"reciever_id"`
+	Receiver_id       *int    `json:"reciever_id"`
 	Send_date         *string `json:"send_date"`
 	Mail_template     *int    `json:"mail_template"`
 	Confirm_read      *int    `json:"confirm_read"`
