@@ -10,7 +10,7 @@ var db *sql.DB
 
 func Checkuser(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
@@ -44,7 +44,7 @@ func Checkuser(user_id string, role_id string) bool {
 
 func Checkmail(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
@@ -78,7 +78,7 @@ func Checkmail(user_id string, role_id string) bool {
 
 func Checkshop(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
@@ -112,7 +112,7 @@ func Checkshop(user_id string, role_id string) bool {
 
 func Checkplayer(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
@@ -146,7 +146,7 @@ func Checkplayer(user_id string, role_id string) bool {
 
 func Check_matches(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
@@ -180,7 +180,7 @@ func Check_matches(user_id string, role_id string) bool {
 
 func Check_ksa_rot(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
@@ -214,7 +214,7 @@ func Check_ksa_rot(user_id string, role_id string) bool {
 
 func Check_player_report(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
@@ -248,7 +248,7 @@ func Check_player_report(user_id string, role_id string) bool {
 
 func Check_blacklist(user_id string, role_id string) bool {
 	var check []string
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	stmt, err := db.Prepare("SELECT roles_permissions.role_id, roles_permissions.permission_id FROM roles_permissions LEFT JOIN users_roles ON roles_permissions.role_id = users_roles.role_id WHERE users_roles.user_id = ?")
