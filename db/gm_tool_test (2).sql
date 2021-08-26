@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2021 at 07:32 AM
+-- Generation Time: Aug 26, 2021 at 11:52 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -153,6 +153,25 @@ INSERT INTO `t_chest` (`duration`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_country`
+--
+
+CREATE TABLE `t_country` (
+  `country_id` int(11) NOT NULL,
+  `country_code` varchar(2) DEFAULT NULL,
+  `country_name` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_country`
+--
+
+INSERT INTO `t_country` (`country_id`, `country_code`, `country_name`) VALUES
+(102, 'ID', 'Indonesia');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `t_currency_type`
 --
 
@@ -259,6 +278,13 @@ CREATE TABLE `t_icon_avatar` (
   `release_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `t_icon_avatar`
+--
+
+INSERT INTO `t_icon_avatar` (`avatar_id`, `description`, `release_date`) VALUES
+(1, 'avatar1', '2021-08-26 09:47:10');
+
 -- --------------------------------------------------------
 
 --
@@ -270,6 +296,13 @@ CREATE TABLE `t_icon_frame` (
   `description` tinytext NOT NULL,
   `release_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_icon_frame`
+--
+
+INSERT INTO `t_icon_frame` (`frame_id`, `description`, `release_date`) VALUES
+(0, 'none', '2021-08-26 09:46:05');
 
 -- --------------------------------------------------------
 
@@ -685,6 +718,32 @@ CREATE TABLE `t_shop_lotus_period` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_user`
+--
+
+CREATE TABLE `t_user` (
+  `user_id` int(11) NOT NULL,
+  `user_name` varchar(45) NOT NULL,
+  `avatar_icon` int(11) NOT NULL DEFAULT 1,
+  `karma` tinyint(4) NOT NULL DEFAULT 100,
+  `gender` enum('M','F') DEFAULT NULL,
+  `country` int(11) NOT NULL DEFAULT 102,
+  `role` int(11) NOT NULL DEFAULT 0,
+  `playing_time` int(11) NOT NULL DEFAULT 0,
+  `frame` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_user`
+--
+
+INSERT INTO `t_user` (`user_id`, `user_name`, `avatar_icon`, `karma`, `gender`, `country`, `role`, `playing_time`, `frame`) VALUES
+(5, 'player1', 1, 100, NULL, 102, 0, 0, 0),
+(6, 'player2', 1, 100, NULL, 102, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -767,6 +826,12 @@ ALTER TABLE `t_box_loot_table`
 --
 ALTER TABLE `t_chest`
   ADD PRIMARY KEY (`duration`);
+
+--
+-- Indexes for table `t_country`
+--
+ALTER TABLE `t_country`
+  ADD PRIMARY KEY (`country_id`);
 
 --
 -- Indexes for table `t_currency_type`
@@ -999,6 +1064,16 @@ ALTER TABLE `t_shop_lotus_period`
   ADD PRIMARY KEY (`shop_lotus_period_id`);
 
 --
+-- Indexes for table `t_user`
+--
+ALTER TABLE `t_user`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `user_name` (`user_name`),
+  ADD KEY `t_user_ibfk_1` (`avatar_icon`),
+  ADD KEY `t_user_ibfk_2` (`frame`),
+  ADD KEY `country` (`country`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1045,6 +1120,12 @@ ALTER TABLE `t_box`
 --
 ALTER TABLE `t_box_loot_table`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_country`
+--
+ALTER TABLE `t_country`
+  MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `t_currency_type`
@@ -1177,6 +1258,12 @@ ALTER TABLE `t_shop_lotus_item`
 --
 ALTER TABLE `t_shop_lotus_period`
   MODIFY `shop_lotus_period_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_user`
+--
+ALTER TABLE `t_user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1325,6 +1412,14 @@ ALTER TABLE `t_shop_lotus`
 --
 ALTER TABLE `t_shop_lotus_item`
   ADD CONSTRAINT `t_shop_lotus_item_ibfk_1` FOREIGN KEY (`item_type`) REFERENCES `t_item_type` (`item_type_id`);
+
+--
+-- Constraints for table `t_user`
+--
+ALTER TABLE `t_user`
+  ADD CONSTRAINT `t_user_ibfk_1` FOREIGN KEY (`avatar_icon`) REFERENCES `t_icon_avatar` (`avatar_id`),
+  ADD CONSTRAINT `t_user_ibfk_2` FOREIGN KEY (`frame`) REFERENCES `t_icon_frame` (`frame_id`),
+  ADD CONSTRAINT `t_user_ibfk_3` FOREIGN KEY (`country`) REFERENCES `t_country` (`country_id`);
 
 --
 -- Constraints for table `users_roles`
