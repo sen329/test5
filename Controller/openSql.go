@@ -26,7 +26,7 @@ func Open() (dbase *sql.DB) {
 	password := goDotEnvVariable("DB_PASSWORD")
 	address := goDotEnvVariable("DB_ADDRESS")
 	// database := goDotEnvVariable("DB_DATABASE")
-	dbase, err := sql.Open(driver, username+":"+password+"@tcp("+address+")")
+	dbase, err := sql.Open(driver, username+":"+password+"@tcp("+address+")"+"/")
 	if err != nil {
 		panic(err.Error())
 	}
