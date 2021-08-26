@@ -17,7 +17,7 @@ func Attachitem(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_mail_attachment(template_id, item_id, item_type, amount, custom_message_id) VALUES (?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail_attachment(template_id, item_id, item_type, amount, custom_message_id) VALUES (?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -42,7 +42,7 @@ func Getmailattachments(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var attachments []model.Mail_attachment
 
-	result, err := db.Query("SELECT * FROM t_mail_attachment")
+	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_mail_attachment")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -68,7 +68,7 @@ func Getmailattachment(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	var attachment model.Mail_attachment
 
-	result, err := db.Query("SELECT * from t_mail_attachment where id = ?", id)
+	result, err := db.Query("SELECT * from lokapala_accountdb.t_mail_attachment where id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -93,7 +93,7 @@ func Updatemailattachment(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_mail_attachment SET template_id = ?, item_id = ?, item_type = ?, amount = ?, custom_message_id = ? WHERE id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_mail_attachment SET template_id = ?, item_id = ?, item_type = ?, amount = ?, custom_message_id = ? WHERE id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -117,7 +117,7 @@ func Removeitem(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
-	stmt, err := db.Prepare("DELETE FROM t_mail_attachment WHERE id = ?")
+	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_mail_attachment WHERE id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

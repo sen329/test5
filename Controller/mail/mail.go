@@ -29,7 +29,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_mail(mail_type,sender_id,reciever_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail(mail_type,sender_id,reciever_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -58,7 +58,7 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 
 	var mails []model.Mail
 
-	result, err := db.Query("SELECT * from t_mail")
+	result, err := db.Query("SELECT * from lokapala_accountdb.t_mail")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -90,7 +90,7 @@ func SetSendDate(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_mail SET send_date = ? WHERE mail_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_mail SET send_date = ? WHERE mail_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

@@ -11,7 +11,7 @@ import (
 )
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	var users []model.User
 
@@ -36,7 +36,7 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
@@ -60,7 +60,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
@@ -69,23 +69,15 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE users SET name = ?, email = ?, password = ? where id = ?")
+	stmt, err := db.Prepare("UPDATE users SET name = ?, email = ? where id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	name_new := r.Form.Get("name")
 	email_new := r.Form.Get("email")
-	password_new := r.Form.Get("password")
 
-	var pwd_new = []byte(password_new)
-
-	pwdhash_new, err := bcrypt.GenerateFromPassword(pwd_new, bcrypt.DefaultCost)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	_, err = stmt.Exec(name_new, email_new, pwdhash_new, id)
+	_, err = stmt.Exec(name_new, email_new, id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -95,7 +87,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
@@ -128,7 +120,7 @@ func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 

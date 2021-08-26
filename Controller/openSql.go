@@ -25,7 +25,20 @@ func Open() (dbase *sql.DB) {
 	username := goDotEnvVariable("DB_USER_NAME")
 	password := goDotEnvVariable("DB_PASSWORD")
 	address := goDotEnvVariable("DB_ADDRESS")
-	database := goDotEnvVariable("DB_DATABASE")
+	// database := goDotEnvVariable("DB_DATABASE")
+	dbase, err := sql.Open(driver, username+":"+password+"@tcp("+address+")")
+	if err != nil {
+		panic(err.Error())
+	}
+	return dbase
+}
+
+func OpenGMAdmin() (dbase *sql.DB) {
+	driver := goDotEnvVariable("DB_DRIVER")
+	username := goDotEnvVariable("DB_USER_NAME_ADMIN")
+	password := goDotEnvVariable("DB_PASSWORD_ADMIN")
+	address := goDotEnvVariable("DB_ADDRESS_ADMIN")
+	database := goDotEnvVariable("DB_DATABASE_ADMIN")
 	dbase, err := sql.Open(driver, username+":"+password+"@tcp("+address+")"+"/"+database)
 	if err != nil {
 		panic(err.Error())
