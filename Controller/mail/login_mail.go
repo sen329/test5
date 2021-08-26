@@ -108,7 +108,7 @@ func UpdateMailLogin(w http.ResponseWriter, r *http.Request) {
 func DeleteMailLogin(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
-	id := r.URL.Query().Get("template_id")
+	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_mail_login WHERE template_id = ?")
 	if err != nil {
