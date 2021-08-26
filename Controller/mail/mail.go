@@ -42,7 +42,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 	parameter := r.Form.Get("parameter")
 	custom_message_id := r.Form.Get("custom_message_id")
 
-	_, err = stmt.Exec(mail_type, sender_id, receiver_id, NewNullString(send_date), NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
+	_, err = stmt.Exec(mail_type, NewNullString(sender_id), receiver_id, NewNullString(send_date), NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
 	if err != nil {
 		panic(err)
 	}
