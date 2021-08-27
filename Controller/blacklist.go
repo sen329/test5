@@ -16,7 +16,7 @@ func BlacklistPlayer(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_blacklist(blacklist_user_id, target_user_id) VALUES (0,?)")
+	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_blacklist(blacklist_user_id, target_user_id) VALUES (0,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -35,7 +35,7 @@ func GetAllBlacklists(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 	var blacklists []model.Blacklist
-	result, err := db.Query("SELECT * FROM t_blacklist")
+	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_blacklist")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -60,7 +60,7 @@ func GetBlacklist(w http.ResponseWriter, r *http.Request) {
 	target_id := r.URL.Query().Get("target_id")
 
 	var blacklist model.Blacklist
-	result, err := db.Query("SELECT * FROM t_blacklist WHERE blacklist_user_id = ? AND target_user_id = ?", user_id, target_id)
+	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_blacklist WHERE blacklist_user_id = ? AND target_user_id = ?", user_id, target_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -81,7 +81,7 @@ func UnblacklistPlayer(w http.ResponseWriter, r *http.Request) {
 	user_id := r.URL.Query().Get("user_id")
 	target_id := r.URL.Query().Get("target_id")
 
-	stmt, err := db.Prepare("DELETE FROM t_blacklist WHERE blacklist_user_id = ? AND target_user_id = ?")
+	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_blacklist WHERE blacklist_user_id = ? AND target_user_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
