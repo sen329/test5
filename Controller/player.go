@@ -13,7 +13,7 @@ func GetAllPlayers(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var players []model.Player
 
-	result, err := db.Query("SELECT * from t_user")
+	result, err := db.Query("SELECT * from lokapala_accountdb.t_user")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -39,7 +39,7 @@ func GetPlayer(w http.ResponseWriter, r *http.Request) {
 	user_id := r.URL.Query().Get("user_id")
 
 	var player model.Player
-	result, err := db.Query("SELECT * from t_user where user_id = ? ", user_id)
+	result, err := db.Query("SELECT * from lokapala_accountdb.t_user where user_id = ? ", user_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -67,7 +67,7 @@ func UpdatePlayerKarma(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_user SET karma = ? where user_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_user SET karma = ? where user_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -93,7 +93,7 @@ func UpdatePlayerAvatar(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_user SET avatar_icon = ? where user_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_user SET avatar_icon = ? where user_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -119,7 +119,7 @@ func UpdatePlayerName(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE t_user SET user_name = ? where user_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_user SET user_name = ? where user_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
