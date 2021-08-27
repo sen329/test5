@@ -9,7 +9,7 @@ import (
 )
 
 func AddRoles(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
@@ -33,7 +33,7 @@ func AddRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllRoles(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	var roles []model.Roles
 
@@ -58,7 +58,7 @@ func GetAllRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetRole(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
@@ -82,7 +82,7 @@ func GetRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateRole(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
@@ -109,7 +109,7 @@ func UpdateRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteRole(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 

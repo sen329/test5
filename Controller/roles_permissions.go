@@ -9,7 +9,7 @@ import (
 )
 
 func GetAllPermissions(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	var permissions []model.Permissions
 
@@ -34,7 +34,7 @@ func GetAllPermissions(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllRolesPermissions(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	var roles_permissions []model.Roles_Permission
 
@@ -59,7 +59,7 @@ func GetAllRolesPermissions(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetRolePermission(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 
 	role_id := r.URL.Query().Get("role_id")
@@ -84,7 +84,7 @@ func GetRolePermission(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddNewPermissionToRole(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 
 	role_id := r.URL.Query().Get("role_id")
@@ -104,7 +104,7 @@ func AddNewPermissionToRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func RemovePermissionFromRole(w http.ResponseWriter, r *http.Request) {
-	db := Open()
+	db := OpenGMAdmin()
 	defer db.Close()
 	role_id := r.URL.Query().Get("role_id")
 	permission_id := r.URL.Query().Get("permission_id")
