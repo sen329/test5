@@ -17,7 +17,7 @@ func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("call p_player_report_get(?,?,0,0)")
+	query, err := db.Prepare("call lokapala_admindb.p_player_report_get(?,?,0,0)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -51,7 +51,7 @@ func GetAllPlayerReportsByUser(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("call p_player_report_get(?,?,?,0)")
+	query, err := db.Prepare("call lokapala_admindb.p_player_report_get(?,?,?,0)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -85,7 +85,7 @@ func GetAllPlayerReportsByRoom(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("call p_player_report_get(?,?,0,?)")
+	query, err := db.Prepare("call lokapala_admindb.p_player_report_get(?,?,0,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -120,7 +120,7 @@ func GetPlayerReport(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("call p_player_report_get(?,?,?,?)")
+	query, err := db.Prepare("call lokapala_admindb.p_player_report_get(?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}

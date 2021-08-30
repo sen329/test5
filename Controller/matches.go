@@ -17,7 +17,7 @@ func GetMatches(w http.ResponseWriter, r *http.Request) {
 
 	var matches []model.Matches
 
-	query, err := db.Prepare("call p_room_list_get(?,?,0)")
+	query, err := db.Prepare("call lokapala_admindb.p_room_list_get(?,?,0)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -52,7 +52,7 @@ func GetMatch(w http.ResponseWriter, r *http.Request) {
 
 	var match model.Matches
 
-	query, err := db.Prepare("call p_room_list_get(?,?,?)")
+	query, err := db.Prepare("call lokapala_admindb.p_room_list_get(?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -83,7 +83,7 @@ func CancelMatch(w http.ResponseWriter, r *http.Request) {
 
 	var match int
 
-	query, err := db.Prepare("call p_room_timeout(0,?)")
+	query, err := db.Prepare("call lokapala_admindb.p_room_timeout(0,?)")
 	if err != nil {
 		panic(err.Error())
 	}
