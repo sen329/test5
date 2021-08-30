@@ -137,6 +137,16 @@ func DeleteTemplates(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	id := r.URL.Query().Get("template_id")
 
+	stmt2, err := db.Prepare("UPDATE lokapala_accountdb.t_mail_attachment SET template_id = NULL WHERE template_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	_, err = stmt2.Exec(id)
+	if err != nil {
+		panic(err.Error())
+	}
+
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_mail_template WHERE template_id = ?")
 	if err != nil {
 		panic(err.Error())

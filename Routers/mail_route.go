@@ -29,9 +29,12 @@ func RouteMail(r *mux.Router) *mux.Router {
 
 	route_mail.HandleFunc("/attachItem", mail.Attachitem).Methods("POST")
 	route_mail.HandleFunc("/getAttachments", mail.Getmailattachments).Methods("GET")
-	route_mail.HandleFunc("/getAttachment", mail.Getmailattachment).Methods("GET")
-	route_mail.HandleFunc("/updateAttachment", mail.Updatemailattachment).Methods("PUT")
-	route_mail.HandleFunc("/deleteAttachment", mail.Removeitem).Methods("DELETE")
+	route_mail.HandleFunc("/getAttachmentByTemplateId", mail.GetmailattachmentByTemplateId).Methods("GET")
+	route_mail.HandleFunc("/getAttachmentByCustomMessageId", mail.GetmailattachmentByCustomMessageId).Methods("GET")
+	route_mail.HandleFunc("/updateAttachmentByTemplateId", mail.UpdatemailattachmentByTemplateId).Methods("PUT")
+	route_mail.HandleFunc("/updateAttachmentByCustomMessageId", mail.UpdatemailattachmentByCustomMessageId).Methods("PUT")
+	route_mail.HandleFunc("/deleteAttachmentByTemplateId", mail.RemoveitemByTemplateId).Methods("DELETE")
+	route_mail.HandleFunc("/deleteAttachmentByCustomMessageId", mail.RemoveitemByCustomMessageId).Methods("DELETE")
 
 	route_mail.HandleFunc("/addLoginMail", mail.AddnewMailLogin).Methods("POST")
 	route_mail.HandleFunc("/getAllLoginMail", mail.GetAllMailLogin).Methods("GET")
