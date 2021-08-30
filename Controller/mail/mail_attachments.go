@@ -94,7 +94,7 @@ func GetmailattachmentByTemplateId(w http.ResponseWriter, r *http.Request) {
 func GetmailattachmentByCustomMessageId(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
-	custom_id := r.URL.Query().Get("template_id")
+	custom_id := r.URL.Query().Get("custom_message_id")
 	item_type := r.URL.Query().Get("item_type")
 	item_id := r.URL.Query().Get("item_id")
 	var attachment model.Mail_attachment
@@ -151,7 +151,7 @@ func UpdatemailattachmentByTemplateId(w http.ResponseWriter, r *http.Request) {
 func UpdatemailattachmentByCustomMessageId(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
-	custom_message_id := r.URL.Query().Get("template_id")
+	custom_message_id := r.URL.Query().Get("custom_message_id")
 	item_type_old := r.URL.Query().Get("item_type")
 	item_id_old := r.URL.Query().Get("item_id")
 	err := r.ParseMultipartForm(4096)
@@ -179,7 +179,7 @@ func UpdatemailattachmentByCustomMessageId(w http.ResponseWriter, r *http.Reques
 func RemoveitemByTemplateId(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
-	template_id := r.URL.Query().Get("id")
+	template_id := r.URL.Query().Get("template_id")
 	item_id := r.URL.Query().Get("item_id")
 	item_type := r.URL.Query().Get("item_type")
 
@@ -200,7 +200,7 @@ func RemoveitemByTemplateId(w http.ResponseWriter, r *http.Request) {
 func RemoveitemByCustomMessageId(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
-	custom_message_id := r.URL.Query().Get("id")
+	custom_message_id := r.URL.Query().Get("custom_message_id")
 	item_id := r.URL.Query().Get("item_id")
 	item_type := r.URL.Query().Get("item_type")
 
