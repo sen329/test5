@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `lokapala_accountdb`
 --
-CREATE DATABASE IF NOT EXISTS `lokapala_accountdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `lokapala_accountdb`;
+CREATE DATABASE IF NOT EXISTS `gm_tool_test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `gm_tool_test`;
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ INSERT INTO `permissions` (`id`, `permission_name`, `description`, `active`, `cr
 (6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38'),
 (7, 'player_reports', 'read player reports and take action', 1, '2021-08-19 11:27:30', '2021-08-19 11:27:30'),
 (8, 'blacklist_player_chat', 'blacklist players from chatting', 1, '2021-08-24 09:25:08', '2021-08-24 09:25:08');
-
+(9, 'voucher_control', 'generate, edit, delete vouchers', 1, '2021-08-30 15:41:11', '2021-08-30 15:41:11');
 -- --------------------------------------------------------
 
 --
@@ -100,8 +100,9 @@ INSERT INTO `roles_permissions` (`id`, `role_id`, `permission_id`, `created_at`)
 (7, 1, 3, '2021-07-27 08:44:59'),
 (8, 1, 6, '2021-07-27 11:07:57'),
 (9, 1, 5, '2021-08-20 13:34:26'),
-(10, 1, 7, '2021-08-20 13:34:26');
-
+(10, 1, 7, '2021-08-20 13:34:26'),
+(11, 1, 8, '2021-08-20 13:34:26');
+(12, 1, 9, '2021-08-30 15:43:36');
 -- --------------------------------------------------------
 
 --
