@@ -45,7 +45,7 @@ func GeticonAvatars(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var avatar model.Icon_avatar
-		err := result.Scan(&avatar.Avatar_id, &avatar.Description, &avatar.Release_date)
+		err := result.Scan(&avatar.Avatar_id, &avatar.Description, &avatar.Release_date, &avatar.Free)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -68,7 +68,7 @@ func GeticonAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
-		err := result.Scan(&avatar.Avatar_id, &avatar.Description, &avatar.Release_date)
+		err := result.Scan(&avatar.Avatar_id, &avatar.Description, &avatar.Release_date, &avatar.Free)
 		if err != nil {
 			panic(err.Error())
 		}
