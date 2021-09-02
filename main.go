@@ -56,6 +56,9 @@ func main() {
 	// ---- Mail Subroute ---- //
 	route.Handle("/", Routers.RouteMail(route))
 
+	// ---- News Subroute ---- //
+	route.Handle("/", Routers.RouteNews(route))
+
 	// ---- Lotto Subroute ---- //
 	route.Handle("/", Routers.RouteLotto(route))
 
