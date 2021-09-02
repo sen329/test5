@@ -13,16 +13,16 @@ import (
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	db := controller.OpenGMAdmin()
 	defer db.Close()
-	var users []model.User
+	var users []model.User_details
 
-	result, err := db.Query("SELECT * from users")
+	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
-		var user model.User
-		err := result.Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+		var user model.User_details
+		err := result.Scan(&user.Id, &user.Name, &user.Email, &user.Role_id, &user.Role_name)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -40,15 +40,15 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
-	var user model.User
-	result, err := db.Query("SELECT * from users where id = ? ", id)
+	var user model.User_details
+	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id where id = ? ", id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 
-		err := result.Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+		err := result.Scan(&user.Id, &user.Name, &user.Email, &user.Role_id, &user.Role_name)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -123,6 +123,16 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
+
+	stmt1, err := db.Prepare("DELETE FROM users_roles WHERE user_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	_, err = stmt1.Exec(id)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	stmt, err := db.Prepare("DELETE FROM users WHERE id = ?")
 	if err != nil {
