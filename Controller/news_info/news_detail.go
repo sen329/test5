@@ -16,7 +16,7 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO t_news_detail(news_id, lang, title, banner, banner_checksum, content, content_checksum) VALUES (?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO t_news_v2_detail(news_id, lang, title, banner, banner_checksum, content, content_checksum) VALUES (?,?,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -47,7 +47,7 @@ func GetNewsDetails(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var details []model.News_detail
 
-	result, err := db.Query("SELECT * FROM t_news_detail")
+	result, err := db.Query("SELECT * FROM t_news_v2_detail")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -72,7 +72,7 @@ func GetNewsDetail(w http.ResponseWriter, r *http.Request) {
 	lang := r.URL.Query().Get("lang")
 
 	var detail model.News_detail
-	result, err := db.Query("SELECT * FROM t_news_detail WHERE news_id = ? AND lang = ?", id, lang)
+	result, err := db.Query("SELECT * FROM t_news_v2_detail WHERE news_id = ? AND lang = ?", id, lang)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -99,7 +99,7 @@ func UpdateNewsBanner(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	lang := r.URL.Query().Get("lang")
 
-	stmt, err := db.Prepare("UPDATE t_news_detail SET banner = ?, banner_checksum = ? where news_id = ? AND lang = ?")
+	stmt, err := db.Prepare("UPDATE t_news_v2_detail SET banner = ?, banner_checksum = ? where news_id = ? AND lang = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -130,7 +130,7 @@ func UpdateNewsContent(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	lang := r.URL.Query().Get("lang")
 
-	stmt, err := db.Prepare("UPDATE t_news_detail SET content = ?, content_checksum = ? where news_id = ? AND lang = ?")
+	stmt, err := db.Prepare("UPDATE t_news_v2_detail SET content = ?, content_checksum = ? where news_id = ? AND lang = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -162,7 +162,7 @@ func UpdateNewsDetail(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	lang := r.URL.Query().Get("lang")
 
-	stmt, err := db.Prepare("UPDATE t_news_detail SET news_id = ?, lang = ?, title = ? WHERE news_id = ? AND lang = ?")
+	stmt, err := db.Prepare("UPDATE t_news_v2_detail SET news_id = ?, lang = ?, title = ? WHERE news_id = ? AND lang = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -185,7 +185,7 @@ func DeleteNewsDetail(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	lang := r.URL.Query().Get("lang")
 
-	stmt, err := db.Prepare("DELETE FROM t_news_detail WHERE news_id = ? AND lang = ?")
+	stmt, err := db.Prepare("DELETE FROM t_news_v2_detail WHERE news_id = ? AND lang = ?")
 	if err != nil {
 		panic(err.Error())
 	}
