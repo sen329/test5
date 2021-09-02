@@ -32,6 +32,8 @@ func RouteMail(r *mux.Router) *mux.Router {
 	route_mail.HandleFunc("/getAttachmentByItem", mail.GetmailattachmentByItem).Methods("GET")
 	route_mail.HandleFunc("/getAttachmentByTemplateId", mail.GetmailattachmentByTemplateId).Methods("GET")
 	route_mail.HandleFunc("/getAttachmentByCustomMessageId", mail.GetmailattachmentByCustomMessageId).Methods("GET")
+	route_mail.HandleFunc("/getAttachmentByTemplateIdOnly", mail.GetmailattachmentByTemplateIdOnly).Methods("GET")
+	route_mail.HandleFunc("/getAttachmentByCustomMessageIdOnly", mail.GetmailattachmentByCustomMessageIdOnly).Methods("GET")
 	route_mail.HandleFunc("/updateAttachmentByItem", mail.UpdatemailattachmentByItem).Methods("PUT")
 	route_mail.HandleFunc("/updateAttachmentByTemplateId", mail.UpdatemailattachmentByTemplateId).Methods("PUT")
 	route_mail.HandleFunc("/updateAttachmentByCustomMessageId", mail.UpdatemailattachmentByCustomMessageId).Methods("PUT")
