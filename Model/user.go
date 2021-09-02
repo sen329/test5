@@ -8,10 +8,9 @@ type User struct {
 }
 
 type User_details struct {
-	Id        string `json:"id"`
-	Name      string `json:"name"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
-	Role_id   int    `josn:"role_id"`
-	Role_name string `json:"role_name"`
+	Id        string  `json:"id"`
+	Name      string  `json:"name"`
+	Email     string  `json:"email"`
+	Role_id   *int    `josn:"role_id"`
+	Role_name *string `json:"role_name"`
 }
