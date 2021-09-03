@@ -123,7 +123,7 @@ func GetmailattachmentByTemplateIdOnly(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 	template_id := r.URL.Query().Get("template_id")
-	var attachment model.Mail_attachment
+	var attachments []model.Mail_attachment
 
 	query, err := db.Prepare("SELECT * from lokapala_accountdb.t_mail_attachment where template_id = ?")
 	if err != nil {
@@ -136,14 +136,17 @@ func GetmailattachmentByTemplateIdOnly(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
+		var attachment model.Mail_attachment
 		err := result.Scan(&attachment.Template_id, &attachment.Item_id, &attachment.Item_type, &attachment.Amount, &attachment.Custom_message_id)
 		if err != nil {
 			panic(err.Error())
 		}
 
+		attachments = append(attachments, attachment)
+
 	}
 
-	json.NewEncoder(w).Encode(attachment)
+	json.NewEncoder(w).Encode(attachments)
 }
 
 func GetmailattachmentByCustomMessageId(w http.ResponseWriter, r *http.Request) {
@@ -179,7 +182,7 @@ func GetmailattachmentByCustomMessageIdOnly(w http.ResponseWriter, r *http.Reque
 	db := controller.Open()
 	defer db.Close()
 	custom_id := r.URL.Query().Get("custom_message_id")
-	var attachment model.Mail_attachment
+	var attachments []model.Mail_attachment
 
 	query, err := db.Prepare("SELECT * from lokapala_accountdb.t_mail_attachment where custom_message_id = ?")
 	if err != nil {
@@ -192,14 +195,15 @@ func GetmailattachmentByCustomMessageIdOnly(w http.ResponseWriter, r *http.Reque
 	}
 
 	for result.Next() {
+		var attachment model.Mail_attachment
 		err := result.Scan(&attachment.Template_id, &attachment.Item_id, &attachment.Item_type, &attachment.Amount, &attachment.Custom_message_id)
 		if err != nil {
 			panic(err.Error())
 		}
-
+		attachments = append(attachments, attachment)
 	}
 
-	json.NewEncoder(w).Encode(attachment)
+	json.NewEncoder(w).Encode(attachments)
 }
 
 func UpdatemailattachmentByItem(w http.ResponseWriter, r *http.Request) {
