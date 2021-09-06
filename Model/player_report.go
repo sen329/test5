@@ -14,7 +14,7 @@ type Player_profile_report struct {
 	Report_profile_id int64  `json:"report_profile_id"`
 	Report_type       string `json:"report_type"`
 	Reporter_user     string `json:"reporter_user"`
-	Reported_user     int64  `json:"reported_user"`
+	Reported_user     string `json:"reported_user"`
 	Report_date       string `json:"report_date"`
 	Checked           int    `json:"checked"`
 }
