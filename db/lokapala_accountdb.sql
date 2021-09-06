@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2021 at 08:05 AM
+-- Generation Time: Sep 06, 2021 at 11:26 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 -- Database: `lokapala_accountdb`
 --
 CREATE DATABASE IF NOT EXISTS `gm_tool_test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `gm_tool_test`;
+USE `lokapala_accountdb`;
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ INSERT INTO `permissions` (`id`, `permission_name`, `description`, `active`, `cr
 (6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38'),
 (7, 'player_reports', 'read player reports and take action', 1, '2021-08-19 11:27:30', '2021-08-19 11:27:30'),
 (8, 'blacklist_player_chat', 'blacklist players from chatting', 1, '2021-08-24 09:25:08', '2021-08-24 09:25:08');
-(9, 'voucher_control', 'generate, edit, delete vouchers', 1, '2021-08-30 15:41:11', '2021-08-30 15:41:11');
+
 -- --------------------------------------------------------
 
 --
@@ -100,9 +100,8 @@ INSERT INTO `roles_permissions` (`id`, `role_id`, `permission_id`, `created_at`)
 (7, 1, 3, '2021-07-27 08:44:59'),
 (8, 1, 6, '2021-07-27 11:07:57'),
 (9, 1, 5, '2021-08-20 13:34:26'),
-(10, 1, 7, '2021-08-20 13:34:26'),
-(11, 1, 8, '2021-08-20 13:34:26');
-(12, 1, 9, '2021-08-30 15:43:36');
+(10, 1, 7, '2021-08-20 13:34:26');
+
 -- --------------------------------------------------------
 
 --
@@ -607,6 +606,19 @@ CREATE TABLE `t_news_detail` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_news_images`
+--
+
+CREATE TABLE `t_news_images` (
+  `id` int(11) NOT NULL,
+  `image_name` varchar(255) NOT NULL,
+  `image_checksum` varchar(255) NOT NULL,
+  `uploader` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `t_news_type`
 --
 
@@ -781,8 +793,7 @@ CREATE TABLE `users_roles` (
 --
 
 INSERT INTO `users_roles` (`id`, `user_id`, `role_id`, `created_at`) VALUES
-(1, 1, 1, '2021-06-02 06:38:23'),
-(3, 4, 2, '2021-06-02 12:02:48');
+(1, 1, 1, '2021-06-02 06:38:23');
 
 --
 -- Indexes for dumped tables
@@ -1013,6 +1024,13 @@ ALTER TABLE `t_news_detail`
   ADD PRIMARY KEY (`news_id`,`lang`);
 
 --
+-- Indexes for table `t_news_images`
+--
+ALTER TABLE `t_news_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `uploader` (`uploader`);
+
+--
 -- Indexes for table `t_news_type`
 --
 ALTER TABLE `t_news_type`
@@ -1231,6 +1249,12 @@ ALTER TABLE `t_news`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `t_news_images`
+--
+ALTER TABLE `t_news_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `t_premium`
 --
 ALTER TABLE `t_premium`
@@ -1387,6 +1411,12 @@ ALTER TABLE `t_mail_login`
 --
 ALTER TABLE `t_news_detail`
   ADD CONSTRAINT `t_news_detail_ibfk_1` FOREIGN KEY (`news_id`) REFERENCES `t_news` (`id`);
+
+--
+-- Constraints for table `t_news_images`
+--
+ALTER TABLE `t_news_images`
+  ADD CONSTRAINT `t_news_images_ibfk_1` FOREIGN KEY (`uploader`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `t_shop`

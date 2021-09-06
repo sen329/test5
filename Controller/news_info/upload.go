@@ -73,7 +73,7 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 }
 
 func randomName(digit int) string {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 
 	var buffer bytes.Buffer
@@ -107,7 +107,7 @@ func randomName(digit int) string {
 }
 
 func CheckorUpload(r *http.Request, form string) (string, string, error) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	err := r.ParseMultipartForm(10 * 1024 * 1024)
 	if err != nil {

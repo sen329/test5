@@ -10,7 +10,7 @@ import (
 )
 
 func AddImage(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	err := r.ParseMultipartForm(10 * 1024 * 1024)
 	if err != nil {
@@ -39,7 +39,7 @@ func AddImage(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetImages(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	var images []model.News_images
 
@@ -62,7 +62,7 @@ func GetImages(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetImage(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 	var image model.News_images
@@ -83,7 +83,7 @@ func GetImage(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetyourFavImages(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.Context().Value("user_id").(string)
 	var images []model.News_images
@@ -107,7 +107,7 @@ func GetyourFavImages(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateImage(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
@@ -186,7 +186,7 @@ func UpdateImage(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteImage(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
+	db := controller.OpenGMAdmin()
 	defer db.Close()
 	connect := controller.FTP()
 	defer connect.Close()
