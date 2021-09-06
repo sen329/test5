@@ -38,7 +38,7 @@ func GetAllRolesPermissions(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var roles_permissions []model.Roles_Permission
 
-	result, err := db.Query("select roles.id, roles.role_name, GROUP_CONCAT(permissions.permission_name) AS permissions_name from roles left join roles_permissions ON roles.id = roles_permissions.role_id left join permissions ON roles_permissions.permission_id = permissions.id GROUP BY roles.role_name ORDER BY roles.id ASC")
+	result, err := db.Query("select roles.id, roles.role_name, GROUP_CONCAT(permissions.permission_name) AS permissions_name from roles left join roles_permissions ON roles.id = roles_permissions.role_id left join permissions ON roles_permissions.permission_id = permissions.id GROUP BY roles.role_name, roles.id ORDER BY roles.id ASC")
 	if err != nil {
 		panic(err.Error())
 	}
