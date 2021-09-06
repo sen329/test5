@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 -- Database: `lokapala_accountdb`
 --
 CREATE DATABASE IF NOT EXISTS `gm_tool_test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `lokapala_accountdb`;
+USE `gm_tool_test`;
 
 -- --------------------------------------------------------
 
