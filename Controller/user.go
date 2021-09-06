@@ -113,10 +113,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	stmt2, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
-	if err != nil {
-		panic(err.Error())
-	}
 
 	name := r.Form.Get("name")
 	email := r.Form.Get("email")
@@ -134,25 +130,32 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	stmt3, err := db.Query("SELECT users.id FROM users WHERE email LIKE ?  ", email)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	defer stmt.Close()
-
-	var user model.User
-
-	for stmt3.Next() {
-		err := stmt3.Scan(&user.Id)
+	if role_id != "" {
+		stmt2, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
 		if err != nil {
 			panic(err.Error())
 		}
-	}
 
-	_, err = stmt2.Exec(user.Id, role_id)
-	if err != nil {
-		panic(err.Error())
+		stmt3, err := db.Query("SELECT users.id FROM users WHERE email LIKE ?  ", email)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		defer stmt.Close()
+
+		var user model.User
+
+		for stmt3.Next() {
+			err := stmt3.Scan(&user.Id)
+			if err != nil {
+				panic(err.Error())
+			}
+		}
+
+		_, err = stmt2.Exec(user.Id, role_id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")
