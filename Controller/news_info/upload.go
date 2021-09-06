@@ -51,6 +51,7 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	if err != nil {
 		panic(err.Error())
 	}
+	fileLocation = filepath.Join(fileLocation, "pub")
 	for _, path := range paths {
 		fileLocation = filepath.Join(fileLocation, path)
 	}
@@ -116,7 +117,7 @@ func CheckorUpload(r *http.Request, form string) (string, string, error) {
 	getFromForm := r.Form.Get(form)
 	var checksum string
 	if len(getFromForm) == 0 {
-		getFromForm, checksum, err := UploadFile(r, form, "storage")
+		getFromForm, checksum, err := UploadFile(r, form, "Test")
 		if err != nil {
 			panic(err)
 		}

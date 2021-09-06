@@ -22,7 +22,7 @@ func AddImage(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	image_name, image_checksum, err := UploadFile(r, "uploadImage", "storage")
+	image_name, image_checksum, err := UploadFile(r, "uploadImage", "Test")
 	if err != nil {
 		panic(err)
 	}
@@ -134,7 +134,7 @@ func UpdateImage(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	new_name, new_checksum, err := UploadFile(r, "uploadImage", "storage")
+	new_name, new_checksum, err := UploadFile(r, "uploadImage", "Test")
 	if err != nil {
 		panic(err)
 	}
@@ -216,7 +216,7 @@ func DeleteImage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	fileDelete := filepath.Join(workdir, "storage", image.Image_name)
+	fileDelete := filepath.Join(workdir, "Test", image.Image_name)
 
 	_, err = stmt.Exec(id)
 	if err != nil {

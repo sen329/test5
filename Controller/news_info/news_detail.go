@@ -28,7 +28,7 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	content, content_checksum, err := UploadFile(r, "content", "storage", lang)
+	content, content_checksum, err := UploadFile(r, "content", "Test")
 	if err != nil {
 		panic(err)
 	}
