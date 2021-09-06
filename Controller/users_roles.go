@@ -84,7 +84,7 @@ func RemoveUserFromRole(w http.ResponseWriter, r *http.Request) {
 	user_id := r.URL.Query().Get("user_id")
 	role_id := r.URL.Query().Get("role_id")
 
-	stmt, err := db.Prepare("DELETE FROM roles_permissions WHERE user_id = ? AND role_id = ?")
+	stmt, err := db.Prepare("DELETE FROM users_roles WHERE user_id = ? AND role_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
