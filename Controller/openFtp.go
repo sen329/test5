@@ -5,7 +5,7 @@ import (
 )
 
 func FTP() (connect *goftp.Client) {
-	address := goDotEnvVariable("FTP_ADDR") + ":" + goDotEnvVariable("FTP_PORT")
+	address := goDotEnvVariable("FTP_ADDR")
 	config := goftp.Config{
 		User:     goDotEnvVariable("FTP_USERNAME"),
 		Password: goDotEnvVariable("FTP_PASSWORD"),
