@@ -7,7 +7,6 @@ import (
 	"io"
 	"math/rand"
 	"net/http"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -47,11 +46,8 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	newRandName := buffer + "." + fileExtension[len(fileExtension)-1]
 
 	// Get Path
-	fileLocation, err := os.Getwd()
-	if err != nil {
-		panic(err.Error())
-	}
-	fileLocation = filepath.Join(fileLocation, "pub")
+
+	fileLocation := "pub/Test"
 	for _, path := range paths {
 		fileLocation = filepath.Join(fileLocation, path)
 	}
@@ -65,7 +61,7 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	defer reopenFile.Close()
 
 	// Save file to FTP
-	err = connect.Store("/pub/Test", reopenFile)
+	err = connect.Store(fileLocation, reopenFile)
 	if err != nil {
 		panic(err.Error())
 	}
