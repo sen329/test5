@@ -136,7 +136,7 @@ func Deletecustommail(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	id := r.URL.Query().Get("id")
 
-	stmt2, err := db.Prepare("UPDATE lokapala_accountdb.t_mail_custom_message SET template_id = NULL WHERE message_id = ?")
+	stmt2, err := db.Prepare("DELETE FROM lokapala_accountdb.t_mail_custom_message WHERE message_id = ? AND template_id = NULL")
 	if err != nil {
 		panic(err.Error())
 	}
