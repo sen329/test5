@@ -26,7 +26,7 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	stmt3, err := db.Prepare("INSERT INTO t_news_v2(id, name, release_date, type) VALUES (?,?,NOW(),?)")
+	stmt3, err := db.Prepare("INSERT INTO t_news_v2(name, release_date, type) VALUES (?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -53,7 +53,9 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 	contentEN = EN + "/" + contentEN
 	contentIN = IN + "/" + contentIN
 
-	_, err = stmt3.Exec(titleEN, news_type)
+	release_date := r.Form.Get("release_date")
+
+	_, err = stmt3.Exec(titleEN, release_date, news_type)
 	if err != nil {
 		panic(err)
 	}
