@@ -70,17 +70,17 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 	contentEN = EN + "/" + contentEN
 	contentIN = IN + "/" + contentIN
 
+	_, err = stmt3.Exec(news_id, titleEN, news_type)
+	if err != nil {
+		panic(err)
+	}
+
 	_, err = stmt.Exec(news_id, EN, titleEN, banner, banner_checksum, contentEN, content_checksumEN)
 	if err != nil {
 		panic(err)
 	}
 
 	_, err = stmt2.Exec(news_id, IN, titleIN, banner, banner_checksum, contentIN, content_checksumIN)
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = stmt3.Exec(news_id, titleEN, news_type)
 	if err != nil {
 		panic(err)
 	}
