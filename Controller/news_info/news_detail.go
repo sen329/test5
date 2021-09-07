@@ -26,6 +26,11 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	stmt3, err := db.Prepare("INSERT INTO t_news_v2(name, release_date, type) VALUES (?, SELECT NOW(),?)")
+	if err != nil {
+		panic(err.Error())
+	}
+
 	queryID, err := db.Query("SELECT MAX(news_id) as news_id FROM lokapala_accountdb.t_news_v2_detail")
 	if err != nil {
 		panic(err.Error())
@@ -47,6 +52,7 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 	// lang := r.Form.Get("lang")
 	titleEN := r.Form.Get("titleEN")
 	titleIN := r.Form.Get("titleIN")
+	news_type := r.Form.Get("type")
 	EN := "en"
 	IN := "in"
 	banner, banner_checksum, err := CheckorUpload(r, "banner")
@@ -70,6 +76,11 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = stmt2.Exec(news_id, IN, titleIN, banner, banner_checksum, contentIN, content_checksumIN)
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = stmt3.Exec(titleEN, news_type)
 	if err != nil {
 		panic(err)
 	}
