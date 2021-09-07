@@ -65,7 +65,7 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	defer reopenFile.Close()
 
 	// Save file to FTP
-	err = connect.Store(fileLocation, reopenFile)
+	err = connect.Store("/pub/Test", reopenFile)
 	if err != nil {
 		panic(err.Error())
 	}
