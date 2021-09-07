@@ -26,7 +26,24 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	news_id := r.Form.Get("news_id")
+	queryID, err := db.Query("SELECT MAX(news_id) as news_id FROM lokapala_accountdb.t_news_v2_detail")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var newsId model.News_detail
+
+	for queryID.Next() {
+
+		err := queryID.Scan(&newsId.News_id)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	news_id := newsId.News_id + 1
+
+	// news_id := r.Form.Get("news_id")
 	// lang := r.Form.Get("lang")
 	titleEN := r.Form.Get("titleEN")
 	titleIN := r.Form.Get("titleIN")
