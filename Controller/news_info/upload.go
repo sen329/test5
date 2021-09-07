@@ -46,8 +46,11 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	newRandName := buffer + "." + fileExtension[len(fileExtension)-1]
 
 	// Get Path
-
-	fileLocation := "pub"
+	fileLocation, err := connect.Getwd()
+	if err != nil {
+		panic(err.Error())
+	}
+	fileLocation = filepath.Join(fileLocation, "pub")
 	for _, path := range paths {
 		fileLocation = filepath.Join(fileLocation, path)
 	}
