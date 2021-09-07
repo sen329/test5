@@ -26,7 +26,7 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	stmt3, err := db.Prepare("INSERT INTO t_news_v2(name, release_date, type) VALUES (?, SELECT NOW(),?)")
+	stmt3, err := db.Prepare("INSERT INTO t_news_v2(name, release_date, type) VALUES (?,NOW(),?)")
 	if err != nil {
 		panic(err.Error())
 	}
