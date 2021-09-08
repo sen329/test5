@@ -140,11 +140,6 @@ func UpdatePlayerNameAuto(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 
-	err := r.ParseMultipartForm(4096)
-	if err != nil {
-		panic(err)
-	}
-
 	query, err := db.Query("SELECT lokapala_namedb.f_username_generate()")
 	if err != nil {
 		panic(err.Error())
