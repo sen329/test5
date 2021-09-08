@@ -47,6 +47,9 @@ func main() {
 	//currency type
 	route.Handle("/", Routers.RouteCurrency(route))
 
+	//misc items
+	route.Handle("/", Routers.RouteMiscItem(route))
+
 	//box
 	route.Handle("/", Routers.RouteBox(route))
 
