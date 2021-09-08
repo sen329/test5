@@ -10,6 +10,7 @@ type Player struct {
 	Role         int     `json:"role"`
 	Playing_time int     `json:"playing_time"`
 	Frame        int     `json:"frame"`
+	Referal_id   *string `json:"referal_id"`
 }
 
 type Player_Ksatriya_ranking struct {
