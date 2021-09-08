@@ -39,6 +39,14 @@ type Mail_attachment struct {
 	Custom_message_id *int `json:"custom_message_id"`
 }
 
+type Mail_attachment_details struct {
+	Template_id       *int   `json:"template_id"`
+	Item_type         string `json:"item_type"`
+	Item_name         string `json:"item_id"`
+	Amount            int    `json:"amount"`
+	Custom_message_id *int   `json:"custom_message_id"`
+}
+
 type Custom_mail struct {
 	Message_id int    `json:"message_id"`
 	Subject    string `json:"subject"`
