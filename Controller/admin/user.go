@@ -41,7 +41,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var user model.User_details
-	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id where id = ? ", id)
+	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id where A.id = ? ", id)
 	if err != nil {
 		panic(err.Error())
 	}
