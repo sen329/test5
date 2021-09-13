@@ -59,6 +59,30 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func GetCurrentUserLogin(w http.ResponseWriter, r *http.Request) {
+	db := controller.OpenGMAdmin()
+	defer db.Close()
+	id := r.Context().Value("user_id").(string)
+
+	var user model.User_details
+	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id where A.id = ? ", id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+
+		err := result.Scan(&user.Id, &user.Name, &user.Email, &user.Role_id, &user.Role_name)
+		if err != nil {
+			panic(err.Error())
+		}
+
+	}
+
+	json.NewEncoder(w).Encode(user)
+
+}
+
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	db := controller.OpenGMAdmin()
 	defer db.Close()
