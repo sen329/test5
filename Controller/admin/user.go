@@ -41,7 +41,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var user model.User_details
-	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id where A.id = ? ", id)
+	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, GROUP_CONCAT(B.role_name) as roles_name from users A left join users_roles on users_roles.user_id = A.id left join roles B on B.id = users_roles.role_id WHERE A.id = ? GROUP BY A.id, B.id ORDER BY A.id ASC  ", id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -65,7 +65,7 @@ func GetCurrentUserLogin(w http.ResponseWriter, r *http.Request) {
 	id := r.Context().Value("user_id").(string)
 
 	var user model.User_details
-	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id where A.id = ? ", id)
+	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, GROUP_CONCAT(B.role_name) as roles_name from users A left join users_roles on users_roles.user_id = A.id left join roles B on B.id = users_roles.role_id WHERE A.id = ? GROUP BY A.id, B.id ORDER BY A.id ASC", id)
 	if err != nil {
 		panic(err.Error())
 	}
