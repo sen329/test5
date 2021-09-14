@@ -136,12 +136,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		stmt3, err := db.Query("SELECT users.id FROM users WHERE email LIKE ?  ", email)
+		stmt3, err := db.Query("SELECT id FROM users WHERE email LIKE ?  ", email)
 		if err != nil {
 			panic(err.Error())
 		}
-
-		defer stmt.Close()
 
 		var user model.User
 
