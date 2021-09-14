@@ -5,6 +5,7 @@ package controller
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -129,6 +130,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	fmt.Println(role_id)
 
 	if len(role_id) > 0 {
 		stmt2, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
