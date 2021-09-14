@@ -5,7 +5,6 @@ package controller
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -126,17 +125,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	res, err := stmt.Exec(name, email, pwdhash)
+	_, err = stmt.Exec(name, email, pwdhash)
 	if err != nil {
 		panic(err.Error())
 	}
-
-	user_id, err := res.LastInsertId()
-	if err != nil {
-		panic(err.Error())
-	}
-
-	fmt.Println(user_id)
 
 	if len(role_id) > 0 {
 		stmt2, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
@@ -157,8 +149,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 				panic(err.Error())
 			}
 		}
-
-		fmt.Println(user.Id)
 
 		_, err = stmt2.Exec(user.Id, role_id)
 		if err != nil {

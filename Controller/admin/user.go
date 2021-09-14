@@ -15,7 +15,7 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var users []model.User_details
 
-	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, B.role_name FROM users A LEFT JOIN users_roles ON users_roles.id = A.id LEFT JOIN roles B ON B.id = users_roles.role_id")
+	result, err := db.Query("SELECT A.id, A.name, B.id, GROUP_CONCAT(B.role_name) as roles_name from users A left join users_roles on users_roles.user_id = A.id left join roles B on B.id = users_roles.role_id GROUP BY A.id ORDER BY A.id ASC")
 	if err != nil {
 		panic(err.Error())
 	}
