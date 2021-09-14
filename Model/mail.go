@@ -40,13 +40,13 @@ type Mail_attachment struct {
 }
 
 type Mail_attachment_details struct {
-	Template_id       *int   `json:"template_id"`
-	Item_type_id      *int   `json:"item_type_id"`
-	Item_Id           *int   `json:"item_id"`
-	Item_type         string `json:"item_type"`
-	Item_name         string `json:"item_name"`
-	Amount            int    `json:"amount"`
-	Custom_message_id *int   `json:"custom_message_id"`
+	Template_id       *int    `json:"template_id"`
+	Item_type_id      *int    `json:"item_type_id"`
+	Item_Id           *int    `json:"item_id"`
+	Item_type         *string `json:"item_type"`
+	Item_name         *string `json:"item_name"`
+	Amount            int     `json:"amount"`
+	Custom_message_id *int    `json:"custom_message_id"`
 }
 
 type Custom_mail struct {
