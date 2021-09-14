@@ -130,7 +130,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	if role_id != "" {
+	if len(role_id) > 0 {
 		stmt2, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
 		if err != nil {
 			panic(err.Error())
