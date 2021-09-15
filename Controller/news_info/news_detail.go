@@ -199,7 +199,7 @@ func UpdateNewsContent(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UpdateNewsDetail(w http.ResponseWriter, r *http.Request) {
+func UpdateNewsTitle(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 
@@ -211,16 +211,14 @@ func UpdateNewsDetail(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	lang := r.URL.Query().Get("lang")
 
-	stmt, err := db.Prepare("UPDATE t_news_v2_detail SET news_id = ?, lang = ?, title = ? WHERE news_id = ? AND lang = ?")
+	stmt, err := db.Prepare("UPDATE t_news_v2_detail SET title = ? WHERE news_id = ? AND lang = ?")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	news_id := r.Form.Get("news_id")
-	language := r.Form.Get("language")
 	title := r.Form.Get("title")
 
-	_, err = stmt.Exec(news_id, language, title, id, lang)
+	_, err = stmt.Exec(title, id, lang)
 	if err != nil {
 		panic(err.Error())
 	}

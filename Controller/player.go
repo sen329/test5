@@ -206,23 +206,31 @@ func GetPlayerMatchHistory(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
+	user_id := r.URL.Query().Get("user_id")
+
 	stmt, err := db.Prepare("call lokapala_admindb.p_user_match_history(?,?,?,0)")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	result, err := stmt.Query()
+	result, err := stmt.Query(count, offset, user_id)
 	if err != nil {
 		panic(err.Error())
 	}
 
+	var match_history model.Player_match_history
+
 	for result.Next() {
 
-		err := result.Scan()
+		err := result.Scan(&match_history.Room_id, &match_history.User_id, &match_history.Win, &match_history.Ksatriya_id, &match_history.Level, &match_history.Kill, &match_history.Death, &match_history.Assist, &match_history.Gold, &match_history.Damage_dealt, &match_history.Damage_taken, &match_history.Ksatriya_damage_dealt, &match_history.Game_duration, &match_history.Game_mode)
 		if err != nil {
 			panic(err.Error())
 		}
 
 	}
+
+	json.NewEncoder(w).Encode(match_history)
 
 }
