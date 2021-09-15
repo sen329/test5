@@ -318,7 +318,7 @@ func RemoveitemByTemplateId(w http.ResponseWriter, r *http.Request) {
 	item_id := r.URL.Query().Get("item_id")
 	item_type := r.URL.Query().Get("item_type")
 
-	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_mail_attachment WHERE template_id = ? AND item_id = ? AND item_type = ? AND custom_message_id = NULL")
+	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_mail_attachment WHERE template_id = ? AND item_id = ? AND item_type = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -339,7 +339,7 @@ func RemoveitemByCustomMessageId(w http.ResponseWriter, r *http.Request) {
 	item_id := r.URL.Query().Get("item_id")
 	item_type := r.URL.Query().Get("item_type")
 
-	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_mail_attachment WHERE custom_message_id = ? AND item_id = ? AND item_type = ? AND custom_message_id = NULL")
+	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_mail_attachment WHERE custom_message_id = ? AND item_id = ? AND item_type = ?")
 	if err != nil {
 		panic(err.Error())
 	}
