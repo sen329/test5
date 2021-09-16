@@ -91,7 +91,7 @@ func UpdateRole(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE role SET role_name = ?, description = ? where id = ?")
+	stmt, err := db.Prepare("UPDATE roles SET role_name = ?, description = ? where id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
