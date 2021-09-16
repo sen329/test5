@@ -118,17 +118,7 @@ func DeleteRole(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	stmt2, err := db.Prepare("DELETE FROM users_roles WHERE role_id = ?")
-	if err != nil {
-		panic(err.Error())
-	}
-
 	_, err = stmt.Exec(id)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	_, err = stmt2.Exec(id)
 	if err != nil {
 		panic(err.Error())
 	}
