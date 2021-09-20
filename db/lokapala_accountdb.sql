@@ -33,7 +33,6 @@ CREATE TABLE `permissions` (
   `id` bigint(20) NOT NULL,
   `permission_name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `active` tinyint(4) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -42,15 +41,17 @@ CREATE TABLE `permissions` (
 -- Dumping data for table `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `permission_name`, `description`, `active`, `created_at`, `updated_at`) VALUES
-(1, 'modify_user', 'Create, edit, delete users', 1, '2021-05-19 07:13:46', '2021-05-19 07:13:46'),
-(2, 'shop_control', 'Create, edit, delete shop data', 1, '2021-06-24 07:53:16', '2021-06-24 07:53:16'),
-(3, 'player_report_control', 'modify player and view reports', 1, '2021-07-27 08:41:44', '2021-07-27 08:41:44'),
-(4, 'send_mail', 'Send mail', 1, '2021-05-20 10:05:16', '2021-05-20 10:05:16'),
-(5, 'matches', 'manage matches', 1, '2021-08-19 11:27:03', '2021-08-19 11:27:03'),
-(6, 'ksa_rotation', 'control free ksatriya rotation', 1, '2021-07-27 11:05:38', '2021-07-27 11:05:38'),
-(7, 'player_reports', 'read player reports and take action', 1, '2021-08-19 11:27:30', '2021-08-19 11:27:30'),
-(8, 'blacklist_player_chat', 'blacklist players from chatting', 1, '2021-08-24 09:25:08', '2021-08-24 09:25:08');
+INSERT INTO `permissions` (`id`, `permission_name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'modify_user', 'Create, edit, delete users', '2021-05-19 07:13:46', '2021-05-19 07:13:46'),
+(2, 'shop_control', 'Create, edit, delete shop data',  '2021-06-24 07:53:16', '2021-06-24 07:53:16'),
+(3, 'player_report_control', 'modify player and view reports', '2021-07-27 08:41:44', '2021-07-27 08:41:44'),
+(4, 'send_mail', 'Send mail', '2021-05-20 10:05:16', '2021-05-20 10:05:16'),
+(5, 'matches', 'manage matches', '2021-08-19 11:27:03', '2021-08-19 11:27:03'),
+(6, 'ksa_rotation', 'control free ksatriya rotation', '2021-07-27 11:05:38', '2021-07-27 11:05:38'),
+(7, 'player_reports', 'read player reports and take action', '2021-08-19 11:27:30', '2021-08-19 11:27:30'),
+(8, 'blacklist_player_chat', 'blacklist players from chatting', '2021-08-24 09:25:08', '2021-08-24 09:25:08'),
+(9, 'voucher', 'generate and manage vouchers', '2021-09-17 08:33:00', '2021-09-17 08:33:00');
+(10, 'judge_control', 'manage judge accounts', '2021-09-17 08:33:00', '2021-09-17 08:33:00');
 
 -- --------------------------------------------------------
 
@@ -100,8 +101,10 @@ INSERT INTO `roles_permissions` (`id`, `role_id`, `permission_id`, `created_at`)
 (7, 1, 3, '2021-07-27 08:44:59'),
 (8, 1, 6, '2021-07-27 11:07:57'),
 (9, 1, 5, '2021-08-20 13:34:26'),
-(10, 1, 7, '2021-08-20 13:34:26');
-
+(10, 1, 7, '2021-08-20 13:34:26'),
+(10, 1, 8, '2021-08-20 13:34:26'),
+(11, 1, 9, '2021-09-17 08:34:38'),
+(12, 1, 10, '2021-09-20 07:39:36');
 -- --------------------------------------------------------
 
 --
