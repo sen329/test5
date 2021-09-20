@@ -62,7 +62,7 @@ func GetNews(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var news model.News
-	result, err := db.Query("SELECT A.id, A.name, A.release_date,A.type, B.name AS news_type FROM lokapala_accountdb.t_news_v2 A LEFT JOIN lokapala_accountdb.t_news_v2_type B ON A.type = B.id where id = ? ", id)
+	result, err := db.Query("SELECT A.id, A.name, A.release_date,A.type, B.name AS news_type FROM lokapala_accountdb.t_news_v2 A LEFT JOIN lokapala_accountdb.t_news_v2_type B ON A.type = B.id where A.id = ? ", id)
 	if err != nil {
 		panic(err.Error())
 	}
