@@ -12,8 +12,15 @@ func GetAllPlayers(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 	var players []model.Player
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
 
-	result, err := db.Query("SELECT A.user_id, A.user_name, A.avatar_icon,A.karma, A.gender,A.country, A.role, A.playing_time, A.frame, B.referral_id FROM lokapala_accountdb.t_user A LEFT JOIN lokapala_logindb.t_users B ON B.user_id = A.user_id")
+	query, err := db.Prepare("SELECT A.user_id, A.user_name, A.avatar_icon,A.karma, A.gender,A.country, A.role, A.playing_time, A.frame, B.referral_id FROM lokapala_accountdb.t_user A LEFT JOIN lokapala_logindb.t_users B ON B.user_id = A.user_id LIMIT ? OFFSET ? ")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	result, err := query.Query(count, offset)
 	if err != nil {
 		panic(err.Error())
 	}
