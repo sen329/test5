@@ -50,8 +50,9 @@ INSERT INTO `permissions` (`id`, `permission_name`, `description`, `created_at`,
 (6, 'ksa_rotation', 'control free ksatriya rotation', '2021-07-27 11:05:38', '2021-07-27 11:05:38'),
 (7, 'player_reports', 'read player reports and take action', '2021-08-19 11:27:30', '2021-08-19 11:27:30'),
 (8, 'blacklist_player_chat', 'blacklist players from chatting', '2021-08-24 09:25:08', '2021-08-24 09:25:08'),
-(9, 'voucher', 'generate and manage vouchers', '2021-09-17 08:33:00', '2021-09-17 08:33:00');
-(10, 'judge_control', 'manage judge accounts', '2021-09-17 08:33:00', '2021-09-17 08:33:00');
+(9, 'voucher', 'generate and manage vouchers', '2021-09-17 08:33:00', '2021-09-17 08:33:00'),
+(10, 'judge_control', 'manage judge accounts', '2021-09-17 08:33:00', '2021-09-17 08:33:00'),
+(11, 'user_statistics', 'see user statistics', '2021-09-21 12:57:08', '2021-09-21 12:57:08');
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,8 @@ INSERT INTO `roles_permissions` (`id`, `role_id`, `permission_id`, `created_at`)
 (10, 1, 7, '2021-08-20 13:34:26'),
 (10, 1, 8, '2021-08-20 13:34:26'),
 (11, 1, 9, '2021-09-17 08:34:38'),
-(12, 1, 10, '2021-09-20 07:39:36');
+(12, 1, 10, '2021-09-20 07:39:36'),
+(13, 1, 11, '2021-09-21 12:57:08');
 -- --------------------------------------------------------
 
 --
