@@ -88,6 +88,30 @@ func GetPlayerByName(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func GetPlayerByReferalId(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	ref_id := r.URL.Query().Get("ref_id")
+
+	var player model.Player
+	result, err := db.Query(`SELECT A.user_id, A.user_name, A.avatar_icon,A.karma, A.gender,A.country, A.role, A.playing_time, A.frame, B.referral_id FROM lokapala_accountdb.t_user A LEFT JOIN lokapala_logindb.t_users B ON B.user_id = A.user_id where B.referral_id LIKE ?`, "%"+ref_id+"%")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+
+		err := result.Scan(&player.User_id, &player.User_name, &player.Avatar_Icon, &player.Karma, &player.Gender, &player.Country, &player.Role, &player.Playing_time, &player.Frame, &player.Referal_id)
+		if err != nil {
+			panic(err.Error())
+		}
+
+	}
+
+	json.NewEncoder(w).Encode(player)
+
+}
+
 func UpdatePlayerKarma(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
