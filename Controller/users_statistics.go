@@ -114,7 +114,7 @@ func GetUserLoginTypeCount(w http.ResponseWriter, r *http.Request) {
 
 	var stats []model.User_login_type
 
-	result, err := db.Query("SELECT * FROM lokapala_admindb.v_daily_active_user")
+	result, err := db.Query("SELECT * FROM lokapala_admindb.v_registered_user")
 	if err != nil {
 		panic(err.Error())
 	}
