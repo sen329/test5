@@ -107,3 +107,29 @@ func GetConcurrentUserCount(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stats)
 
 }
+
+func GetUserLoginTypeCount(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	var stats []model.User_login_type
+
+	result, err := db.Query("SELECT * FROM lokapala_admindb.v_daily_active_user")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.User_login_type
+		err := result.Scan(&stat.Count, &stat.Account_type)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	json.NewEncoder(w).Encode(stats)
+
+}

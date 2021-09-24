@@ -14,6 +14,7 @@ func RoutePlayerStats(r *mux.Router) *mux.Router {
 	route_player.HandleFunc("/getDailyUser", controller.GetDailyUserCount).Methods("GET")
 	route_player.HandleFunc("/getDailyUserUnique", controller.GetDailyUserCountUnique).Methods("GET")
 	route_player.HandleFunc("/getConcurrentUser", controller.GetConcurrentUserCount).Methods("GET")
+	route_player.HandleFunc("/getLoginUserCount", controller.GetUserLoginTypeCount).Methods("GET")
 
 	return r
 }

@@ -19,3 +19,8 @@ type Concurrent_user struct {
 	Month  int `json:"month"`
 	Year   int `json:"year"`
 }
+
+type User_login_type struct {
+	Count        int    `json:"count"`
+	Account_type string `json:"account_type"`
+}
