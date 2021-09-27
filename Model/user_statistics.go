@@ -31,3 +31,9 @@ type Ksa_stats struct {
 	Win_count   int `json:"win_count"`
 	Lose_count  int `json:"lose_count"`
 }
+
+type Most_ksa_owned struct {
+	Ksatriya_id   int    `json:"ksatriya_id"`
+	Ksatriya_name string `json:"ksatriya_name"`
+	Player_owned  int    `json:"player_owned"`
+}
