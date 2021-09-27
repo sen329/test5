@@ -133,3 +133,31 @@ func GetUserLoginTypeCount(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stats)
 
 }
+
+func GetKsaStatCount(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	game_mode := r.URL.Query().Get("game_mode")
+
+	var stats []model.Ksa_stats
+
+	result, err := db.Query("SELECT t.ksatriya_id, COUNT(1) as match_count, COUNT(case when t.win = 1 then 1 end) as win_count, COUNT(1) - COUNT(case when t.win = 1 then 1 end) as lose_count FROM (SELECT trrs.room_id, trrs.ksatriya_id, trrs.win FROM lokapala_roomdb.t_room_result_slot trrs) t JOIN lokapala_roomdb.t_past_room r ON t.room_id = r.room_id JOIN lokapala_roomdb.t_room_result rr ON t.room_id = rr.room_id WHERE COALESCE(rr.match_id, 0) > 0 AND r.start_time >= '2020-05-19 17:00:00' AND IF(? = 0, TRUE, rr.game_mode = ?) AND NOT t.ksatriya_id = 901 GROUP BY t.ksatriya_id ORDER BY match_count DESC;", game_mode, game_mode)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Ksa_stats
+		err := result.Scan(&stat.Ksatriya_id, &stat.Match_count, &stat.Win_count, &stat.Lose_count)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	json.NewEncoder(w).Encode(stats)
+
+}
