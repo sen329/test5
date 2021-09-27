@@ -61,7 +61,7 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 
 	var mails []model.Mail
 
-	query, err := db.Prepare("SELECT * from lokapala_accountdb.t_mail LIMIT ? OFFSET ?")
+	query, err := db.Prepare("SELECT * from lokapala_accountdb.t_mail ORDER BY send_date DESC LIMIT ? OFFSET ?")
 	if err != nil {
 		panic(err.Error())
 	}
