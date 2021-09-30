@@ -70,7 +70,7 @@ func GetPlayerByName(w http.ResponseWriter, r *http.Request) {
 	user_name := r.URL.Query().Get("user_name")
 
 	var player model.Player
-	result, err := db.Query(`SELECT A.user_id, A.user_name, A.avatar_icon,A.karma, A.gender,A.country, A.role, A.playing_time, A.frame, B.referral_id FROM lokapala_accountdb.t_user A LEFT JOIN lokapala_logindb.t_users B ON B.user_id = A.user_id where A.user_name LIKE ?`, "%"+user_name+"%")
+	result, err := db.Query(`SELECT A.user_id, A.user_name, A.avatar_icon,A.karma, A.gender,A.country, A.role, A.playing_time, A.frame, B.referral_id FROM lokapala_accountdb.t_user A LEFT JOIN lokapala_logindb.t_users B ON B.user_id = A.user_id where A.user_name LIKE %?%`, user_name)
 	if err != nil {
 		panic(err.Error())
 	}
