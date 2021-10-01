@@ -32,7 +32,7 @@ func main() {
 	route := router.PathPrefix("/api").Subrouter()
 	route.Use(middleware.Middleware)
 	route.HandleFunc("/test", controller.Test).Methods("GET")
-	route.HandleFunc("//getCurrentUserLogin", admin.GetCurrentUserLogin)
+	route.HandleFunc("/getCurrentUserLogin", admin.GetCurrentUserLogin)
 
 	route.Handle("/", Routers.RouteIcon(route))
 	route.Handle("/", Routers.RouteKsatriya(route))
