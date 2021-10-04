@@ -39,10 +39,10 @@ type Most_ksa_owned struct {
 }
 
 type Ksa_kda_stats struct {
-	Ksatriya_id     int    `json:"ksatriya_id"`
-	Ksatriya_name   string `json:"ksatriya_name"`
-	Kill_count      int    `json:"kill_count"`
-	Death_count     int    `json:"death_count"`
-	Assist_count    int    `json:"assist_count"`
-	Kill_death_rate int    `json:"kill_death_rate"`
+	Ksatriya_id     int     `json:"ksatriya_id"`
+	Ksatriya_name   string  `json:"ksatriya_name"`
+	Kill_count      int     `json:"kill_count"`
+	Death_count     int     `json:"death_count"`
+	Assist_count    int     `json:"assist_count"`
+	Kill_death_rate float64 `json:"kill_death_rate"`
 }
