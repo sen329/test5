@@ -168,7 +168,9 @@ func GetKsaTotalOwned(w http.ResponseWriter, r *http.Request) {
 
 	var stats []model.Most_ksa_owned
 
-	result, err := db.Query("SELECT x.ksatriya_id,x.ksatriya_name, COUNT(x.ksatriya_id) AS player_owned FROM (SELECT a.ksatriya_id, b.ksatriya_name FROM lokapala_accountdb.t_inventory_ksatriya a LEFT JOIN lokapala_accountdb.t_ksatriya b ON a.ksatriya_id = b.ksatriya_id UNION ALL SELECT c.ksatriya_id, d.ksatriya_name FROM lokapala_accountdb.t_inventory_ksatriya_trial c LEFT JOIN lokapala_accountdb.t_ksatriya d ON c.ksatriya_id = d.ksatriya_id) as x GROUP BY ksatriya_id ORDER BY player_owned DESC")
+	game_mode := r.URL.Query().Get("game_mode")
+
+	result, err := db.Query("SELECT x.ksatriya_id,x.ksatriya_name, COUNT(x.ksatriya_id) AS player_owned FROM (SELECT a.ksatriya_id, b.ksatriya_name FROM lokapala_accountdb.t_inventory_ksatriya a LEFT JOIN lokapala_accountdb.t_ksatriya b ON a.ksatriya_id = b.ksatriya_id UNION ALL SELECT c.ksatriya_id, d.ksatriya_name FROM lokapala_accountdb.t_inventory_ksatriya_trial c LEFT JOIN lokapala_accountdb.t_ksatriya d ON c.ksatriya_id = d.ksatriya_id) as x GROUP BY ksatriya_id ORDER BY player_owned DESC", game_mode, game_mode)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -186,4 +188,29 @@ func GetKsaTotalOwned(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(stats)
 
+}
+
+func GetKsaTotalKda(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	var stats []model.Ksa_kda_stats
+
+	result, err := db.Query("SELECT a.ksatriya_id, b.ksatriya_name, SUM(`kill`) AS kill_count, SUM(death) AS death_count, SUM(assist) AS assist_count, ROUND(SUM(`kill`)/SUM(death),2) AS kill_death_rate FROM lokapala_roomdb.t_room_result_slot a JOIN lokapala_accountdb.t_ksatriya b ON a.ksatriya_id = b.ksatriya_id JOIN lokapala_roomdb.t_past_room r ON a.room_id = r.room_id JOIN lokapala_roomdb.t_room_result rr ON a.room_id = rr.room_id WHERE COALESCE(rr.match_id, 0) > 0 AND r.start_time >= '2020-05-19 17:00:00' AND IF(? = 0, TRUE, rr.game_mode = ?) AND NOT a.ksatriya_id = 901 GROUP BY b.ksatriya_id ORDER BY b.ksatriya_id ASC")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Ksa_kda_stats
+		err := result.Scan(&stat.Ksatriya_id, &stat.Ksatriya_name, &stat.Kill_count, &stat.Death_count, &stat.Assist_count, &stat.Kill_death_rate)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	json.NewEncoder(w).Encode(stats)
 }
