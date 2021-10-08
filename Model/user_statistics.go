@@ -26,10 +26,12 @@ type User_login_type struct {
 }
 
 type Ksa_stats struct {
-	Ksatriya_id int `json:"ksatriya_id"`
-	Match_count int `json:"match_count"`
-	Win_count   int `json:"win_count"`
-	Lose_count  int `json:"lose_count"`
+	Ksatriya_id int     `json:"ksatriya_id"`
+	Match_count int     `json:"match_count"`
+	Win_count   int     `json:"win_count"`
+	Win_rate    float64 `json:"win_rate"`
+	Lose_count  int     `json:"lose_count"`
+	Lose_rate   float64 `json:"lose_rate"`
 }
 
 type Most_ksa_owned struct {
