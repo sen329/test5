@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 	controller "github.com/sen329/test5/Controller"
@@ -65,6 +66,10 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer stmt.Close()
+
+	for i := 0; i < len(recipients.Recipients); i++ {
+		fmt.Fprintf(w, strconv.Itoa(recipients.Recipients[i].Recipient_user_id))
+	}
 
 	fmt.Fprintf(w, "Success")
 }
