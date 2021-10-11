@@ -21,6 +21,14 @@ func NewNullString(s string) sql.NullString {
 	}
 }
 
+type Recipients struct {
+	Recipients []Recipient `json:"recipient"`
+}
+
+type Recipient struct {
+	Recipient_user_id int `json:"recipient_user_id"`
+}
+
 func Sendmail(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
@@ -34,22 +42,37 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	mail_type := r.Form.Get("mail_type")
-	sender_id := r.Form.Get("sender_id")
-	receiver_id := r.Form.Get("receiver_id")
-	send_date := r.Form.Get("send_date")
-	mail_template := r.Form.Get("mail_template")
-	parameter := r.Form.Get("parameter")
-	custom_message_id := r.Form.Get("custom_message_id")
+	var recipients Recipients
 
-	_, err = stmt.Exec(mail_type, NewNullString(sender_id), receiver_id, NewNullString(send_date), NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
-	if err != nil {
-		panic(err)
+	// mail_type := r.Form.Get("mail_type")
+	// sender_id := r.Form.Get("sender_id")
+	receiver_id := r.Form.Get("receiver_id")
+	// send_date := r.Form.Get("send_date")
+	// mail_template := r.Form.Get("mail_template")
+	// parameter := r.Form.Get("parameter")
+	// custom_message_id := r.Form.Get("custom_message_id")
+
+	convertByte := []byte(receiver_id)
+
+	json.Unmarshal(convertByte, &recipients)
+
+	for i := 0; i < len(recipients.Recipients); i++ {
+		fmt.Print(recipients.Recipients[i].Recipient_user_id)
 	}
+
+	return
+
+	// for i := 0; i < len(recipients.Recipients); i++ {
+	// 	fmt.Print(recipients.Recipients[i].Recipient_user_id)
+	// 	_, err = stmt.Exec(mail_type, NewNullString(sender_id), recipients.Recipients[i].Recipient_user_id, NewNullString(send_date), NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// }
 
 	defer stmt.Close()
 
-	fmt.Fprintf(w, "Success")
+	// fmt.Fprintf(w, "Success")
 }
 
 func Getmails(w http.ResponseWriter, r *http.Request) {
