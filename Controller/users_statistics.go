@@ -214,3 +214,32 @@ func GetKsaTotalKda(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(stats)
 }
+
+func GetUserStatCount(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	game_mode := r.URL.Query().Get("game_mode")
+	user_id := r.URL.Query().Get("user_id")
+
+	var stats []model.User_match_stats
+
+	result, err := db.Query("SELECT COUNT(1) as match_count, COUNT(case when t.win = 1 then 1 end) as win_count, ROUND(COUNT(case when t.win = 1 then 1 end)/COUNT(1)*100, 2) as win_rate, COUNT(1) - COUNT(case when t.win = 1 then 1 end) as lose_count, ROUND((COUNT(1) - COUNT(case when t.win = 1 then 1 end))/COUNT(1)*100, 2) as lose_rate FROM (SELECT trrs.room_id, trrs.user_id, trrs.win FROM lokapala_roomdb.t_room_result_slot trrs) t JOIN lokapala_roomdb.t_past_room r ON t.room_id = r.room_id JOIN lokapala_roomdb.t_room_result rr ON t.room_id = rr.room_id WHERE COALESCE(rr.match_id, 0) > 0 AND r.start_time >= '2020-05-19 17:00:00'  AND IF(? = 0, TRUE, rr.game_mode = ?) AND user_id = ?", game_mode, game_mode, user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.User_match_stats
+		err := result.Scan(&stat.Match_count, &stat.Win_count, &stat.Win_rate, &stat.Lose_count, &stat.Lose_rate)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	json.NewEncoder(w).Encode(stats)
+
+}
