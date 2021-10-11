@@ -9,6 +9,14 @@ import (
 	model "github.com/sen329/test5/Model"
 )
 
+type Ksatriyas struct {
+	Ksatriyas []Ksatriya `json:"ksatriya_ids"`
+}
+
+type Ksatriya struct {
+	Ksatriya_id int `json:"ksatriya_id"`
+}
+
 func AddnewKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
@@ -22,13 +30,21 @@ func AddnewKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	var ksatriyas Ksatriyas
+
 	ksatriya_id := r.Form.Get("ksatriya_id")
 	start_date := r.Form.Get("start_date")
 	end_date := r.Form.Get("end_date")
 
-	_, err = stmt.Exec(ksatriya_id, start_date, end_date)
-	if err != nil {
-		panic(err.Error())
+	convertToByte := []byte(ksatriya_id)
+
+	json.Unmarshal(convertToByte, &ksatriyas)
+
+	for i := 0; i < len(ksatriyas.Ksatriyas); i++ {
+		_, err = stmt.Exec(ksatriyas.Ksatriyas[i].Ksatriya_id, start_date, end_date)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 
 	json.NewEncoder(w).Encode("Success")
