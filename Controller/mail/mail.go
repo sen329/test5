@@ -55,6 +55,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal([]byte(receiver_id), &recipients)
 
 	for i := 0; i < len(recipients.Recipients); i++ {
+		fmt.Print(recipients.Recipients[i].Recipient_user_id)
 		_, err = stmt.Exec(mail_type, NewNullString(sender_id), recipients.Recipients[i].Recipient_user_id, NewNullString(send_date), NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
 		if err != nil {
 			panic(err)
