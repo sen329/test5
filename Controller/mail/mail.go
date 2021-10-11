@@ -52,6 +52,8 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 	parameter := r.Form.Get("parameter")
 	custom_message_id := r.Form.Get("custom_message_id")
 
+	fmt.Print(receiver_id)
+
 	json.Unmarshal([]byte(receiver_id), &recipients)
 
 	for i := 0; i < len(recipients.Recipients); i++ {
