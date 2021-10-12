@@ -26,6 +26,14 @@ func RouteNews(r *mux.Router) *mux.Router {
 	route_news.HandleFunc("/updateDetailContent", newsinfo.UpdateNewsContent).Methods("PUT")
 	route_news.HandleFunc("/deleteDetail", newsinfo.DeleteNewsDetail).Methods("DELETE")
 
+	route_news.HandleFunc("/addDetailINTL", newsinfo.AddNewsDetailINTL).Methods("POST")
+	route_news.HandleFunc("/getDetailsINTL", newsinfo.GetNewsDetailsINTL).Methods("GET")
+	route_news.HandleFunc("/getDetailINTL", newsinfo.GetNewsDetailINTL).Methods("GET")
+	route_news.HandleFunc("/updateDetailTitleINTL", newsinfo.UpdateNewsTitleINTL).Methods("PUT")
+	route_news.HandleFunc("/updateDetailBannerINTL", newsinfo.UpdateNewsBannerINTL).Methods("PUT")
+	route_news.HandleFunc("/updateDetailContentINTL", newsinfo.UpdateNewsContentINTL).Methods("PUT")
+	route_news.HandleFunc("/deleteDetailINTL", newsinfo.DeleteNewsDetailINTL).Methods("DELETE")
+
 	route_news.HandleFunc("/addImage", newsinfo.AddImage).Methods("POST")
 	route_news.HandleFunc("/getImages", newsinfo.GetImages).Methods("GET")
 	route_news.HandleFunc("/getImage", newsinfo.GetImage).Methods("GET")
