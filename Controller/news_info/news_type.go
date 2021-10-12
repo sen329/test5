@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "github.com/sen329/test5/Controller"
-	model "github.com/sen329/test5/Model"
+	controller "test5/Controller"
+	model "test5/Model"
 )
 
 func GetNewsTypes(w http.ResponseWriter, r *http.Request) {

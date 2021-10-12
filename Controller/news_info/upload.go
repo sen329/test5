@@ -10,9 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 
+	controller "test5/Controller"
+	model "test5/Model"
+
 	_ "github.com/go-sql-driver/mysql"
-	controller "github.com/sen329/test5/Controller"
-	model "github.com/sen329/test5/Model"
 )
 
 const latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01233456789"

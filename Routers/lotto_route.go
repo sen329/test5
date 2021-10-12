@@ -1,9 +1,10 @@
 package Routers
 
 import (
+	"test5/Controller/shop/lotto"
+	middleware "test5/Middleware"
+
 	"github.com/gorilla/mux"
-	"github.com/sen329/test5/Controller/shop/lotto"
-	middleware "github.com/sen329/test5/Middleware"
 )
 
 func RouteLotto(r *mux.Router) *mux.Router {

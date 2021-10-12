@@ -4,12 +4,13 @@ import (
 	"log"
 	"net/http"
 
+	controller "test5/Controller"
+	"test5/Controller/admin"
+	middleware "test5/Middleware"
+	"test5/Routers"
+
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	controller "github.com/sen329/test5/Controller"
-	"github.com/sen329/test5/Controller/admin"
-	middleware "github.com/sen329/test5/Middleware"
-	"github.com/sen329/test5/Routers"
 
 	_ "github.com/go-sql-driver/mysql"
 )

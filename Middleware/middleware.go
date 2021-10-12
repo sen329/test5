@@ -9,8 +9,8 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 
-	controller "github.com/sen329/test5/Controller"
-	model "github.com/sen329/test5/Model"
+	controller "test5/Controller"
+	model "test5/Model"
 )
 
 func Middleware(next http.Handler) http.Handler {

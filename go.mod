@@ -1,4 +1,4 @@
-module github.com/sen329/test5
+module test5
 
 go 1.16
 

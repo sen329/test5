@@ -1,10 +1,11 @@
 package Routers
 
 import (
+	controller "test5/Controller"
+	"test5/Controller/admin"
+	middleware "test5/Middleware"
+
 	"github.com/gorilla/mux"
-	controller "github.com/sen329/test5/Controller"
-	"github.com/sen329/test5/Controller/admin"
-	middleware "github.com/sen329/test5/Middleware"
 )
 
 func RouteUser(r *mux.Router) *mux.Router {

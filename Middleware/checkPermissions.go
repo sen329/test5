@@ -3,7 +3,7 @@ package middleware
 import (
 	"database/sql"
 
-	controller "github.com/sen329/test5/Controller"
+	controller "test5/Controller"
 )
 
 var db *sql.DB

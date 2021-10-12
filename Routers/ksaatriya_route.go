@@ -1,9 +1,10 @@
 package Routers
 
 import (
+	ksatriya "test5/Controller/ksatriya"
+	middleware "test5/Middleware"
+
 	"github.com/gorilla/mux"
-	ksatriya "github.com/sen329/test5/Controller/ksatriya"
-	middleware "github.com/sen329/test5/Middleware"
 )
 
 func RouteKsatriya(r *mux.Router) *mux.Router {

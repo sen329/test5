@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
+	model "test5/Model"
+
 	_ "github.com/go-sql-driver/mysql"
-	model "github.com/sen329/test5/Model"
 )
 
 func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {

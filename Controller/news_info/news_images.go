@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"path/filepath"
 
-	controller "github.com/sen329/test5/Controller"
-	model "github.com/sen329/test5/Model"
+	controller "test5/Controller"
+	model "test5/Model"
 )
 
 func AddImage(w http.ResponseWriter, r *http.Request) {

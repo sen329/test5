@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"net/http"
 
+	controller "test5/Controller"
+	model "test5/Model"
+
 	_ "github.com/go-sql-driver/mysql"
-	controller "github.com/sen329/test5/Controller"
-	model "github.com/sen329/test5/Model"
 )
 
 func NewNullString(s string) sql.NullString {

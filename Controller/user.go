@@ -11,8 +11,9 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
+	model "test5/Model"
+
 	_ "github.com/go-sql-driver/mysql"
-	model "github.com/sen329/test5/Model"
 
 	"github.com/dgrijalva/jwt-go"
 )

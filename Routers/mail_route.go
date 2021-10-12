@@ -1,9 +1,10 @@
 package Routers
 
 import (
+	mail "test5/Controller/mail"
+	middleware "test5/Middleware"
+
 	"github.com/gorilla/mux"
-	mail "github.com/sen329/test5/Controller/mail"
-	middleware "github.com/sen329/test5/Middleware"
 )
 
 func RouteMail(r *mux.Router) *mux.Router {

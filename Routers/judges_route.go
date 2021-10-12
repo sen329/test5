@@ -1,9 +1,10 @@
 package Routers
 
 import (
+	controller "test5/Controller"
+	middleware "test5/Middleware"
+
 	"github.com/gorilla/mux"
-	controller "github.com/sen329/test5/Controller"
-	middleware "github.com/sen329/test5/Middleware"
 )
 
 func RouteJudges(r *mux.Router) *mux.Router {

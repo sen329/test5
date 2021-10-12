@@ -1,9 +1,10 @@
 package Routers
 
 import (
+	newsinfo "test5/Controller/news_info"
+	middleware "test5/Middleware"
+
 	"github.com/gorilla/mux"
-	newsinfo "github.com/sen329/test5/Controller/news_info"
-	middleware "github.com/sen329/test5/Middleware"
 )
 
 func RouteNews(r *mux.Router) *mux.Router {

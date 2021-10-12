@@ -1,9 +1,10 @@
 package Routers
 
 import (
+	icon "test5/Controller/icon"
+	middleware "test5/Middleware"
+
 	"github.com/gorilla/mux"
-	icon "github.com/sen329/test5/Controller/icon"
-	middleware "github.com/sen329/test5/Middleware"
 )
 
 func RouteIcon(route *mux.Router) *mux.Router {
