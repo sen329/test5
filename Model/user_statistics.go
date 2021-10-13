@@ -50,9 +50,9 @@ type Ksa_kda_stats struct {
 }
 
 type User_match_stats struct {
-	Match_count int     `json:"match_count"`
-	Win_count   int     `json:"win_count"`
-	Win_rate    float64 `json:"win_rate"`
-	Lose_count  int     `json:"lose_count"`
-	Lose_rate   float64 `json:"lose_rate"`
+	Match_count *int     `json:"match_count"`
+	Win_count   *int     `json:"win_count"`
+	Win_rate    *float64 `json:"win_rate"`
+	Lose_count  *int     `json:"lose_count"`
+	Lose_rate   *float64 `json:"lose_rate"`
 }
