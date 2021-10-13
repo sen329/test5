@@ -56,3 +56,10 @@ type User_match_stats struct {
 	Lose_count  *int     `json:"lose_count"`
 	Lose_rate   *float64 `json:"lose_rate"`
 }
+
+type Users_rank_stats struct {
+	Season     *int `json:"season"`
+	Rank       *int `json:"rank"`
+	Tier       *int `json:"tier"`
+	Star_count *int `json:"star_count"`
+}

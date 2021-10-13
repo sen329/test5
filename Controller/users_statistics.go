@@ -243,3 +243,30 @@ func GetUserStatCount(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stats)
 
 }
+
+func GetUserRank(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	user_id := r.URL.Query().Get("user_id")
+
+	var stats []model.Users_rank_stats
+
+	result, err := db.Query("SELECT a.season_id, `rank`, tier, star_count FROM lokapala_accountdb.t_user_rank a LEFT JOIN lokapala_accountdb.t_season b ON a.season_id = b.season_id WHERE user_id = ? AND NOW()>b.start_date AND NOW()<b.end_date;", user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Users_rank_stats
+		err := result.Scan(&stat.Season, &stat.Rank, &stat.Tier, &stat.Star_count)
+		if err != nil {
+			panic(err.Error)
+		}
+
+		stats = append(stats, stat)
+	}
+
+	json.NewEncoder(w).Encode(stats)
+
+}
