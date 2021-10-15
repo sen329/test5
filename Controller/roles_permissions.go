@@ -74,7 +74,7 @@ func GetRolePermission(w http.ResponseWriter, r *http.Request) {
 	for result.Next() {
 		var roles_permission model.Roles_Permission
 
-		err := result.Scan(&roles_permission.Permission_id, &roles_permission.Permission_name)
+		err := result.Scan(&roles_permission.Role_id, &roles_permission.Role_name, &roles_permission.Permission_id, &roles_permission.Permission_name)
 		if err != nil {
 			panic(err.Error())
 		}
