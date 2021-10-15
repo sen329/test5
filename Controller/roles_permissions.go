@@ -66,7 +66,7 @@ func GetRolePermission(w http.ResponseWriter, r *http.Request) {
 	role_id := r.URL.Query().Get("role_id")
 
 	var roles_permissions []model.Roles_Permission
-	result, err := db.Query("SELECT roles.id, roles.name, permissions.id, permissions.permission_name FROM roles_permissions LEFT JOIN permissions ON roles_permissions.permission_id = permissions.id LEFT JOIN roles ON roles.id = roles_permissions.role_id WHERE roles_permissions.role_id = ?", role_id)
+	result, err := db.Query("SELECT roles.id, roles.role_name, permissions.id, permissions.permission_name FROM roles_permissions LEFT JOIN permissions ON roles_permissions.permission_id = permissions.id LEFT JOIN roles ON roles.id = roles_permissions.role_id WHERE roles_permissions.role_id = ?", role_id)
 	if err != nil {
 		panic(err.Error())
 	}
