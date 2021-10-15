@@ -45,7 +45,7 @@ func GetAllVouchers(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var voucher model.Voucher
-		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Created_date, &voucher.User_id)
+		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Created_date, &voucher.Voucher_id, &voucher.User_id, &voucher.Claimed_date, &voucher.Expired_date)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -67,7 +67,7 @@ func GetVoucher(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
-		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Created_date, &voucher.User_id)
+		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Created_date, &voucher.Voucher_id, &voucher.User_id, &voucher.Claimed_date, &voucher.Expired_date)
 		if err != nil {
 			panic(err.Error())
 		}

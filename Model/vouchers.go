@@ -4,6 +4,7 @@ type Voucher struct {
 	Id           int64   `json:"id"`
 	Key          string  `json:"key"`
 	Created_date *string `json:"created_date"`
+	Voucher_id   *int    `json:"voucher_id"`
 	User_id      *int64  `json:"user_id"`
 	Claimed_date *string `json:"claimed_date"`
 	Expired_date *string `json:"expired_date"`
