@@ -231,3 +231,206 @@ func DeleteVoucherDetail(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode("Success")
 }
+
+func AddVoucherOne(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("INSERT INTO lokapala_melonpaymentdb.t_voucher_one(secret_key, created_date, expired_date, max_claim, voucher_id) VALUES (?,NOW(),?,?,?)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	secret_key := r.Form.Get("secret_key")
+	expired_date := r.Form.Get("expired_date")
+	max_claim := r.Form.Get("max_claim")
+	voucher_id := r.Form.Get("voucher_id")
+
+	_, err = stmt.Exec(secret_key, expired_date, max_claim, voucher_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.NewEncoder(w).Encode("Success")
+}
+
+func GetAllVoucherOne(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	var voucher_details []model.Voucher_one
+	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher_one")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var voucher_detail model.Voucher_one
+		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Max_claim, &voucher_detail.Voucher_id)
+		if err != nil {
+			panic(err.Error())
+		}
+		voucher_details = append(voucher_details, voucher_detail)
+	}
+
+	json.NewEncoder(w).Encode(voucher_details)
+}
+
+func GetVoucherOne(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	id := r.URL.Query().Get("id")
+
+	var voucher_detail model.Voucher_one
+	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher_one WHERE id = ?", id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Max_claim, &voucher_detail.Voucher_id)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	json.NewEncoder(w).Encode(voucher_detail)
+}
+
+func UpdateVoucherOneSecretKey(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	id := r.URL.Query().Get("id")
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("UPDATE lokapala_melonpaymentdb.t_voucher_one SET secret_key = ? WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	secret_key := r.Form.Get("secret_key")
+
+	_, err = stmt.Exec(secret_key, id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.NewEncoder(w).Encode("Success")
+}
+
+func UpdateVoucherOneExpiredDate(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	voucher_id := r.URL.Query().Get("id")
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("UPDATE lokapala_melonpaymentdb.t_voucher_one SET expired_date = ? WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	expired_date := r.Form.Get("expired_date")
+
+	_, err = stmt.Exec(expired_date, voucher_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.NewEncoder(w).Encode("Success")
+}
+
+func UpdateVoucherOneItems(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	id := r.URL.Query().Get("id")
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("UPDATE lokapala_melonpaymentdb.t_voucher_one SET voucher_id = ? WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	voucher_id := r.Form.Get("voucher_id")
+
+	_, err = stmt.Exec(voucher_id, id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.NewEncoder(w).Encode("Success")
+}
+
+func DeleteVoucherOne(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	id := r.URL.Query().Get("id")
+
+	stmt, err := db.Prepare("DELETE FROM lokapala_melonpaymentdb.t_voucher_one WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	_, err = stmt.Exec(id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.NewEncoder(w).Encode("Success")
+}
+
+func GetAllVoucherOneUser(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	var voucher_details []model.Voucher_one_user
+	result, err := db.Query("SELECT a.id, a.user_id,b.user_name, a.voucher_id, a.claimed_date FROM lokapala_melonpaymentdb.t_user_voucher_one a LEFT JOIN lokapala_accountdb.t_user b ON a.user_id = b.user_id")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var voucher_detail model.Voucher_one_user
+		err := result.Scan(&voucher_detail.Id, &voucher_detail.User_id, &voucher_detail.User_name, &voucher_detail.Voucher_id, &voucher_detail.Claimed_date)
+		if err != nil {
+			panic(err.Error())
+		}
+		voucher_details = append(voucher_details, voucher_detail)
+	}
+
+	json.NewEncoder(w).Encode(voucher_details)
+}
+
+func GetVoucherOneUser(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	id := r.URL.Query().Get("id")
+
+	var voucher_detail model.Voucher_one_user
+	result, err := db.Query("SELECT a.id, a.user_id,b.user_name, a.voucher_id, a.claimed_date FROM lokapala_melonpaymentdb.t_user_voucher_one a LEFT JOIN lokapala_accountdb.t_user b ON a.user_id = b.user_id WHERE id = ?", id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		err := result.Scan(&voucher_detail.Id, &voucher_detail.User_id, &voucher_detail.User_name, &voucher_detail.Voucher_id, &voucher_detail.Claimed_date)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	json.NewEncoder(w).Encode(voucher_detail)
+}

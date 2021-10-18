@@ -24,5 +24,16 @@ func RouteVouchers(r *mux.Router) *mux.Router {
 	route_match.HandleFunc("/updateVoucherDetail", controller.UpdateVoucherDetail).Methods("PUT")
 	route_match.HandleFunc("/deleteVoucherDetail", controller.DeleteVoucherDetail).Methods("DELETE")
 
+	route_match.HandleFunc("/addVoucherOne", controller.AddVoucherOne).Methods("POST")
+	route_match.HandleFunc("/getAllVoucherOne", controller.GetAllVoucherOne).Methods("GET")
+	route_match.HandleFunc("/getVoucherOne", controller.GetVoucherOne).Methods("GET")
+	route_match.HandleFunc("/updateVoucherOneSecretKey", controller.UpdateVoucherOneSecretKey).Methods("PUT")
+	route_match.HandleFunc("/updateVoucherOneExpiredDate", controller.UpdateVoucherOneExpiredDate).Methods("PUT")
+	route_match.HandleFunc("/updateVoucherItems", controller.UpdateVoucherOneItems).Methods("PUT")
+	route_match.HandleFunc("/deleteVoucherOne", controller.DeleteVoucherOne).Methods("DELETE")
+
+	route_match.HandleFunc("/getAllVoucherOneUser", controller.GetAllVoucherOneUser).Methods("GET")
+	route_match.HandleFunc("/getVoucherOneUser", controller.GetVoucherOneUser).Methods("GET")
+
 	return r
 }
