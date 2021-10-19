@@ -270,3 +270,31 @@ func GetUserRank(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stats)
 
 }
+
+func GetUserMatchData(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	room_id := r.URL.Query().Get("room_id")
+
+	var stats []model.Users_match_results
+
+	result, err := db.Query("CALL lokapala_admindb.p_match-data.get(?)", room_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Users_match_results
+		err := result.Scan(&stat.Game_duration, &stat.Game_mode, &stat.Match_id, &stat.Start_time, &stat.Room_id, &stat.Slot_index, &stat.User_id, &stat.Win, &stat.Ksatriya_id, &stat.Level, &stat.Kill, &stat.Death, &stat.Assist, &stat.Gold, &stat.Mantra_id, &stat.Mvp, &stat.Mvp_badge, &stat.Tower_destroyed, &stat.Creep_kill, &stat.Rune_activated, &stat.Damage_dealt, &stat.Damage_taken, &stat.Ward_placed, &stat.Raksasha_kill, &stat.Yaksha_kill, &stat.Is_leave, &stat.Is_afk, &stat.Minion_kill, &stat.Raksasha_kill_assist, &stat.Yaksha_kill_assist, &stat.Raksasha_controlled, &stat.First_blood, &stat.Double_kill, &stat.Triple_kill, &stat.Quadra_kill, &stat.Penta_kill, &stat.Ksatriya_damage_dealt, &stat.Close_call_kill, &stat.Highest_kill_streak, &stat.User_name, &stat.Avatar_icon, &stat.Frame)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	json.NewEncoder(w).Encode(stats)
+
+}
