@@ -279,7 +279,7 @@ func GetUserMatchData(w http.ResponseWriter, r *http.Request) {
 
 	var stats []model.Users_match_results
 
-	result, err := db.Query("CALL lokapala_admindb.p_match_data.get(?)", room_id)
+	result, err := db.Query("CALL lokapala_admindb.p_match_data_get(?)", room_id)
 	if err != nil {
 		panic(err.Error())
 	}
