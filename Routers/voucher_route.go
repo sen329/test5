@@ -9,7 +9,7 @@ import (
 
 func RouteVouchers(r *mux.Router) *mux.Router {
 
-	route_match := r.PathPrefix("/report").Subrouter()
+	route_match := r.PathPrefix("/voucher").Subrouter()
 	route_match.Use(middleware.Middleware, middleware.CheckRoleVoucher)
 
 	route_match.HandleFunc("/GenerateVoucher", controller.GenerateVoucher).Methods("POST")
