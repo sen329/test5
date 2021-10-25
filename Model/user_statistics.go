@@ -108,3 +108,15 @@ type Users_match_results struct {
 	Avatar_icon           int     `json:"avatar_icon"`
 	Frame                 int     `json:"frame"`
 }
+
+type User_social_media_link_count struct {
+	Social_media string `json:"social_media"`
+	Count        int64  `json:"count"`
+}
+
+type User_social_media_link struct {
+	User_id      int64  `json:"user_id"`
+	User_name    string `json:"user_name"`
+	Account_type string `json:"account_type"`
+	Reg_date     string `json:"register_date"`
+}

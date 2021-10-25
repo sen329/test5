@@ -298,3 +298,48 @@ func GetUserMatchData(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stats)
 
 }
+
+func GetSocialMediaStats(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+	var stats []model.User_social_media_link_count
+	result, err := db.Query("SELECT account_type, COUNT(account_type) AS account_type_count FROM lokapala_logindb.t_account GROUP BY account_type")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.User_social_media_link_count
+		err := result.Scan(&stat.Social_media, &stat.Count)
+		if err != nil {
+			panic(err.Error())
+		}
+		stats = append(stats, stat)
+	}
+
+	json.NewEncoder(w).Encode(stats)
+}
+
+func GetUserSocialMedia(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	user_id := r.URL.Query().Get("user_id")
+
+	var stats []model.User_social_media_link
+	result, err := db.Query("SELECT a.user_id, a.user_name, b.account_type, b.register_date FROM lokapala_accountdb.t_user a LEFT JOIN lokapala_logindb.t_account b ON a.user_id = b.user_id WHERE a.user_id = ?", user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.User_social_media_link
+		err := result.Scan(&stat.User_id, &stat.User_name, &stat.Account_type, &stat.Reg_date)
+		if err != nil {
+			panic(err.Error())
+		}
+		stats = append(stats, stat)
+	}
+
+	json.NewEncoder(w).Encode(stats)
+}

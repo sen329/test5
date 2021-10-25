@@ -22,6 +22,8 @@ func RoutePlayerStats(r *mux.Router) *mux.Router {
 	route_player.HandleFunc("/getUserMatchStats", controller.GetUserStatCount).Methods("GET")
 	route_player.HandleFunc("/getUserSeasonRankStats", controller.GetUserRank).Methods("GET")
 	route_player.HandleFunc("/getUserMatchData", controller.GetUserMatchData).Methods("GET")
+	route_player.HandleFunc("/getSocialMediaStats", controller.GetSocialMediaStats).Methods("GET")
+	route_player.HandleFunc("/getUserSocialMedia", controller.GetUserSocialMedia).Methods("GET")
 
 	return r
 }
