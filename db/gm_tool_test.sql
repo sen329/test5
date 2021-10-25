@@ -52,7 +52,8 @@ INSERT INTO `permissions` (`id`, `permission_name`, `description`, `created_at`,
 (8, 'blacklist_player_chat', 'blacklist players from chatting', '2021-08-24 09:25:08', '2021-08-24 09:25:08'),
 (9, 'voucher_control', 'generate and manage vouchers', '2021-09-17 08:33:00', '2021-09-17 08:33:00'),
 (10, 'judge_control', 'manage judge accounts', '2021-09-20 07:39:07', '2021-09-20 07:39:07'),
-(11, 'user_statistics', 'see user statistics', '2021-09-21 12:57:08', '2021-09-21 12:57:08');
+(11, 'user_statistics', 'see user statistics', '2021-09-21 12:57:08', '2021-09-21 12:57:08'),
+(12, 'season_management', 'manage season', '2021-10-25 10:00:08', '2021-10-25 10:00:08'),
 
 -- --------------------------------------------------------
 
