@@ -343,3 +343,25 @@ func GetUserSocialMedia(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(stats)
 }
+
+func UserLastLogin(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	user_id := r.URL.Query().Get("user_id")
+
+	var stat model.User_last_login
+	result, err := db.Query("SELECT user_id, last_api_call FROM lokapala_logindb.t_session_key WHERE user_id = ? ", user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		err := result.Scan(&stat.User_id, &stat.Last_login)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	json.NewEncoder(w).Encode(stat)
+}

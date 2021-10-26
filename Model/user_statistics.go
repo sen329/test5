@@ -120,3 +120,8 @@ type User_social_media_link struct {
 	Account_type string `json:"account_type"`
 	Reg_date     string `json:"register_date"`
 }
+
+type User_last_login struct {
+	User_id    int64  `json:"user_id"`
+	Last_login string `json:"last_login"`
+}
