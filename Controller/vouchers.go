@@ -38,14 +38,14 @@ func GetAllVouchers(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 	var vouchers []model.Voucher
-	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher")
+	result, err := db.Query("SELECT A.id, A.`key`,  B.detail, A.created_date, A.voucher_id, A.user_id, C.user_name, A.claimed_date, A.expired_date FROM lokapala_melonpaymentdb.t_voucher A LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail B ON A.voucher_id = B.voucher_id LEFT JOIN lokapala_accountdb.t_user C ON A.user_id = C.user_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var voucher model.Voucher
-		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Created_date, &voucher.Voucher_id, &voucher.User_id, &voucher.Claimed_date, &voucher.Expired_date)
+		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Detail, &voucher.Created_date, &voucher.Voucher_id, &voucher.User_id, &voucher.User_name, &voucher.Claimed_date, &voucher.Expired_date)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -61,13 +61,13 @@ func GetVoucher(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var voucher model.Voucher
-	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher WHERE id = ?", id)
+	result, err := db.Query("SELECT A.id, A.`key`,  B.detail, A.created_date, A.voucher_id, A.user_id, C.user_name, A.claimed_date, A.expired_date FROM lokapala_melonpaymentdb.t_voucher A LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail B ON A.voucher_id = B.voucher_id LEFT JOIN lokapala_accountdb.t_user C ON A.user_id = C.user_id WHERE id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
-		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Created_date, &voucher.Voucher_id, &voucher.User_id, &voucher.Claimed_date, &voucher.Expired_date)
+		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Detail, &voucher.Created_date, &voucher.Voucher_id, &voucher.User_id, &voucher.User_name, &voucher.Claimed_date, &voucher.Expired_date)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -149,14 +149,14 @@ func GetAllVoucherDetails(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 	var voucher_details []model.Voucher_detail
-	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher_detail")
+	result, err := db.Query("SELECT A.voucher_id, A.item_type, B.item_type_name, A.item_id, CASE WHEN A.item_type = 1 THEN (SELECT name FROM lokapala_accountdb.t_currency_type curr WHERE curr.currency_id = A.item_id ) WHEN A.item_type = 2 THEN (SELECT ksatriya_name FROM lokapala_accountdb.t_ksatriya ksa WHERE ksa.ksatriya_id = A.item_id) WHEN A.item_type = 3 THEN (SELECT CONCAT_WS(" + `" - "` + ", ksa_skin.ksatriya_skin_id, ksa.ksatriya_name ) FROM lokapala_accountdb.t_ksatriya_skin ksa_skin LEFT JOIN lokapala_accountdb.t_ksatriya ksa ON ksa_skin.ksatriya_id = ksa.ksatriya_id WHERE ksa_skin.ksatriya_skin_id = A.item_id) WHEN A.item_type = 4 THEN (SELECT rune.name FROM lokapala_accountdb.t_rune as rune WHERE rune.rune_id = A.item_id) WHEN A.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = A.item_id) WHEN A.item_type = 6 THEN (SELECT box.box_name FROM lokapala_accountdb.t_box box WHERE box.box_id = A.item_id) WHEN A.item_type = 7 THEN (SELECT chest.duration FROM lokapala_accountdb.t_chest chest WHERE chest.duration = A.item_id) WHEN A.item_type = 8 THEN (SELECT energy.description FROM lokapala_accountdb.t_energy energy WHERE energy_id = A.item_id) WHEN A.item_type = 9 THEN (SELECT skin_part.skin_part_id FROM lokapala_accountdb.t_ksatriya_skin_part skin_part WHERE skin_part_id = A.item_id) WHEN A.item_type = 10 THEN (SELECT CONCAT_WS(" + `" - "` + ",premium.item_id, premium.duration) FROM lokapala_accountdb.t_premium premium WHERE premium.item_id) WHEN A.item_type = 11 THEN (SELECT frame.description FROM lokapala_accountdb.t_icon_frame frame WHERE frame.frame_id = A.item_id) WHEN A.item_type = 12 THEN (SELECT avatar.description FROM lokapala_accountdb.t_icon_avatar avatar WHERE avatar.avatar_id = A.item_id) WHEN A.item_type = 14 THEN (SELECT vahana.vahana_skin FROM lokapala_accountdb.t_vahana_skin vahana WHERE vahana.vahana_skin_id = A.item_id) WHEN A.item_type = 15 THEN (SELECT ksa_frag.ksatriya_id FROM lokapala_accountdb.t_ksatriya_fragment ksa_frag WHERE ksa_frag.ksatriya_id = A.item_id) WHEN A.item_type = 16 THEN (SELECT ksa_skin_frag.ksatriya_skin_id FROM lokapala_accountdb.t_ksatriya_skin_fragment ksa_skin_frag WHERE ksa_skin_frag.ksatriya_skin_id = A.item_id) END AS item_name, A.amount, A.detail FROM lokapala_melonpaymentdb.t_voucher_detail A LEFT JOIN lokapala_accountdb.t_item_type B ON A.item_type = B.item_type_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var voucher_detail model.Voucher_detail
-		err := result.Scan(&voucher_detail.Voucher_id, &voucher_detail.Item_type, &voucher_detail.Item_id, &voucher_detail.Amount, &voucher_detail.Detail)
+		err := result.Scan(&voucher_detail.Voucher_id, &voucher_detail.Item_type, &voucher_detail.Item_type_name, &voucher_detail.Item_id, &voucher_detail.Item_name, &voucher_detail.Amount, &voucher_detail.Detail)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -172,13 +172,13 @@ func GetVoucherDetail(w http.ResponseWriter, r *http.Request) {
 	voucher_id := r.URL.Query().Get("voucher_id")
 
 	var voucher_detail model.Voucher_detail
-	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher_detail WHERE voucher_id = ?", voucher_id)
+	result, err := db.Query("SELECT A.voucher_id, A.item_type, B.item_type_name, A.item_id, CASE WHEN A.item_type = 1 THEN (SELECT name FROM lokapala_accountdb.t_currency_type curr WHERE curr.currency_id = A.item_id ) WHEN A.item_type = 2 THEN (SELECT ksatriya_name FROM lokapala_accountdb.t_ksatriya ksa WHERE ksa.ksatriya_id = A.item_id) WHEN A.item_type = 3 THEN (SELECT CONCAT_WS("+`" - "`+", ksa_skin.ksatriya_skin_id, ksa.ksatriya_name ) FROM lokapala_accountdb.t_ksatriya_skin ksa_skin LEFT JOIN lokapala_accountdb.t_ksatriya ksa ON ksa_skin.ksatriya_id = ksa.ksatriya_id WHERE ksa_skin.ksatriya_skin_id = A.item_id) WHEN A.item_type = 4 THEN (SELECT rune.name FROM lokapala_accountdb.t_rune as rune WHERE rune.rune_id = A.item_id) WHEN A.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = A.item_id) WHEN A.item_type = 6 THEN (SELECT box.box_name FROM lokapala_accountdb.t_box box WHERE box.box_id = A.item_id) WHEN A.item_type = 7 THEN (SELECT chest.duration FROM lokapala_accountdb.t_chest chest WHERE chest.duration = A.item_id) WHEN A.item_type = 8 THEN (SELECT energy.description FROM lokapala_accountdb.t_energy energy WHERE energy_id = A.item_id) WHEN A.item_type = 9 THEN (SELECT skin_part.skin_part_id FROM lokapala_accountdb.t_ksatriya_skin_part skin_part WHERE skin_part_id = A.item_id) WHEN A.item_type = 10 THEN (SELECT CONCAT_WS("+`" - "`+",premium.item_id, premium.duration) FROM lokapala_accountdb.t_premium premium WHERE premium.item_id) WHEN A.item_type = 11 THEN (SELECT frame.description FROM lokapala_accountdb.t_icon_frame frame WHERE frame.frame_id = A.item_id) WHEN A.item_type = 12 THEN (SELECT avatar.description FROM lokapala_accountdb.t_icon_avatar avatar WHERE avatar.avatar_id = A.item_id) WHEN A.item_type = 14 THEN (SELECT vahana.vahana_skin FROM lokapala_accountdb.t_vahana_skin vahana WHERE vahana.vahana_skin_id = A.item_id) WHEN A.item_type = 15 THEN (SELECT ksa_frag.ksatriya_id FROM lokapala_accountdb.t_ksatriya_fragment ksa_frag WHERE ksa_frag.ksatriya_id = A.item_id) WHEN A.item_type = 16 THEN (SELECT ksa_skin_frag.ksatriya_skin_id FROM lokapala_accountdb.t_ksatriya_skin_fragment ksa_skin_frag WHERE ksa_skin_frag.ksatriya_skin_id = A.item_id) END AS item_name, A.amount, A.detail FROM lokapala_melonpaymentdb.t_voucher_detail A LEFT JOIN lokapala_accountdb.t_item_type B ON A.item_type = B.item_type_id WHERE A.voucher_id = ?", voucher_id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
-		err := result.Scan(&voucher_detail.Voucher_id, &voucher_detail.Item_type, &voucher_detail.Item_id, &voucher_detail.Amount, &voucher_detail.Detail)
+		err := result.Scan(&voucher_detail.Voucher_id, &voucher_detail.Item_type, &voucher_detail.Item_type_name, &voucher_detail.Item_id, &voucher_detail.Item_name, &voucher_detail.Amount, &voucher_detail.Detail)
 		if err != nil {
 			panic(err.Error())
 		}
