@@ -271,7 +271,7 @@ func GetUserRank(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetUserMatchData(w http.ResponseWriter, r *http.Request) {
+func GetMatchData(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 
@@ -287,6 +287,37 @@ func GetUserMatchData(w http.ResponseWriter, r *http.Request) {
 	for result.Next() {
 		var stat model.Users_match_results
 		err := result.Scan(&stat.Game_duration, &stat.Game_mode, &stat.Match_id, &stat.Start_time, &stat.Room_id, &stat.Slot_index, &stat.User_id, &stat.Win, &stat.Ksatriya_id, &stat.Level, &stat.Kill, &stat.Death, &stat.Assist, &stat.Gold, &stat.Mantra_id, &stat.Mvp, &stat.Mvp_badge, &stat.Tower_destroyed, &stat.Creep_kill, &stat.Rune_activated, &stat.Damage_dealt, &stat.Damage_taken, &stat.Ward_placed, &stat.Raksasha_kill, &stat.Yaksha_kill, &stat.Is_leave, &stat.Is_afk, &stat.Minion_kill, &stat.Raksasha_kill_assist, &stat.Yaksha_kill_assist, &stat.Raksasha_controlled, &stat.First_blood, &stat.Double_kill, &stat.Triple_kill, &stat.Quadra_kill, &stat.Penta_kill, &stat.Ksatriya_damage_dealt, &stat.Close_call_kill, &stat.Highest_kill_streak, &stat.User_name, &stat.Avatar_icon, &stat.Frame)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	json.NewEncoder(w).Encode(stats)
+
+}
+
+func GetUserMatchHistory(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
+	user_id := r.URL.Query().Get("user_id")
+	game_mode := r.URL.Query().Get("game_mode")
+
+	var stats []model.User_match_history
+
+	result, err := db.Query("CALL lokapala_admindb.p_match_history_get_v2(?,?,?,?)", count, offset, user_id, game_mode)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.User_match_history
+		err := result.Scan(&stat.Room_id, &stat.Game_duration, &stat.Game_mode, &stat.Start_time, &stat.Win, &stat.Ksatriya_id, &stat.Level, &stat.Kill, &stat.Death, &stat.Assist, &stat.Mvp_badge, &stat.Slot0_ksa, &stat.Slot1_ksa, &stat.Slot2_ksa, &stat.Slot3_ksa, &stat.Slot4_ksa, &stat.Slot5_ksa, &stat.Slot6_ksa, &stat.Slot7_ksa, &stat.Slot8_ksa, &stat.Blue_kill, &stat.Red_kill, &stat.Slot0_user, &stat.Slot1_user, &stat.Slot2_user, &stat.Slot3_user, &stat.Slot4_user, &stat.Slot5_user, &stat.Slot6_user, &stat.Slot7_user, &stat.Slot8_user)
 		if err != nil {
 			panic(err.Error())
 		}

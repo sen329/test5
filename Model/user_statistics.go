@@ -125,3 +125,37 @@ type User_last_login struct {
 	User_id    int64  `json:"user_id"`
 	Last_login string `json:"last_login"`
 }
+
+type User_match_history struct {
+	Room_id       int64  `json:"room_id"`
+	Game_duration int64  `json:"game_duration"`
+	Game_mode     int    `json:"game_mode"`
+	Start_time    string `json:"start_time"`
+	Win           int    `json:"win"`
+	Ksatriya_id   int64  `json:"ksatriya_id"`
+	Level         int    `json:"level"`
+	Kill          int    `json:"kill"`
+	Death         int    `json:"death"`
+	Assist        int    `json:"assist"`
+	Mvp_badge     int    `json:"mvp_badge"`
+	Slot0_ksa     int64  `json:"slot0_ksa"`
+	Slot1_ksa     int64  `json:"slot1_ksa"`
+	Slot2_ksa     int64  `json:"slot2_ksa"`
+	Slot3_ksa     int64  `json:"slot3_ksa"`
+	Slot4_ksa     int64  `json:"slot4_ksa"`
+	Slot5_ksa     int64  `json:"slot5_ksa"`
+	Slot6_ksa     int64  `json:"slot6_ksa"`
+	Slot7_ksa     int64  `json:"slot7_ksa"`
+	Slot8_ksa     int64  `json:"slot8_ksa"`
+	Blue_kill     int    `json:"blue_kill"`
+	Red_kill      int    `json:"red_kill"`
+	Slot0_user    int64  `json:"slot0_user"`
+	Slot1_user    int64  `json:"slot1_user"`
+	Slot2_user    int64  `json:"slot2_user"`
+	Slot3_user    int64  `json:"slot3_user"`
+	Slot4_user    int64  `json:"slot4_user"`
+	Slot5_user    int64  `json:"slot5_user"`
+	Slot6_user    int64  `json:"slot6_user"`
+	Slot7_user    int64  `json:"slot7_user"`
+	Slot8_user    int64  `json:"slot8_user"`
+}
