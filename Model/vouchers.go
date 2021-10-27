@@ -13,13 +13,13 @@ type Voucher struct {
 }
 
 type Voucher_detail struct {
-	Voucher_id     int64  `json:"voucher_id"`
-	Item_type      int64  `json:"item_type"`
-	Item_type_name string `json:"item_type_name"`
-	Item_id        int64  `json:"item_id"`
-	Item_name      string `json:"item_name"`
-	Amount         int    `json:"amount"`
-	Detail         string `json:"detail"`
+	Voucher_id     int64   `json:"voucher_id"`
+	Item_type      int64   `json:"item_type"`
+	Item_type_name string  `json:"item_type_name"`
+	Item_id        int64   `json:"item_id"`
+	Item_name      *string `json:"item_name"`
+	Amount         int     `json:"amount"`
+	Detail         *string `json:"detail"`
 }
 
 type Voucher_one struct {
