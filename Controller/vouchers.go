@@ -137,7 +137,7 @@ func AddVoucher(w http.ResponseWriter, r *http.Request) {
 	amount := r.Form.Get("amount")
 	detail := r.Form.Get("detail")
 
-	_, err = stmt.Exec(voucher_id, item_id, item_type, amount, detail)
+	_, err = stmt.Exec(voucher_id, item_type, item_id, amount, detail)
 	if err != nil {
 		panic(err.Error())
 	}
