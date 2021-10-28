@@ -262,14 +262,14 @@ func GetAllVoucherOne(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 	var voucher_details []model.Voucher_one
-	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher_one")
+	result, err := db.Query("SELECT a.*, b.detail FROM lokapala_melonpaymentdb.t_voucher_one a LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail b ON a.voucher_id = b.voucher_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var voucher_detail model.Voucher_one
-		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Max_claim, &voucher_detail.Voucher_id)
+		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Max_claim, &voucher_detail.Voucher_id, &voucher_detail.Details)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -285,13 +285,13 @@ func GetVoucherOne(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var voucher_detail model.Voucher_one
-	result, err := db.Query("SELECT * FROM lokapala_melonpaymentdb.t_voucher_one WHERE id = ?", id)
+	result, err := db.Query("SELECT a.*, b.detail FROM lokapala_melonpaymentdb.t_voucher_one a LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail b ON a.voucher_id = b.voucher_id WHERE id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
-		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Max_claim, &voucher_detail.Voucher_id)
+		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Max_claim, &voucher_detail.Voucher_id, &voucher_detail.Details)
 		if err != nil {
 			panic(err.Error())
 		}

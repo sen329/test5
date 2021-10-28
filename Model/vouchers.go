@@ -29,6 +29,7 @@ type Voucher_one struct {
 	Expired_date string `json:"expired_date"`
 	Max_claim    int    `json:"max_claim"`
 	Voucher_id   int64  `json:"voucher_id"`
+	Details      string `json:"details"`
 }
 
 type Voucher_one_user struct {
