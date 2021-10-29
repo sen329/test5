@@ -317,7 +317,7 @@ func GetUserMatchHistory(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var stat model.User_match_history
-		err := result.Scan(&stat.Room_id, &stat.Game_duration, &stat.Game_mode, &stat.Start_time, &stat.Win, &stat.Ksatriya_id, &stat.Level, &stat.Kill, &stat.Death, &stat.Assist, &stat.Mvp_badge, &stat.Slot0_ksa, &stat.Slot1_ksa, &stat.Slot2_ksa, &stat.Slot3_ksa, &stat.Slot4_ksa, &stat.Slot5_ksa, &stat.Slot6_ksa, &stat.Slot7_ksa, &stat.Slot8_ksa, &stat.Blue_kill, &stat.Red_kill, &stat.Slot0_user, &stat.Slot1_user, &stat.Slot2_user, &stat.Slot3_user, &stat.Slot4_user, &stat.Slot5_user, &stat.Slot6_user, &stat.Slot7_user, &stat.Slot8_user)
+		err := result.Scan(&stat.Room_id, &stat.Game_duration, &stat.Game_mode, &stat.Start_time, &stat.Win, &stat.Ksatriya_id, &stat.Level, &stat.Kill, &stat.Death, &stat.Assist, &stat.Mvp_badge, &stat.Slot0_ksa, &stat.Slot1_ksa, &stat.Slot2_ksa, &stat.Slot3_ksa, &stat.Slot4_ksa, &stat.Slot5_ksa, &stat.Slot6_ksa, &stat.Slot7_ksa, &stat.Slot8_ksa, &stat.Slot9_ksa, &stat.Blue_kill, &stat.Red_kill, &stat.Slot0_user, &stat.Slot1_user, &stat.Slot2_user, &stat.Slot3_user, &stat.Slot4_user, &stat.Slot5_user, &stat.Slot6_user, &stat.Slot7_user, &stat.Slot8_user, &stat.Slot9_user)
 		if err != nil {
 			panic(err.Error())
 		}

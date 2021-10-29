@@ -147,6 +147,7 @@ type User_match_history struct {
 	Slot6_ksa     int64  `json:"slot6_ksa"`
 	Slot7_ksa     int64  `json:"slot7_ksa"`
 	Slot8_ksa     int64  `json:"slot8_ksa"`
+	Slot9_ksa     int64  `json:"slot9_ksa"`
 	Blue_kill     int    `json:"blue_kill"`
 	Red_kill      int    `json:"red_kill"`
 	Slot0_user    int64  `json:"slot0_user"`
@@ -158,4 +159,5 @@ type User_match_history struct {
 	Slot6_user    int64  `json:"slot6_user"`
 	Slot7_user    int64  `json:"slot7_user"`
 	Slot8_user    int64  `json:"slot8_user"`
+	Slot9_user    int64  `json:"slot9_user"`
 }
