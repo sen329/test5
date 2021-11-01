@@ -26,10 +26,10 @@ type Shop_lotus struct {
 }
 
 type Shop struct {
-	Shop_id       int64   `json:"shop_id"`
-	Item_id       int64   `json:"item_id"`
-	Item_type     int64   `json:"item_type"`
-	Amount        int     `json:"amount"`
+	Shop_id       *int64  `json:"shop_id"`
+	Item_id       *int64  `json:"item_id"`
+	Item_type     *int64  `json:"item_type"`
+	Amount        *int    `json:"amount"`
 	Price_coin    *int    `json:"price_coin"`
 	Price_citrine *int    `json:"price_citrine"`
 	Price_lotus   *int    `json:"price_lotus"`
