@@ -26,15 +26,15 @@ type Shop_lotus struct {
 }
 
 type Shop struct {
-	Shop_id       int64  `json:"shop_id"`
-	Item_id       int64  `json:"item_id"`
-	Item_type     int64  `json:"item_type"`
-	Amount        int    `json:"amount"`
-	Price_coin    int    `json:"price_coin"`
-	Price_citrine int    `json:"price_citrine"`
-	Price_lotus   int    `json:"price_lotus"`
-	Release_date  string `json:"release_date"`
-	Description   string `json:"description"`
+	Shop_id       int64   `json:"shop_id"`
+	Item_id       int64   `json:"item_id"`
+	Item_type     int64   `json:"item_type"`
+	Amount        int     `json:"amount"`
+	Price_coin    *int    `json:"price_coin"`
+	Price_citrine *int    `json:"price_citrine"`
+	Price_lotus   *int    `json:"price_lotus"`
+	Release_date  *string `json:"release_date"`
+	Description   *string `json:"description"`
 }
 
 type Shop_bundle struct {
