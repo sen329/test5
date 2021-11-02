@@ -10,6 +10,16 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type Item_bundle struct {
+	Item_bundle []Item `json:"item_bundle"`
+}
+
+type Item struct {
+	Item_id   int   `json:"item_id"`
+	Item_type int   `json:"item_type"`
+	Amount    int64 `json:"amount"`
+}
+
 func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
@@ -22,15 +32,51 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-
-	shop_id := r.Form.Get("shop_id")
-	item_type := r.Form.Get("item_type")
-	item_id := r.Form.Get("item_id")
-	amount := r.Form.Get("amount")
-
-	_, err = stmt.Exec(shop_id, item_type, item_id, amount)
+	stmt2, err := db.Prepare("INSERT INTO t_shop(amount, price_coin, price_citrine, price_lotus, release_date, description) VALUES (1,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
+	}
+
+	item_bundle := r.Form.Get("item_bundle")
+	price_coin := r.Form.Get("price_coin")
+	price_citrine := r.Form.Get("price_citrine")
+	price_lotus := r.Form.Get("price_lotus")
+	release_date := r.Form.Get("release_date")
+	description := r.Form.Get("description")
+
+	_, err = stmt2.Exec(price_coin, price_citrine, price_lotus, release_date, description)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	queryID, err := db.Query("SELECT MAX(shop_id) as shop_id FROM lokapala_accountdb.t_shop")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var shopId model.Shop
+
+	for queryID.Next() {
+
+		err := queryID.Scan(&shopId.Shop_id)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	shop_id := shopId.Shop_id
+
+	var itemBundle Item_bundle
+
+	convertToByte := []byte(item_bundle)
+
+	json.Unmarshal(convertToByte, &itemBundle)
+
+	for i := 0; i < len(itemBundle.Item_bundle); i++ {
+		_, err = stmt.Exec(shop_id, itemBundle.Item_bundle[i].Item_type, itemBundle.Item_bundle[i].Item_id, itemBundle.Item_bundle[i].Amount)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 
 	json.NewEncoder(w).Encode("Success")
@@ -41,14 +87,14 @@ func GetShopBundles(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var shop_bundles []model.Shop_bundle
 
-	result, err := db.Query("SELECT * from lokapala_accountdb.t_shop_bundle")
+	result, err := db.Query("SELECT A.shop_id, A.item_type, B.item_type_name, A.item_id, CASE WHEN A.item_type = 1 THEN (SELECT name FROM lokapala_accountdb.t_currency_type curr WHERE curr.currency_id = A.item_id ) WHEN A.item_type = 2 THEN (SELECT ksatriya_name FROM lokapala_accountdb.t_ksatriya ksa WHERE ksa.ksatriya_id = A.item_id) WHEN A.item_type = 3 THEN (SELECT CONCAT_WS(" + `" - "` + ", ksa_skin.ksatriya_skin_id, ksa.ksatriya_name ) FROM lokapala_accountdb.t_ksatriya_skin ksa_skin LEFT JOIN lokapala_accountdb.t_ksatriya ksa ON ksa_skin.ksatriya_id = ksa.ksatriya_id WHERE ksa_skin.ksatriya_skin_id = A.item_id) WHEN A.item_type = 4 THEN (SELECT rune.name FROM lokapala_accountdb.t_rune as rune WHERE rune.rune_id = A.item_id) WHEN A.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = A.item_id) WHEN A.item_type = 6 THEN (SELECT box.box_name FROM lokapala_accountdb.t_box box WHERE box.box_id = A.item_id) WHEN A.item_type = 7 THEN (SELECT chest.duration FROM lokapala_accountdb.t_chest chest WHERE chest.duration = A.item_id) WHEN A.item_type = 8 THEN (SELECT energy.description FROM lokapala_accountdb.t_energy energy WHERE energy_id = A.item_id) WHEN A.item_type = 9 THEN (SELECT skin_part.skin_part_id FROM lokapala_accountdb.t_ksatriya_skin_part skin_part WHERE skin_part_id = A.item_id) WHEN A.item_type = 10 THEN (SELECT CONCAT_WS(" + `" - "` + ",premium.item_id, premium.duration) FROM lokapala_accountdb.t_premium premium WHERE premium.item_id) WHEN A.item_type = 11 THEN (SELECT frame.description FROM lokapala_accountdb.t_icon_frame frame WHERE frame.frame_id = A.item_id) WHEN A.item_type = 12 THEN (SELECT avatar.description FROM lokapala_accountdb.t_icon_avatar avatar WHERE avatar.avatar_id = A.item_id) WHEN A.item_type = 14 THEN (SELECT vahana.vahana_skin FROM lokapala_accountdb.t_vahana_skin vahana WHERE vahana.vahana_skin_id = A.item_id) WHEN A.item_type = 15 THEN (SELECT ksa_frag.ksatriya_id FROM lokapala_accountdb.t_ksatriya_fragment ksa_frag WHERE ksa_frag.ksatriya_id = A.item_id) WHEN A.item_type = 16 THEN (SELECT ksa_skin_frag.ksatriya_skin_id FROM lokapala_accountdb.t_ksatriya_skin_fragment ksa_skin_frag WHERE ksa_skin_frag.ksatriya_skin_id = A.item_id) END AS item_name, amount FROM lokapala_accountdb.t_shop_bundle A LEFT JOIN lokapala_accountdb.t_item_type B ON A.item_type = B.item_type_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var shop_bundle model.Shop_bundle
-		err := result.Scan(&shop_bundle.Shop_id, &shop_bundle.Item_type, &shop_bundle.Item_id, &shop_bundle.Amount)
+		err := result.Scan(&shop_bundle.Shop_id, &shop_bundle.Item_type, &shop_bundle.Item_type_name, &shop_bundle.Item_id, &shop_bundle.Item_name, &shop_bundle.Amount)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -65,16 +111,14 @@ func GetShopBundle(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 	id1 := r.URL.Query().Get("shop_id")
-	id2 := r.URL.Query().Get("item_id")
-	id3 := r.URL.Query().Get("item_type")
 
 	var shop model.Shop_bundle
-	results, err := db.Prepare("SELECT * from lokapala_accountdb.t_shop_bundle where shop_id = ? AND item_id = ? AND item_type = ?")
+	results, err := db.Prepare("SELECT A.shop_id, A.item_type, B.item_type_name, A.item_id, CASE WHEN A.item_type = 1 THEN (SELECT name FROM lokapala_accountdb.t_currency_type curr WHERE curr.currency_id = A.item_id ) WHEN A.item_type = 2 THEN (SELECT ksatriya_name FROM lokapala_accountdb.t_ksatriya ksa WHERE ksa.ksatriya_id = A.item_id) WHEN A.item_type = 3 THEN (SELECT CONCAT_WS(" + `" - "` + ", ksa_skin.ksatriya_skin_id, ksa.ksatriya_name ) FROM lokapala_accountdb.t_ksatriya_skin ksa_skin LEFT JOIN lokapala_accountdb.t_ksatriya ksa ON ksa_skin.ksatriya_id = ksa.ksatriya_id WHERE ksa_skin.ksatriya_skin_id = A.item_id) WHEN A.item_type = 4 THEN (SELECT rune.name FROM lokapala_accountdb.t_rune as rune WHERE rune.rune_id = A.item_id) WHEN A.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = A.item_id) WHEN A.item_type = 6 THEN (SELECT box.box_name FROM lokapala_accountdb.t_box box WHERE box.box_id = A.item_id) WHEN A.item_type = 7 THEN (SELECT chest.duration FROM lokapala_accountdb.t_chest chest WHERE chest.duration = A.item_id) WHEN A.item_type = 8 THEN (SELECT energy.description FROM lokapala_accountdb.t_energy energy WHERE energy_id = A.item_id) WHEN A.item_type = 9 THEN (SELECT skin_part.skin_part_id FROM lokapala_accountdb.t_ksatriya_skin_part skin_part WHERE skin_part_id = A.item_id) WHEN A.item_type = 10 THEN (SELECT CONCAT_WS(" + `" - "` + ",premium.item_id, premium.duration) FROM lokapala_accountdb.t_premium premium WHERE premium.item_id) WHEN A.item_type = 11 THEN (SELECT frame.description FROM lokapala_accountdb.t_icon_frame frame WHERE frame.frame_id = A.item_id) WHEN A.item_type = 12 THEN (SELECT avatar.description FROM lokapala_accountdb.t_icon_avatar avatar WHERE avatar.avatar_id = A.item_id) WHEN A.item_type = 14 THEN (SELECT vahana.vahana_skin FROM lokapala_accountdb.t_vahana_skin vahana WHERE vahana.vahana_skin_id = A.item_id) WHEN A.item_type = 15 THEN (SELECT ksa_frag.ksatriya_id FROM lokapala_accountdb.t_ksatriya_fragment ksa_frag WHERE ksa_frag.ksatriya_id = A.item_id) WHEN A.item_type = 16 THEN (SELECT ksa_skin_frag.ksatriya_skin_id FROM lokapala_accountdb.t_ksatriya_skin_fragment ksa_skin_frag WHERE ksa_skin_frag.ksatriya_skin_id = A.item_id) END AS item_name, amount FROM lokapala_accountdb.t_shop_bundle A LEFT JOIN lokapala_accountdb.t_item_type B ON A.item_type = B.item_type_id where shop_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	result, err := results.Query(id1, id2, id3)
+	result, err := results.Query(id1)
 	if err != nil {
 		panic(err.Error())
 	}
