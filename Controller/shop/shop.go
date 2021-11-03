@@ -131,6 +131,32 @@ func UpdateShopItemPrice(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func UpdateShopItemDesc(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+	id := r.URL.Query().Get("id")
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_shop SET description = ? where shop_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	description := r.Form.Get("description")
+
+	_, err = stmt.Exec(NewNullString(description), id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.NewEncoder(w).Encode("Success")
+
+}
+
 func DeleteShopItem(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()

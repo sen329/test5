@@ -16,6 +16,7 @@ func RouteShop(r *mux.Router) *mux.Router {
 	route_shop.HandleFunc("/getAllItems", shop.GetShopItems).Methods("GET")
 	route_shop.HandleFunc("/getItem", shop.GetShopItem).Methods("GET")
 	route_shop.HandleFunc("/updateItemPrice", shop.UpdateShopItemPrice).Methods("PUT")
+	route_shop.HandleFunc("/updateItemDesc", shop.UpdateShopItemDesc).Methods("PUT")
 	route_shop.HandleFunc("/deleteItem", shop.DeleteShopItem).Methods("DELETE")
 
 	route_shop.HandleFunc("/addBundle", shop.AddShopBundle).Methods("POST")
