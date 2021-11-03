@@ -153,7 +153,7 @@ func UpdateNewsBannerINTL(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	banner, banner_checksum, err := CheckorUpload(r, "banner")
+	banner, banner_checksum, err := CheckorUploadS3(r, "banner")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -184,7 +184,7 @@ func UpdateNewsContentINTL(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	content, content_checksum, err := UploadFile(r, "content", "Test", lang)
+	content, content_checksum, err := UploadFileS3(r, "content", "Test", lang)
 	if err != nil {
 		panic(err)
 	}
