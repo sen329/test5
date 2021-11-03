@@ -117,8 +117,6 @@ func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	item_id := r.Form.Get("item_id")
-	item_type := r.Form.Get("item_type")
 	amount := r.Form.Get("amount")
 	price_coin := r.Form.Get("price_coin")
 	price_citrine := r.Form.Get("price_citrine")
@@ -126,7 +124,7 @@ func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
 	release_date := r.Form.Get("release_date")
 	description := r.Form.Get("description")
 
-	_, err = stmt.Exec(item_id, item_type, amount, NewNullString(price_coin), NewNullString(price_citrine), NewNullString(price_lotus), NewNullString(release_date), NewNullString(description), id)
+	_, err = stmt.Exec(amount, NewNullString(price_coin), NewNullString(price_citrine), NewNullString(price_lotus), NewNullString(release_date), NewNullString(description), id)
 	if err != nil {
 		panic(err.Error())
 	}
