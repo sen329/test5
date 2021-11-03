@@ -102,7 +102,7 @@ func GetShopItem(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
+func UpdateShopItemPrice(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 	id := r.URL.Query().Get("id")
@@ -112,7 +112,7 @@ func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_shop SET item_id = ?, item_type = ?, amount = ?, price_coin = ?, price_citrine = ?, price_lotus = ?, release_date =?, description =?  where shop_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_shop SET item_id = ?, item_type = ?, amount = ?, price_coin = ?, price_citrine = ?, price_lotus = ?  where shop_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -121,10 +121,8 @@ func UpdateShopItem(w http.ResponseWriter, r *http.Request) {
 	price_coin := r.Form.Get("price_coin")
 	price_citrine := r.Form.Get("price_citrine")
 	price_lotus := r.Form.Get("price_lotus")
-	release_date := r.Form.Get("release_date")
-	description := r.Form.Get("description")
 
-	_, err = stmt.Exec(amount, NewNullString(price_coin), NewNullString(price_citrine), NewNullString(price_lotus), NewNullString(release_date), NewNullString(description), id)
+	_, err = stmt.Exec(amount, NewNullString(price_coin), NewNullString(price_citrine), NewNullString(price_lotus), id)
 	if err != nil {
 		panic(err.Error())
 	}
