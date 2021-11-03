@@ -112,7 +112,7 @@ func UpdateShopItemPrice(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_shop SET item_id = ?, item_type = ?, amount = ?, price_coin = ?, price_citrine = ?, price_lotus = ?  where shop_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_shop SET amount = ?, price_coin = ?, price_citrine = ?, price_lotus = ?  where shop_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
