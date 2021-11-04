@@ -161,3 +161,12 @@ type User_match_history struct {
 	Slot8_user    int64  `json:"slot8_user"`
 	Slot9_user    int64  `json:"slot9_user"`
 }
+
+type User_total_games struct {
+	Total_games int64 `json:"total_games"`
+	Win_count   int64 `json:"win_count"`
+}
+
+type User_ksa_count struct {
+	Ksa_owned int `json:"ksa_owned"`
+}

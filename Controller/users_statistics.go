@@ -396,3 +396,47 @@ func UserLastLogin(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(stat)
 }
+
+func GetUserTotalGames(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	user_id := r.URL.Query().Get("user_id")
+
+	var stat model.User_total_games
+	result, err := db.Query("SELECT (select COUNT(1) AS total_games from lokapala_roomdb.t_room_result_slot  t JOIN lokapala_roomdb.t_past_room r ON t.room_id = r.room_id JOIN lokapala_roomdb.t_room_result rr ON t.room_id = rr.room_id where user_id = ? AND COALESCE(rr.match_id, 0) > 0) AS total_games, (select COUNT(1) AS total_games from lokapala_roomdb.t_room_result_slot  t JOIN lokapala_roomdb.t_past_room r ON t.room_id = r.room_id JOIN lokapala_roomdb.t_room_result rr ON t.room_id = rr.room_id where user_id = ? AND t.win =1 AND COALESCE(rr.match_id, 0) > 0) as total_win", user_id, user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		err := result.Scan(&stat.Total_games, &stat.Win_count)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	json.NewEncoder(w).Encode(stat)
+}
+
+func GetUserTotalKsa(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	user_id := r.URL.Query().Get("user_id")
+
+	var stat model.User_ksa_count
+	result, err := db.Query("select COUNT(1) as ksa_owned from lokapala_accountdb.t_inventory_ksatriya where user_id = ?", user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		err := result.Scan(&stat.Ksa_owned)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	json.NewEncoder(w).Encode(stat)
+}
