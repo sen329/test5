@@ -31,6 +31,8 @@ func AddlottoColor(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -52,6 +54,9 @@ func GetlottoColors(w http.ResponseWriter, r *http.Request) {
 
 		l_colors = append(l_colors, l_color)
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(l_colors)
 }
 
@@ -72,6 +77,9 @@ func GetlottoColor(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(l_color)
 }
 
@@ -98,6 +106,8 @@ func UpdatelottoColor(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -115,6 +125,8 @@ func DeletelottoColor(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

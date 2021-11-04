@@ -27,6 +27,8 @@ func GetMiscItems(w http.ResponseWriter, r *http.Request) {
 		misc_items = append(misc_items, misc_item)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(misc_items)
 }
 
@@ -47,6 +49,8 @@ func GetMiscItem(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(misc_item)
 }

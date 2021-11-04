@@ -30,6 +30,8 @@ func RegisterJudge(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -54,6 +56,8 @@ func GetAllJudge(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(judges)
 
 }
@@ -77,6 +81,8 @@ func GetJudge(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(judge)
 
@@ -104,6 +110,8 @@ func UpdateJudgeName(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -130,6 +138,8 @@ func UpdateJudgePassword(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -148,6 +158,8 @@ func DeleteJudge(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

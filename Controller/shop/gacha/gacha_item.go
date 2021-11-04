@@ -32,6 +32,8 @@ func AddGachaItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -56,6 +58,8 @@ func GetAllGachaItem(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(gacha_items)
 
 }
@@ -79,6 +83,8 @@ func GetGachaItem(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(gacha_item)
 
@@ -108,6 +114,8 @@ func UpdateGachaItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -126,6 +134,8 @@ func DeleteGachaItem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

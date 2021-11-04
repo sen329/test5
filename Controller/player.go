@@ -37,6 +37,8 @@ func GetAllPlayers(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(players)
 
 }
@@ -60,6 +62,8 @@ func GetPlayer(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(player)
 
@@ -88,6 +92,8 @@ func GetPlayerByName(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(players)
 
 }
@@ -115,6 +121,8 @@ func GetPlayerByReferalId(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(players)
 
 }
@@ -140,6 +148,8 @@ func UpdatePlayerKarma(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -167,6 +177,8 @@ func UpdatePlayerAvatar(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -192,6 +204,8 @@ func UpdatePlayerName(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -228,6 +242,8 @@ func UpdatePlayerNameAuto(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -259,6 +275,8 @@ func GetPlayerKsaRank(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(data)
 
@@ -292,6 +310,8 @@ func GetPlayerMatchHistory(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(match_history)
 

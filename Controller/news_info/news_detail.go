@@ -60,6 +60,8 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
+	defer stmt3.Close()
+
 	queryID, err := db.Query("SELECT MAX(id) as news_id FROM lokapala_accountdb.t_news_v2")
 	if err != nil {
 		panic(err.Error())
@@ -75,6 +77,8 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer queryID.Close()
+
 	news_id := newsId.News_id
 
 	_, err = stmt.Exec(news_id, EN, titleEN, banner, banner_checksum, contentEN, content_checksumEN)
@@ -86,6 +90,10 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
+	defer stmt.Close()
+
+	defer stmt2.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -110,6 +118,8 @@ func GetNewsDetails(w http.ResponseWriter, r *http.Request) {
 		details = append(details, detail)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(details)
 }
 
@@ -133,6 +143,8 @@ func GetNewsDetail(w http.ResponseWriter, r *http.Request) {
 
 		details = append(details, detail)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(details)
 }
@@ -162,6 +174,8 @@ func UpdateNewsBanner(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -195,6 +209,8 @@ func UpdateNewsContent(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -223,6 +239,8 @@ func UpdateNewsTitle(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -250,6 +268,10 @@ func DeleteNewsDetail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
+
+	defer stmt2.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

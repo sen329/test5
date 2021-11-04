@@ -53,6 +53,8 @@ func GetKsatriyaSkinParts(w http.ResponseWriter, r *http.Request) {
 		parts = append(parts, part)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(parts)
 }
 
@@ -73,6 +75,8 @@ func GetKsatriyaSkinPart(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(part)
 }

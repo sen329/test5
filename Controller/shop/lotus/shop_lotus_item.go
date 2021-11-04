@@ -34,6 +34,8 @@ func LotusAddNewItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -58,6 +60,8 @@ func LotusGetShopItems(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(shop_items)
 
 }
@@ -81,6 +85,8 @@ func LotusGetShopItem(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(shop_item)
 
@@ -112,6 +118,8 @@ func LotusUpdateShopItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -130,6 +138,8 @@ func LotusDeleteShopItem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

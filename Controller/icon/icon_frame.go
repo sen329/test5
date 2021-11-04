@@ -54,6 +54,8 @@ func GeticonFrames(w http.ResponseWriter, r *http.Request) {
 		frames = append(frames, frame)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(frames)
 }
 
@@ -74,6 +76,8 @@ func GeticonFrame(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(frame)
 }

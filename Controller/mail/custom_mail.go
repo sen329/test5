@@ -39,6 +39,8 @@ func Createcustommail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	if item_type_id != "" && item_id != "" && amount != "" {
 
 		stmt2, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail_attachment(item_id, item_type, amount, custom_message_id) VALUES (?,?,?,?)")
@@ -50,6 +52,8 @@ func Createcustommail(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		}
+
+		defer stmt2.Close()
 
 	}
 
@@ -78,6 +82,8 @@ func Getcustommails(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(custom_mails)
 
 }
@@ -100,6 +106,8 @@ func Getcustommail(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(custom_mail)
 
@@ -127,6 +135,8 @@ func Updatecustommail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -156,6 +166,9 @@ func Deletecustommail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt2.Close()
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

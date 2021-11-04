@@ -53,6 +53,8 @@ func GetAllCurrencyTypes(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(currencies)
 
 }
@@ -76,6 +78,8 @@ func GetCurrencyType(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(currency)
 

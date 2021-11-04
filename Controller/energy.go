@@ -53,6 +53,8 @@ func GetEnergies(w http.ResponseWriter, r *http.Request) {
 		energies = append(energies, energy)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(energies)
 }
 
@@ -73,6 +75,8 @@ func GetEnergy(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(energy)
 }

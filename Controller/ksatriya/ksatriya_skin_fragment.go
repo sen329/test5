@@ -57,6 +57,8 @@ func GetAllKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(ksatriya_skin_fragments)
 
 }

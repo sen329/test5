@@ -37,6 +37,8 @@ func GetDailyUserCountUnique(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stat)
 
 }
@@ -70,6 +72,8 @@ func GetDailyUserCount(w http.ResponseWriter, r *http.Request) {
 		stats = append(stats, stat)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stats)
 
@@ -105,6 +109,8 @@ func GetConcurrentUserCount(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stats)
 
 }
@@ -130,6 +136,8 @@ func GetUserLoginTypeCount(w http.ResponseWriter, r *http.Request) {
 		stats = append(stats, stat)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stats)
 
@@ -159,6 +167,8 @@ func GetKsaStatCount(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stats)
 
 }
@@ -184,6 +194,8 @@ func GetKsaTotalOwned(w http.ResponseWriter, r *http.Request) {
 		stats = append(stats, stat)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stats)
 
@@ -213,6 +225,8 @@ func GetKsaTotalKda(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stats)
 }
 
@@ -239,6 +253,8 @@ func GetUserStatCount(w http.ResponseWriter, r *http.Request) {
 		stats = append(stats, stat)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stats)
 
@@ -267,6 +283,8 @@ func GetUserRank(w http.ResponseWriter, r *http.Request) {
 		stats = append(stats, stat)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stats)
 
 }
@@ -294,6 +312,8 @@ func GetMatchData(w http.ResponseWriter, r *http.Request) {
 		stats = append(stats, stat)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stats)
 
@@ -326,6 +346,8 @@ func GetUserMatchHistory(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stats)
 
 }
@@ -347,6 +369,8 @@ func GetSocialMediaStats(w http.ResponseWriter, r *http.Request) {
 		}
 		stats = append(stats, stat)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stats)
 }
@@ -372,6 +396,8 @@ func GetUserSocialMedia(w http.ResponseWriter, r *http.Request) {
 		stats = append(stats, stat)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stats)
 }
 
@@ -393,6 +419,8 @@ func UserLastLogin(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stat)
 }
@@ -416,6 +444,8 @@ func GetUserTotalGames(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(stat)
 }
 
@@ -437,6 +467,8 @@ func GetUserTotalKsa(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(stat)
 }

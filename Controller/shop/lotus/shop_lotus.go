@@ -32,6 +32,8 @@ func AddLotus(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -55,6 +57,8 @@ func GetAllLotus(w http.ResponseWriter, r *http.Request) {
 		shop_lotuss = append(shop_lotuss, shop_lotus)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(shop_lotuss)
 
@@ -86,6 +90,8 @@ func GetLotus(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(shop_lotus)
 
 }
@@ -115,6 +121,8 @@ func UpdateLotusShop(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -134,6 +142,8 @@ func DeleteLotusShop(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

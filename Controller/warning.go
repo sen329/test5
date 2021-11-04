@@ -25,6 +25,8 @@ func GetWarningKsaRotation(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(flag)
 }
 
@@ -45,6 +47,8 @@ func GetWarningGacha(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(flag)
 }
@@ -67,6 +71,8 @@ func GetWarningLotto(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(flag)
 }
 
@@ -88,6 +94,8 @@ func GetWarningLotus(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(flag)
 }
 
@@ -108,6 +116,8 @@ func GetWarningSeason(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(flag)
 }

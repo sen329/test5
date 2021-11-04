@@ -38,6 +38,8 @@ func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {
 		reports = append(reports, report)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(reports)
 
 }
@@ -71,6 +73,8 @@ func GetAllPlayerReportsByReportedUser(w http.ResponseWriter, r *http.Request) {
 
 		reports = append(reports, report)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(reports)
 
@@ -106,6 +110,8 @@ func GetAllPlayerReportsByReporterUser(w http.ResponseWriter, r *http.Request) {
 		reports = append(reports, report)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(reports)
 
 }
@@ -140,6 +146,8 @@ func GetAllPlayerReportsByRoom(w http.ResponseWriter, r *http.Request) {
 		reports = append(reports, report)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(reports)
 
 }
@@ -172,6 +180,8 @@ func GetPlayerReport(w http.ResponseWriter, r *http.Request) {
 		reports = append(reports, report)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(reports)
 
 }
@@ -191,6 +201,8 @@ func ApprovePlayerReport(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -216,6 +228,8 @@ func GetAllPlayerProfileReports(w http.ResponseWriter, r *http.Request) {
 
 		reports = append(reports, report)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(reports)
 
@@ -249,6 +263,8 @@ func GetAllPlayerProfileReportsByReporterUser(w http.ResponseWriter, r *http.Req
 		reports = append(reports, report)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(reports)
 
 }
@@ -281,6 +297,8 @@ func GetAllPlayerProfileReportsByReportedUser(w http.ResponseWriter, r *http.Req
 		reports = append(reports, report)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(reports)
 
 }
@@ -312,6 +330,8 @@ func GetPlayerProfileReport(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(report)
 
 }
@@ -331,6 +351,8 @@ func ApprovePlayerProfileReport(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

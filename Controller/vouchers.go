@@ -31,6 +31,8 @@ func GenerateVoucher(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -52,6 +54,8 @@ func GetAllVouchers(w http.ResponseWriter, r *http.Request) {
 		vouchers = append(vouchers, voucher)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(vouchers)
 }
 
@@ -72,6 +76,8 @@ func GetVoucher(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(voucher)
 }
@@ -98,6 +104,8 @@ func UpdateVoucher(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -115,6 +123,8 @@ func DeleteVoucher(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -142,6 +152,8 @@ func AddVoucher(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -163,6 +175,8 @@ func GetAllVoucherDetails(w http.ResponseWriter, r *http.Request) {
 		voucher_details = append(voucher_details, voucher_detail)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(voucher_details)
 }
 
@@ -183,6 +197,8 @@ func GetVoucherDetail(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(voucher_detail)
 }
@@ -211,6 +227,8 @@ func UpdateVoucherDetail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -228,6 +246,8 @@ func DeleteVoucherDetail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -255,6 +275,8 @@ func AddVoucherOne(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -276,6 +298,8 @@ func GetAllVoucherOne(w http.ResponseWriter, r *http.Request) {
 		voucher_details = append(voucher_details, voucher_detail)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(voucher_details)
 }
 
@@ -296,6 +320,8 @@ func GetVoucherOne(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(voucher_detail)
 }
@@ -322,6 +348,8 @@ func UpdateVoucherOneSecretKey(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -346,6 +374,8 @@ func UpdateVoucherOneExpiredDate(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -372,6 +402,8 @@ func UpdateVoucherOneItems(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -389,6 +421,8 @@ func DeleteVoucherOne(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -411,6 +445,8 @@ func GetAllVoucherOneUser(w http.ResponseWriter, r *http.Request) {
 		voucher_details = append(voucher_details, voucher_detail)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(voucher_details)
 }
 
@@ -431,6 +467,8 @@ func GetVoucherOneUser(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(voucher_detail)
 }

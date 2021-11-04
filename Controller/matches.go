@@ -39,6 +39,8 @@ func GetMatches(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(matches)
 
 }
@@ -72,6 +74,8 @@ func GetMatch(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(match)
 
 }
@@ -102,6 +106,8 @@ func CancelMatch(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	if match == 1 {
 		json.NewEncoder(w).Encode("Success")

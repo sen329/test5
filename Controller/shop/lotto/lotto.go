@@ -32,6 +32,8 @@ func AddnewLotto(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	fmt.Fprintf(w, "Success")
 }
 
@@ -54,6 +56,8 @@ func GetallLottos(w http.ResponseWriter, r *http.Request) {
 
 		lottos = append(lottos, lotto)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(lottos)
 }

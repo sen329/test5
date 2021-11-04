@@ -49,6 +49,8 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt2.Close()
+
 	queryID, err := db.Query("SELECT MAX(shop_id) as shop_id FROM lokapala_accountdb.t_shop")
 	if err != nil {
 		panic(err.Error())
@@ -64,6 +66,8 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer queryID.Close()
+
 	shop_id := shopId.Shop_id
 
 	var itemBundle Item_bundle
@@ -78,6 +82,8 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -102,6 +108,8 @@ func GetShopBundles(w http.ResponseWriter, r *http.Request) {
 		shop_bundles = append(shop_bundles, shop_bundle)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(shop_bundles)
 
@@ -131,6 +139,8 @@ func GetShopBundle(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(shop)
 
@@ -162,6 +172,8 @@ func UpdateShopBundle(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -182,6 +194,8 @@ func DeleteShopBundle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

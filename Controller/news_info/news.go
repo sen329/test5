@@ -31,6 +31,8 @@ func AddNews(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -52,6 +54,8 @@ func GetAllNews(w http.ResponseWriter, r *http.Request) {
 		}
 		allNews = append(allNews, news)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(allNews)
 }
@@ -75,6 +79,9 @@ func GetNews(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(news)
 }
 
@@ -103,6 +110,8 @@ func UpdateNews(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -120,6 +129,8 @@ func DeleteNews(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

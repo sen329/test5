@@ -32,6 +32,8 @@ func AddlottoLoot(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -53,6 +55,8 @@ func GetlottoLoots(w http.ResponseWriter, r *http.Request) {
 
 		l_loots = append(l_loots, l_loot)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(l_loots)
 }
@@ -81,6 +85,8 @@ func GetlottoLoot(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(l_loot)
 }
 
@@ -101,6 +107,9 @@ func GetlottoLootByLottoId(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(l_loot)
 }
 
@@ -127,6 +136,8 @@ func UpdatelottoLoot(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -145,6 +156,8 @@ func DeletelottoLoot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

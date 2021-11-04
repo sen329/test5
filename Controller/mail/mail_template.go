@@ -31,6 +31,8 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	template_id, err := res.LastInsertId()
 	if err != nil {
 		panic(err.Error())
@@ -50,6 +52,8 @@ func Createtemplate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		}
+
+		defer stmt2.Close()
 
 	}
 
@@ -78,6 +82,8 @@ func Gettemplates(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(templates)
 
 }
@@ -101,6 +107,8 @@ func Gettemplate(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(template)
 
@@ -128,6 +136,8 @@ func Updatetemplates(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -157,6 +167,9 @@ func DeleteTemplates(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt2.Close()
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

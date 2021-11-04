@@ -110,6 +110,8 @@ func UpdateSeason(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -129,6 +131,8 @@ func DeleteSeason(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -237,6 +241,8 @@ func UpdateSeasonReward(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -256,6 +262,8 @@ func DeleteSeasonReward(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -366,6 +374,8 @@ func UpdateSeasonRankReward(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -385,6 +395,7 @@ func DeleteSeasonRankReward(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -456,6 +467,8 @@ func GetAllSeasonMails(w http.ResponseWriter, r *http.Request) {
 		seasons = append(seasons, season)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(seasons)
 
 }
@@ -507,6 +520,8 @@ func UpdateSeasonMail(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -526,6 +541,8 @@ func DeleteSeasonMail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

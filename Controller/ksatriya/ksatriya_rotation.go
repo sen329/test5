@@ -70,6 +70,8 @@ func GetAllKsatriyasRotation(w http.ResponseWriter, r *http.Request) {
 		ksatriyas_rotation = append(ksatriyas_rotation, ksatriya_rotation)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(ksatriyas_rotation)
 }
 
@@ -90,6 +92,8 @@ func GetKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(ksatriya_rotation)
 }

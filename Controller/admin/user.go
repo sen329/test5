@@ -32,6 +32,8 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(users)
 
 }
@@ -56,6 +58,8 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(user)
 
 }
@@ -79,6 +83,8 @@ func GetCurrentUserLogin(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(user)
 
@@ -106,6 +112,8 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -140,6 +148,8 @@ func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -168,6 +178,10 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt1.Close()
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

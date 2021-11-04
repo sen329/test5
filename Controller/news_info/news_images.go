@@ -34,6 +34,8 @@ func AddImage(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -58,6 +60,8 @@ func GetImages(w http.ResponseWriter, r *http.Request) {
 		images = append(images, image)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(images)
 }
 
@@ -78,6 +82,8 @@ func GetImage(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(image)
 }
@@ -102,6 +108,8 @@ func GetyourFavImages(w http.ResponseWriter, r *http.Request) {
 
 		images = append(images, image)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(images)
 }
@@ -134,6 +142,8 @@ func UpdateImage(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer old.Close()
+
 	new_name, new_checksum, err := UploadFile(r, "uploadImage", "Test")
 	if err != nil {
 		panic(err)
@@ -149,6 +159,9 @@ func UpdateImage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
+	defer stmt.Close()
+	defer stmt2.Close()
 
 	// Kalau image yang lama akan di masukan ke row baru:
 
@@ -212,6 +225,8 @@ func DeleteImage(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer result.Close()
+
 	workdir, err := connect.Getwd()
 	if err != nil {
 		panic(err.Error())
@@ -222,6 +237,8 @@ func DeleteImage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 	connect.Delete(fileDelete)
 
 	json.NewEncoder(w).Encode("Success")

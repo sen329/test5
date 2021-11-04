@@ -53,6 +53,8 @@ func GetRunes(w http.ResponseWriter, r *http.Request) {
 		runes = append(runes, runee)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(runes)
 }
 
@@ -73,6 +75,8 @@ func GetRune(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(rune)
 }

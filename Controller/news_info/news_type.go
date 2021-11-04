@@ -28,6 +28,9 @@ func GetNewsTypes(w http.ResponseWriter, r *http.Request) {
 
 		newsTypes = append(newsTypes, newsType)
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(newsTypes)
 }
 
@@ -48,5 +51,8 @@ func GetNewsType(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(newsType)
 }

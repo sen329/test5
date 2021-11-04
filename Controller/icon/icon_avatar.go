@@ -54,6 +54,8 @@ func GeticonAvatars(w http.ResponseWriter, r *http.Request) {
 		avatars = append(avatars, avatar)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(avatars)
 }
 
@@ -74,6 +76,9 @@ func GeticonAvatar(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(avatar)
 }
 

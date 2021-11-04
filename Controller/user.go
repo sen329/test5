@@ -132,6 +132,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	fmt.Println(role_id)
 
 	if len(role_id) > 0 {
@@ -154,10 +156,15 @@ func Register(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
+		defer stmt3.Close()
+
 		_, err = stmt2.Exec(user.Id, role_id)
 		if err != nil {
 			panic(err.Error())
 		}
+
+		defer stmt2.Close()
+
 	}
 
 	w.Header().Set("Content-Type", "application/json")

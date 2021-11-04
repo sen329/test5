@@ -32,6 +32,8 @@ func AddlottoFeature(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -53,6 +55,9 @@ func GetlottoFeatures(w http.ResponseWriter, r *http.Request) {
 
 		l_features = append(l_features, l_feature)
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(l_features)
 }
 
@@ -73,6 +78,8 @@ func GetlottoFeature(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(l_feature)
 }
@@ -96,6 +103,9 @@ func GetlottoFeatureByLottoId(w http.ResponseWriter, r *http.Request) {
 		}
 		l_features = append(l_features, l_feature)
 	}
+
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(l_features)
 }
 
@@ -123,6 +133,8 @@ func UpdatelottoFeature(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -140,6 +152,8 @@ func DeletelottoFeature(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

@@ -53,6 +53,8 @@ func GetAllChest(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(chests)
 
 }
@@ -76,6 +78,8 @@ func GetChest(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(chest)
 

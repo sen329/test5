@@ -35,6 +35,8 @@ func AddlottoItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -57,6 +59,8 @@ func GetlottoItems(w http.ResponseWriter, r *http.Request) {
 		l_items = append(l_items, l_item)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(l_items)
 }
 
@@ -77,6 +81,8 @@ func GetlottoItem(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(l_item)
 
@@ -109,6 +115,8 @@ func UpdatelottoItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -126,6 +134,8 @@ func DeletelottoItem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

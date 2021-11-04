@@ -30,6 +30,8 @@ func GetAllUsersRoles(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(users_roles)
 
 }
@@ -55,6 +57,8 @@ func GetUserRole(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(users_role)
 
 }
@@ -75,6 +79,9 @@ func AddNewUserToRole(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -94,5 +101,8 @@ func RemoveUserFromRole(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }

@@ -33,6 +33,8 @@ func AddnewMailLogin(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -54,6 +56,8 @@ func GetAllMailLogin(w http.ResponseWriter, r *http.Request) {
 
 		login_mails = append(login_mails, login_mail)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(login_mails)
 }

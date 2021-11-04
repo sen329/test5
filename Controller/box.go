@@ -54,6 +54,8 @@ func GetAllBox(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(boxes)
 
 }
@@ -77,6 +79,8 @@ func GetBox(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(box)
 

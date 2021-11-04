@@ -141,6 +141,8 @@ func randomNameS3(digit int) string {
 			panic(err.Error())
 		}
 
+		defer result.Close()
+
 		images = append(images, image)
 	}
 
@@ -178,6 +180,9 @@ func CheckorUploadS3(r *http.Request, form string) (string, string, error) {
 		if err != nil {
 			panic(err)
 		}
+
+		defer stmt.Close()
+
 		return getFromForm, checksum, err
 	}
 	result, err := db.Query("SELECT * FROM t_news_images WHERE image_name = ?", getFromForm)
@@ -194,5 +199,7 @@ func CheckorUploadS3(r *http.Request, form string) (string, string, error) {
 		getFromForm = image.Image_name
 		checksum = image.Image_checksum
 	}
+
+	defer result.Close()
 	return getFromForm, checksum, err
 }

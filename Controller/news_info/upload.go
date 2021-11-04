@@ -69,6 +69,9 @@ func UploadFile(r *http.Request, form string, paths ...string) (string, string, 
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer connect.Close()
+
 	return newRandName, checksum, nil
 }
 
@@ -97,6 +100,8 @@ func randomName(digit int) string {
 
 		images = append(images, image)
 	}
+
+	defer result.Close()
 
 	if len(images) != 0 {
 		// fmt.Println(newRandName)
@@ -132,6 +137,8 @@ func CheckorUpload(r *http.Request, form string) (string, string, error) {
 		if err != nil {
 			panic(err)
 		}
+
+		defer stmt.Close()
 		return getFromForm, checksum, err
 	}
 	result, err := db.Query("SELECT * FROM t_news_images WHERE image_name = ?", getFromForm)
@@ -148,5 +155,7 @@ func CheckorUpload(r *http.Request, form string) (string, string, error) {
 		getFromForm = image.Image_name
 		checksum = image.Image_checksum
 	}
+
+	defer result.Close()
 	return getFromForm, checksum, err
 }

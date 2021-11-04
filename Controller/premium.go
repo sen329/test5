@@ -52,6 +52,8 @@ func GetPremiums(w http.ResponseWriter, r *http.Request) {
 		premiums = append(premiums, premium)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(premiums)
 }
 
@@ -72,6 +74,8 @@ func GetPremium(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(premium)
 }

@@ -55,6 +55,8 @@ func GetKsatriyaFragments(w http.ResponseWriter, r *http.Request) {
 		fragments = append(fragments, fragment)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(fragments)
 }
 
@@ -75,6 +77,8 @@ func GetKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(fragment)
 }

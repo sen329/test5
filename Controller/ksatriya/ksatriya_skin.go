@@ -56,6 +56,8 @@ func GetAllKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(ksatriya_skins)
 
 }
@@ -79,6 +81,8 @@ func GetKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(ksatriya_skin)
 

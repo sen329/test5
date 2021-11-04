@@ -30,6 +30,8 @@ func GetAllPermissions(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(permissions)
 
 }
@@ -54,6 +56,8 @@ func GetAllRolesPermissions(w http.ResponseWriter, r *http.Request) {
 		roles_permissions = append(roles_permissions, roles_permission)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(roles_permissions)
 
@@ -83,6 +87,8 @@ func GetRolePermission(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(roles_permissions)
 
 }
@@ -103,6 +109,9 @@ func AddNewPermissionToRole(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -122,5 +131,8 @@ func RemovePermissionFromRole(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }

@@ -34,6 +34,8 @@ func Attachitem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -58,6 +60,8 @@ func Getmailattachments(w http.ResponseWriter, r *http.Request) {
 		attachments = append(attachments, attachment)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(attachments)
 
@@ -88,6 +92,8 @@ func GetmailattachmentByItem(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(attachment)
 }
 
@@ -116,6 +122,8 @@ func GetmailattachmentByTemplateId(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(attachment)
 }
@@ -147,6 +155,8 @@ func GetmailattachmentByTemplateIdOnly(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(attachments)
 }
 
@@ -176,6 +186,8 @@ func GetmailattachmentByCustomMessageId(w http.ResponseWriter, r *http.Request) 
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(attachment)
 }
 
@@ -203,6 +215,8 @@ func GetmailattachmentByCustomMessageIdOnly(w http.ResponseWriter, r *http.Reque
 		}
 		attachments = append(attachments, attachment)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(attachments)
 }
@@ -233,6 +247,8 @@ func UpdatemailattachmentByItem(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -260,6 +276,8 @@ func UpdatemailattachmentByTemplateId(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -289,6 +307,8 @@ func UpdatemailattachmentByCustomMessageId(w http.ResponseWriter, r *http.Reques
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -307,6 +327,8 @@ func RemoveitemByItem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
@@ -329,6 +351,8 @@ func RemoveitemByTemplateId(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 
 }
@@ -349,6 +373,8 @@ func RemoveitemByCustomMessageId(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 

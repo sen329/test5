@@ -29,6 +29,8 @@ func BlacklistPlayer(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	defer stmt.Close()
+
 	json.NewEncoder(w).Encode("Success")
 }
 
@@ -50,6 +52,8 @@ func GetAllBlacklists(w http.ResponseWriter, r *http.Request) {
 
 		blacklists = append(blacklists, blacklist)
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(blacklists)
 }
@@ -73,6 +77,8 @@ func GetBlacklist(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(blacklist)
 }
 
@@ -91,6 +97,8 @@ func UnblacklistPlayer(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

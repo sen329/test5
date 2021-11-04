@@ -55,6 +55,8 @@ func GetKsatriyas(w http.ResponseWriter, r *http.Request) {
 		ksatriyas = append(ksatriyas, ksatriya)
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(ksatriyas)
 }
 
@@ -75,6 +77,8 @@ func GetKsatriya(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(ksatriya)
 }
