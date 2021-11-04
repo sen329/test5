@@ -72,7 +72,7 @@ func UploadFileS3(r *http.Request, form string, paths ...string) (string, string
 	// if err != nil {
 	// 	panic(err.Error())
 	// }
-	fileLocation := "testfolder"
+	fileLocation := "NewsInfo"
 	for _, path := range paths {
 		fileLocation = filepath.Join(fileLocation, path)
 	}
