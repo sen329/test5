@@ -47,14 +47,14 @@ func GetPlayer(w http.ResponseWriter, r *http.Request) {
 	user_id := r.URL.Query().Get("user_id")
 
 	var player model.Player
-	result, err := db.Query("SELECT A.user_id, A.user_name, A.avatar_icon,A.karma, A.gender,A.country, A.role, A.playing_time, A.frame, B.referral_id FROM lokapala_accountdb.t_user A LEFT JOIN lokapala_logindb.t_users B ON B.user_id = A.user_id where A.user_id = ? ", user_id)
+	result, err := db.Query("SELECT A.user_id, A.user_name, A.avatar_icon,A.karma, A.gender,A.country, A.role, A.playing_time, A.frame, B.referral_id, C.last_api_call, (select COUNT(1) AS total_games from lokapala_roomdb.t_room_result_slot  t JOIN lokapala_roomdb.t_past_room r ON t.room_id = r.room_id JOIN lokapala_roomdb.t_room_result rr ON t.room_id = rr.room_id where user_id = ? AND COALESCE(rr.match_id, 0) > 0) AS total_games, (select COUNT(1) AS total_games from lokapala_roomdb.t_room_result_slot  t JOIN lokapala_roomdb.t_past_room r ON t.room_id = r.room_id JOIN lokapala_roomdb.t_room_result rr ON t.room_id = rr.room_id where user_id = ? AND t.win =1 AND COALESCE(rr.match_id, 0) > 0) as total_win, (select COUNT(1) from lokapala_accountdb.t_inventory_ksatriya where user_id = ?) as ksa_owned FROM lokapala_accountdb.t_user A LEFT JOIN lokapala_logindb.t_users B ON B.user_id = A.user_id LEFT JOIN lokapala_logindb.t_session_key C ON A.user_id = C.user_id where A.user_id = ? ", user_id, user_id, user_id, user_id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 
-		err := result.Scan(&player.User_id, &player.User_name, &player.Avatar_Icon, &player.Karma, &player.Gender, &player.Country, &player.Role, &player.Playing_time, &player.Frame, &player.Referal_id)
+		err := result.Scan(&player.User_id, &player.User_name, &player.Avatar_Icon, &player.Karma, &player.Gender, &player.Country, &player.Role, &player.Playing_time, &player.Frame, &player.Referal_id, &player.Last_login, &player.Total_games, &player.Win_count, &player.Ksa_owned)
 		if err != nil {
 			panic(err.Error())
 		}

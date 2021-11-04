@@ -11,6 +11,10 @@ type Player struct {
 	Playing_time int     `json:"playing_time"`
 	Frame        int     `json:"frame"`
 	Referal_id   *string `json:"referal_id"`
+	Last_login   *string `json:"last_login"`
+	Total_games  int64   `json:"total_games"`
+	Win_count    int64   `json:"win_count"`
+	Ksa_owned    int     `json:"ksa_owned"`
 }
 
 type Player_Ksatriya_ranking struct {
