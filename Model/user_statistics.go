@@ -170,3 +170,12 @@ type User_total_games struct {
 type User_ksa_count struct {
 	Ksa_owned int `json:"ksa_owned"`
 }
+
+type Room_match_list struct {
+	Room_id       int64  `json:"room_id"`
+	Match_id      int64  `json:"match_id"`
+	Room_name     string `json:"room_name"`
+	Create_time   string `json:"create_time"`
+	Game_duration int    `json:"game_duration"`
+	Game_mode     int    `json:"game_mode"`
+}

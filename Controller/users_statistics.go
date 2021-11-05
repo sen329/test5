@@ -472,3 +472,33 @@ func GetUserTotalKsa(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(stat)
 }
+
+func GetMatchLists(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	sort := r.URL.Query().Get("sort")
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
+
+	var stats []model.Room_match_list
+	result, err := db.Query("select A.room_id, B.match_id, A.room_name, A.create_time, B.game_duration, A.game_mode  from lokapala_roomdb.t_past_room A LEFT JOIN lokapala_roomdb.t_room_result B ON A.room_id = B.room_id ORDER BY B.game_duration ? LIMIT ? OFFSET ?", sort, count, offset)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Room_match_list
+		err := result.Scan(&stat.Room_id, &stat.Match_id, &stat.Room_name, &stat.Create_time, &stat.Game_duration, &stat.Game_mode)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(stats)
+}
