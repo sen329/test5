@@ -42,11 +42,11 @@ func AddNewsDetailINTL(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	contentEN, content_checksumEN, err := UploadFileS3(r, "contentEN", "NewsInfo", EN)
+	contentEN, content_checksumEN, err := UploadFileS3(r, "contentEN", EN)
 	if err != nil {
 		panic(err)
 	}
-	contentINTL, content_checksumINTL, err := UploadFileS3(r, "contentINTL", "NewsInfo", language)
+	contentINTL, content_checksumINTL, err := UploadFileS3(r, "contentINTL", language)
 	if err != nil {
 		panic(err)
 	}
