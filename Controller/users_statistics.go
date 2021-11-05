@@ -477,11 +477,12 @@ func GetMatchLists(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 
+	room_id := r.URL.Query().Get("room_id")
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 
 	var stats []model.Room_match_list
-	result, err := db.Query("select A.room_id, B.match_id, A.room_name, A.create_time, B.game_duration, A.game_mode  from lokapala_roomdb.t_past_room A LEFT JOIN lokapala_roomdb.t_room_result B ON A.room_id = B.room_id LIMIT ? OFFSET ?", count, offset)
+	result, err := db.Query("select A.room_id, B.match_id, A.room_name, A.create_time, B.game_duration, A.game_mode  from lokapala_roomdb.t_past_room A LEFT JOIN lokapala_roomdb.t_room_result B ON A.room_id = B.room_id where IF(? = '', TRUE, A.room_id = ?) ORDER BY A.create_time DESC LIMIT ? OFFSET ?", room_id, room_id, count, offset)
 	if err != nil {
 		panic(err.Error())
 	}
