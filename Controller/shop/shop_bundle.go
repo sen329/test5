@@ -57,7 +57,7 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	var shopId model.Shop
+	var shopId model.Shop_bundle
 
 	for queryID.Next() {
 
