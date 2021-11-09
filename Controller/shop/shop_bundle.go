@@ -32,7 +32,7 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	stmt2, err := db.Prepare("INSERT INTO t_shop(item_id, item_type, amount, price_coin, price_citrine, price_lotus, release_date, description) VALUES (NULL,NULL,1,?,?,?,?,?)")
+	stmt2, err := db.Prepare("INSERT INTO lokapala_accountdb.t_shop(item_id, item_type, amount, price_coin, price_citrine, price_lotus, release_date, description) VALUES (NULL,NULL,1,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
