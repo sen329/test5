@@ -2,6 +2,7 @@ package shop
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	controller "test5/Controller"
@@ -70,6 +71,8 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 
 	shop_id := shopId.Shop_id
 
+	fmt.Println(shop_id)
+
 	var itemBundle Item_bundle
 
 	convertToByte := []byte(item_bundle)
@@ -79,7 +82,8 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(itemBundle.Item_bundle); i++ {
 		_, err = stmt.Exec(shop_id, itemBundle.Item_bundle[i].Item_type, itemBundle.Item_bundle[i].Item_id, itemBundle.Item_bundle[i].Amount)
 		if err != nil {
-			panic(err.Error())
+			json.NewEncoder(w).Encode(err.Error())
+			return
 		}
 	}
 
