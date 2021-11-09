@@ -44,7 +44,7 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 	release_date := r.Form.Get("release_date")
 	description := r.Form.Get("description")
 
-	_, err = stmt2.Exec(price_coin, price_citrine, price_lotus, release_date, description)
+	_, err = stmt2.Exec(NewNullString(price_coin), NewNullString(price_citrine), NewNullString(price_lotus), release_date, description)
 	if err != nil {
 		panic(err.Error())
 	}
