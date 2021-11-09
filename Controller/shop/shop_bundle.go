@@ -82,6 +82,7 @@ func AddShopBundle(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(itemBundle.Item_bundle); i++ {
 		_, err = stmt.Exec(shop_id, itemBundle.Item_bundle[i].Item_type, itemBundle.Item_bundle[i].Item_id, itemBundle.Item_bundle[i].Amount)
 		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(err.Error())
 			return
 		}
