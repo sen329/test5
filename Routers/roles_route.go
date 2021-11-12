@@ -22,7 +22,6 @@ func RouteRole(r *mux.Router) *mux.Router {
 	//roles permission control
 	route_role.HandleFunc("/addPermissionToRole", controller.AddNewPermissionToRole).Methods("POST")
 	route_role.HandleFunc("/getAllRolesPermission", controller.GetAllRolesPermissions).Methods("GET")
-	route_role.HandleFunc("/getRolePermission", controller.GetRolePermission).Methods("GET")
 	route_role.HandleFunc("/removePermissionFromRole", controller.RemovePermissionFromRole).Methods("DELETE")
 	route_role.HandleFunc("/getAllPermission", controller.GetAllPermissions).Methods("GET")
 
