@@ -48,7 +48,7 @@ type Shop_bundle struct {
 	Amount         int     `json:"amount"`
 	Start_date     *string `json:"start_date"`
 	End_date       *string `json:"end_date"`
-	Priority       int     `json:"priority"`
+	Priority       *int    `json:"priority"`
 }
 
 //fortune of the north
