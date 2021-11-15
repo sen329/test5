@@ -25,5 +25,10 @@ func RouteShop(r *mux.Router) *mux.Router {
 	route_shop.HandleFunc("/updateBundle", shop.UpdateShopBundle).Methods("PUT")
 	route_shop.HandleFunc("/deleteBundle", shop.DeleteShopBundle).Methods("DELETE")
 
+	route_shop.HandleFunc("/addFeaturedBundle", shop.AddFeaturedShopBundle).Methods("POST")
+	route_shop.HandleFunc("/updateFeaturedBundleDate", shop.UpdateFeaturedShopBundleDate).Methods("PUT")
+	route_shop.HandleFunc("/updateFeaturedBundlePriority", shop.UpdateFeaturedShopBundlePriority).Methods("PUT")
+	route_shop.HandleFunc("/deleteFeaturedBundle", shop.DeleteFeaturedShopBundle).Methods("DELETE")
+
 	return r
 }
