@@ -100,7 +100,7 @@ func GetShopBundles(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var shop_bundle model.Shop_bundle
-		err := result.Scan(&shop_bundle.Shop_id, &shop_bundle.Item_type, &shop_bundle.Item_type_name, &shop_bundle.Item_id, &shop_bundle.Item_name, &shop_bundle.Amount)
+		err := result.Scan(&shop_bundle.Shop_id, &shop_bundle.Item_type, &shop_bundle.Item_type_name, &shop_bundle.Item_id, &shop_bundle.Item_name, &shop_bundle.Amount, &shop_bundle.Start_date, &shop_bundle.End_date, &shop_bundle.Priority)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -133,7 +133,7 @@ func GetShopBundle(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 
-		err := result.Scan(&shop.Shop_id, &shop.Item_id, &shop.Item_type, &shop.Amount)
+		err := result.Scan(&shop.Shop_id, &shop.Item_id, &shop.Item_name, &shop.Item_type, &shop.Item_type_name, &shop.Amount, &shop.Start_date, &shop.End_date, &shop.Priority)
 		if err != nil {
 			panic(err.Error())
 		}
