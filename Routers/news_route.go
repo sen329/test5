@@ -10,7 +10,7 @@ import (
 func RouteNews(r *mux.Router) *mux.Router {
 
 	route_news := r.PathPrefix("/news").Subrouter()
-	route_news.Use(middleware.Middleware)
+	route_news.Use(middleware.Middleware, middleware.CheckRoleNews)
 
 	route_news.HandleFunc("/add", newsinfo.AddNews).Methods("POST")
 	route_news.HandleFunc("/getAll", newsinfo.GetAllNews).Methods("GET")
