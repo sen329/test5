@@ -107,3 +107,21 @@ type Guild_mission_contribution_log struct {
 	Amount                            int64  `json:"amount"`
 	Contribution_date                 string `json:"contribution_date"`
 }
+
+type Guild_blessing_log struct {
+	Guild_blessing_log_id  *int64  `json:"guild_blessing_log_id"`
+	User_id                *int64  `json:"user_id"`
+	User_name              *string `json:"user_name"`
+	Guild_blessing_game_id *int    `json:"guild_blessing_game_id"`
+	Guild_id               *int64  `json:"guild_id"`
+	Play_date              *string `json:"play_date"`
+	Start_date             *string `json:"start_date"`
+	End_date               *string `json:"end_date"`
+	Guild_blessing_level   *int    `json:"guild_blessing_level"`
+	Item_description       *string `json:"item_description"`
+	Item_id                *int64  `json:"item_id"`
+	Item_type              *int64  `json:"item_type"`
+	Amount                 *int    `json:"amount"`
+	Claim_date             *string `json:"claim_date"`
+	Obtained_time          *string `json:"obtained_time"`
+}

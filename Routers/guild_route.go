@@ -26,5 +26,7 @@ func RouteGuild(r *mux.Router) *mux.Router {
 	route_guild.HandleFunc("/getGuildMisisons", guild.GetGuildMissions).Methods("GET")
 	route_guild.HandleFunc("/getGuildMissionContributionLog", guild.GetGuildMissionContributionLog).Methods("GET")
 
+	route_guild.HandleFunc("/getGuildBlessingsLog", guild.GetGuildBlessing).Methods("GET")
+
 	return r
 }
