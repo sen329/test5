@@ -2,13 +2,29 @@ package mail
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
+	"os"
 
 	controller "test5/Controller"
 	model "test5/Model"
 
+	"github.com/joho/godotenv"
+
 	_ "github.com/go-sql-driver/mysql"
 )
+
+func goDotEnvVariable(key string) string {
+
+	// load .env file
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	return os.Getenv(key)
+}
 
 func AddnewMailLogin(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
@@ -18,7 +34,7 @@ func AddnewMailLogin(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail_login(template_id,parameter,start_date,end_date) VALUES (?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail_login(template_id,parameter,start_date,end_date) VALUES (?,?,CONVERT_TZ(?,?,?),CONVERT_TZ(?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -27,8 +43,10 @@ func AddnewMailLogin(w http.ResponseWriter, r *http.Request) {
 	parameter := r.Form.Get("parameter")
 	start_date := r.Form.Get("start_date")
 	end_date := r.Form.Get("end_date")
+	server_timezone := goDotEnvVariable("server_timezone")
+	local_timezone := goDotEnvVariable("local_timezone")
 
-	_, err = stmt.Exec(template_id, NewNullString(parameter), start_date, end_date)
+	_, err = stmt.Exec(template_id, NewNullString(parameter), start_date, local_timezone, server_timezone, end_date, local_timezone, server_timezone)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -42,7 +60,7 @@ func GetAllMailLogin(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 	var login_mails []model.Login_mail
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_mail_login")
+	result, err := db.Query("SELECT a.template_id, parameter,CONVERT_TZ(start_date, '+00:00', '+07:00') as start_date,CONVERT_TZ(end_date, '+00:00', '+07:00') as end_date FROM lokapala_accountdb.t_mail_login a")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -68,7 +86,7 @@ func GetMailLogin(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var login_mail model.Login_mail
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_mail_login WHERE template_id = ?", id)
+	result, err := db.Query("SELECT a.template_id, parameter,CONVERT_TZ(start_date, '+00:00', '+07:00') as start_date,CONVERT_TZ(end_date, '+00:00', '+07:00') as end_date FROM lokapala_accountdb.t_mail_login a WHERE a.template_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -93,7 +111,7 @@ func UpdateMailLogin(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_mail_login SET parameter = ?, start_date = ?, end_date = ? WHERE template_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_mail_login SET parameter = ?, start_date = CONVERT_TZ(?,?,?), end_date = CONVERT_TZ(?,?,?) WHERE template_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -101,8 +119,10 @@ func UpdateMailLogin(w http.ResponseWriter, r *http.Request) {
 	parameter_new := r.Form.Get("parameter")
 	start_date_new := r.Form.Get("start_date")
 	end_date_new := r.Form.Get("end_date")
+	server_timezone := goDotEnvVariable("server_timezone")
+	local_timezone := goDotEnvVariable("local_timezone")
 
-	_, err = stmt.Exec(NewNullString(parameter_new), start_date_new, end_date_new, id)
+	_, err = stmt.Exec(NewNullString(parameter_new), start_date_new, local_timezone, server_timezone, end_date_new, local_timezone, server_timezone, id)
 	if err != nil {
 		panic(err.Error())
 	}
