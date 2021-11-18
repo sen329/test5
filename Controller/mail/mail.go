@@ -38,7 +38,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail(mail_type,sender_id,receiver_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,CONVERT_TZ(?,?,?),?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO lokapala_accountdb.t_mail(mail_type,sender_id,receiver_id,send_date,mail_template,parameter,custom_message_id) VALUES (?,?,?,?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -52,8 +52,6 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 	mail_template := r.Form.Get("mail_template")
 	parameter := r.Form.Get("parameter")
 	custom_message_id := r.Form.Get("custom_message_id")
-	server_timezone := goDotEnvVariable("server_timezone")
-	local_timezone := goDotEnvVariable("local_timezone")
 
 	convertByte := []byte(receiver_id)
 
@@ -61,7 +59,7 @@ func Sendmail(w http.ResponseWriter, r *http.Request) {
 
 	for i := 0; i < len(recipients.Recipients); i++ {
 		fmt.Print(recipients.Recipients[i].Recipient_user_id)
-		_, err = stmt.Exec(mail_type, NewNullString(sender_id), recipients.Recipients[i].Recipient_user_id, NewNullString(send_date), local_timezone, server_timezone, NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
+		_, err = stmt.Exec(mail_type, NewNullString(sender_id), recipients.Recipients[i].Recipient_user_id, NewNullString(send_date), NewNullString(mail_template), NewNullString(parameter), NewNullString(custom_message_id))
 		if err != nil {
 			panic(err)
 		}
@@ -81,7 +79,7 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 
 	var mails []model.Mail
 
-	query, err := db.Prepare("SELECT mail_id, mail_type, sender_id, receiver_id, CONVERT_TZ(send_date, '+00:00', '+07:00') as send_date, mail_template, confirm_read, read_date, confirm_claim, claim_date, parameter, custom_message_id FROM lokapala_accountdb.t_mail ORDER BY send_date DESC LIMIT ? OFFSET ?")
+	query, err := db.Prepare("SELECT * from lokapala_accountdb.t_mail ORDER BY send_date DESC LIMIT ? OFFSET ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -118,16 +116,14 @@ func SetSendDate(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_mail SET send_date = CONVERT_TZ(?,?,?) WHERE mail_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_mail SET send_date = ? WHERE mail_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	send_date_new := r.Form.Get("send_date")
-	server_timezone := goDotEnvVariable("server_timezone")
-	local_timezone := goDotEnvVariable("local_timezone")
 
-	_, err = stmt.Exec(send_date_new, local_timezone, server_timezone, id)
+	_, err = stmt.Exec(send_date_new, id)
 	if err != nil {
 		panic(err.Error())
 	}
