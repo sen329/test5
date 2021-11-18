@@ -88,7 +88,7 @@ func CancelMatch(w http.ResponseWriter, r *http.Request) {
 
 	var match int
 
-	query, err := db.Prepare("call lokapala_admindb.p_room_timeout(0,?)")
+	query, err := db.Prepare("call lokapala_admindb.p_room_timeout(0,?, @result)")
 	if err != nil {
 		panic(err.Error())
 	}
