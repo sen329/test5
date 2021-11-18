@@ -312,14 +312,14 @@ func GetShopFeaturedBundles(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var shop_bundles []model.Shop_featured
 
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_shop_featured")
+	result, err := db.Query("SELECT a.shop_id, a.start_date, a.end_date, a.priority, b.description FROM lokapala_accountdb.t_shop_featured a LEFT JOIN lokapala_accountdb.t_shop b ON a.shop_id = b.shop_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var shop_bundle model.Shop_featured
-		err := result.Scan(&shop_bundle.Shop_id, &shop_bundle.Start_date, &shop_bundle.End_date, &shop_bundle.Priority)
+		err := result.Scan(&shop_bundle.Shop_id, &shop_bundle.Start_date, &shop_bundle.End_date, &shop_bundle.Priority, &shop_bundle.Description)
 		if err != nil {
 			panic(err.Error())
 		}
