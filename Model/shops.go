@@ -51,6 +51,13 @@ type Shop_bundle struct {
 	Priority       *int    `json:"priority"`
 }
 
+type Shop_featured struct {
+	Shop_id    int64  `json:"shop_id"`
+	Start_date string `json:"start_date"`
+	End_date   string `json:"end_date"`
+	Priority   int    `json:"priority"`
+}
+
 //fortune of the north
 
 type Lotto struct {

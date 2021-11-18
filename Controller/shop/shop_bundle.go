@@ -306,3 +306,30 @@ func DeleteFeaturedShopBundle(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 
 }
+
+func GetShopFeaturedBundles(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+	var shop_bundles []model.Shop_featured
+
+	result, err := db.Query("SELECT * FROM lokapala_acccountdb.t_shop_featured")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var shop_bundle model.Shop_featured
+		err := result.Scan(&shop_bundle.Shop_id, &shop_bundle.Start_date, &shop_bundle.End_date, &shop_bundle.Priority)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		shop_bundles = append(shop_bundles, shop_bundle)
+
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(shop_bundles)
+
+}
