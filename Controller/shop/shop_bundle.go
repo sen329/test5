@@ -214,10 +214,16 @@ func AddFeaturedShopBundle(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	stmt3, err := db.Prepare("INSERT INTO lokapala_accountdb.t_shop_limit(shop_id, max_buy) VALUES (?,?)")
+	if err != nil {
+		panic(err.Error())
+	}
+
 	shop_id := r.Form.Get("shop_id")
 	start_date := r.Form.Get("start_date")
 	end_date := r.Form.Get("end_date")
 	priority := r.Form.Get("priority")
+	max_buy := r.Form.Get("max_buy")
 
 	_, err = stmt.Exec(shop_id, start_date, end_date, priority)
 	if err != nil {
@@ -225,6 +231,13 @@ func AddFeaturedShopBundle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer stmt.Close()
+
+	_, err = stmt3.Exec(shop_id, max_buy)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt3.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
