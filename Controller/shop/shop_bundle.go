@@ -312,7 +312,7 @@ func GetShopFeaturedBundles(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var shop_bundles []model.Shop_featured
 
-	result, err := db.Query("SELECT * FROM lokapala_acccountdb.t_shop_featured")
+	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_shop_featured")
 	if err != nil {
 		panic(err.Error())
 	}
