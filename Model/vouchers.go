@@ -23,13 +23,15 @@ type Voucher_detail struct {
 }
 
 type Voucher_one struct {
-	Id           int64  `json:"id"`
-	Secret_key   string `json:"secret_key"`
-	Created_date string `json:"created_date"`
-	Expired_date string `json:"expired_date"`
-	Max_claim    int    `json:"max_claim"`
-	Voucher_id   int64  `json:"voucher_id"`
-	Details      string `json:"details"`
+	Id              int64  `json:"id"`
+	Secret_key      string `json:"secret_key"`
+	Created_date    string `json:"created_date"`
+	Expired_date    string `json:"expired_date"`
+	Voucher_id      int64  `json:"voucher_id"`
+	Details         string `json:"details"`
+	Max_claim       int    `json:"max_claim"`
+	Users_claimed   int    `json:"users_claimed"`
+	Remaining_claim int    `json:"remaining_claim"`
 }
 
 type Voucher_one_user struct {

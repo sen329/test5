@@ -284,14 +284,14 @@ func GetAllVoucherOne(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 	var voucher_details []model.Voucher_one
-	result, err := db.Query("SELECT a.*, b.detail FROM lokapala_melonpaymentdb.t_voucher_one a LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail b ON a.voucher_id = b.voucher_id")
+	result, err := db.Query("SELECT a.id, a.secret_key,a. created_date, a.expired_date, a.voucher_id, c.detail, a.max_claim, (SELECT COUNT(1) FROM lokapala_melonpaymentdb.t_user_voucher_one b WHERE b.voucher_id = a.id) as users_claimed, a.max_claim - (SELECT COUNT(1) FROM lokapala_melonpaymentdb.t_user_voucher_one b WHERE b.voucher_id = a.id) as remaining_claim FROM lokapala_melonpaymentdb.t_voucher_one a LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail c ON a.voucher_id = c.voucher_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var voucher_detail model.Voucher_one
-		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Max_claim, &voucher_detail.Voucher_id, &voucher_detail.Details)
+		err := result.Scan(&voucher_detail.Id, &voucher_detail.Secret_key, &voucher_detail.Created_date, &voucher_detail.Expired_date, &voucher_detail.Voucher_id, &voucher_detail.Details, &voucher_detail.Max_claim, &voucher_detail.Users_claimed, &voucher_detail.Remaining_claim)
 		if err != nil {
 			panic(err.Error())
 		}
