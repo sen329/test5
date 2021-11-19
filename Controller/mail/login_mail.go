@@ -42,7 +42,7 @@ func GetAllMailLogin(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 	var login_mails []model.Login_mail
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_mail_login")
+	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_mail_login ORDER BY start_date DESC")
 	if err != nil {
 		panic(err.Error())
 	}
