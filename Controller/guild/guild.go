@@ -19,7 +19,7 @@ func GetAllGuild(w http.ResponseWriter, r *http.Request) {
 
 	var guilds []model.Guild
 
-	result, err := db.Query("SELECT A.*, B.user_name, C.country_name, D.motto, tge.level, tgb.guild_blessing_level FROM lokapala_guilddb.t_guild A LEFT JOIN lokapala_accountdb.t_user B ON A.guild_owner_id = B.user_id LEFT JOIN lokapala_accountdb.t_country C ON A.country = C.country_id LEFT JOIN lokapala_guilddb.t_guild_motto D ON A.guild_id = D.guild_id LEFT JOIN t_guild_experience tge on A.guild_id = tge.guild_id LEFT JOIN t_guild_blessing tgb ON A.guild_id = tgb.guild_id LIMIT ? OFFSET ?", count, offset)
+	result, err := db.Query("SELECT A.*, B.user_name, C.country_name, D.motto, tge.level, tgb.guild_blessing_level FROM lokapala_guilddb.t_guild A LEFT JOIN lokapala_accountdb.t_user B ON A.guild_owner_id = B.user_id LEFT JOIN lokapala_accountdb.t_country C ON A.country = C.country_id LEFT JOIN lokapala_guilddb.t_guild_motto D ON A.guild_id = D.guild_id LEFT JOIN lokapala_guilddb.t_guild_experience tge on A.guild_id = tge.guild_id LEFT JOIN lokapala_guilddb.t_guild_blessing tgb ON A.guild_id = tgb.guild_id LIMIT ? OFFSET ?", count, offset)
 	if err != nil {
 		panic(err)
 	}
