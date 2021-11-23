@@ -1,18 +1,20 @@
 package model
 
 type Guild struct {
-	Guild_id         int64   `json:"guild_id"`
-	Guild_name       string  `json:"guild_name"`
-	Guild_initial    string  `json:"guild_initital"`
-	Guild_owner_id   int64   `json:"guild_owner_id"`
-	Guild_owner_name string  `json:"guild_owner_name"`
-	Country_code     int     `json:"country_code"`
-	Country          string  `json:"country"`
-	Private          int     `json:"private"`
-	Rank_requirement int     `json:"rank_requirement"`
-	Member_count     int     `json:"member_count"`
-	Max_member       int     `json:"max_member"`
-	Motto            *string `json:"motto"`
+	Guild_id             int64   `json:"guild_id"`
+	Guild_name           string  `json:"guild_name"`
+	Guild_initial        string  `json:"guild_initital"`
+	Guild_owner_id       int64   `json:"guild_owner_id"`
+	Guild_owner_name     string  `json:"guild_owner_name"`
+	Country_code         int     `json:"country_code"`
+	Country              string  `json:"country"`
+	Private              int     `json:"private"`
+	Rank_requirement     int     `json:"rank_requirement"`
+	Member_count         int     `json:"member_count"`
+	Max_member           int     `json:"max_member"`
+	Motto                *string `json:"motto"`
+	Guild_level          *int    `json:"guild_level"`
+	Guild_blessing_level *int    `json:"guild_blessing_level"`
 }
 
 type Guild_member struct {
