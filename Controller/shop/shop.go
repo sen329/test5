@@ -167,6 +167,34 @@ func UpdateShopItemDesc(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func UpdateShopItemReleaseDate(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+	id := r.URL.Query().Get("id")
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_shop SET release_date = ? where shop_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	release_date := r.Form.Get("release_date")
+
+	_, err = stmt.Exec(NewNullString(release_date), id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	json.NewEncoder(w).Encode("Success")
+
+}
+
 func DeleteShopItem(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
