@@ -91,13 +91,12 @@ func UpdateRoleFromUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	user_id := r.URL.Query().Get("user_id")
+	role_id := r.URL.Query().Get("role_id")
 
 	stmt, err := db.Prepare("UPDATE users_roles SET role_id = ? WHERE user_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
-
-	role_id := r.Form.Get("role_id")
 
 	_, err = stmt.Exec(role_id, user_id)
 	if err != nil {
