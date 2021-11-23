@@ -46,7 +46,7 @@ func GetGuildMemberLogs(w http.ResponseWriter, r *http.Request) {
 
 	var guild_member_logs []model.Guild_member_log
 
-	result, err := db.Query("SELECT A.guild_id, A.user_id, B.user_name, A.join_date, rr.description, A.last_check_in FROM lokapala_guilddb.t_guild_member A LEFT JOIN lokapala_accountdb.t_user B ON A.user_id = B.user_id LEFT JOIN lokapala_guilddb.t_guild_member_rank rr ON A.member_rank = rr.member_rank_id WHERE guild_id = ?", guild_id)
+	result, err := db.Query("SELECT a.guild_member_changelog_id, a.guild_id, a.user_id, u.user_name, gc.description, a.changelog_date, a.user_id_incharge, u2.user_name FROM lokapala_guilddb.t_guild_member_changelog a LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id LEFT JOIN lokapala_guilddb.t_guild_member_changelog_item gc ON a.changelog = gc.guild_member_changelog_item_id LEFT JOIN lokapala_accountdb.t_user u2 ON a.user_id_incharge = u2.user_name WHERE guild_id = ?", guild_id)
 	if err != nil {
 		panic(err.Error())
 	}
