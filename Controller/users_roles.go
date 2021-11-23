@@ -86,6 +86,30 @@ func AddNewUserToRole(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func UpdateRoleFromUser(w http.ResponseWriter, r *http.Request) {
+	db := OpenGMAdmin()
+	defer db.Close()
+
+	user_id := r.URL.Query().Get("user_id")
+
+	stmt, err := db.Prepare("UPDATE users_roles SET role_id = ? WHERE user_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	role_id := r.Form.Get("role_id")
+
+	_, err = stmt.Exec(role_id, user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	json.NewEncoder(w).Encode("Success")
+
+}
+
 func RemoveUserFromRole(w http.ResponseWriter, r *http.Request) {
 	db := OpenGMAdmin()
 	defer db.Close()
