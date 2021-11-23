@@ -53,7 +53,7 @@ func GetGuild(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
-		err := result.Scan(&guild.Guild_id, &guild.Guild_name, &guild.Guild_initial, &guild.Guild_owner_id, &guild.Country_code, &guild.Private, &guild.Rank_requirement, &guild.Member_count, &guild.Max_member, &guild.Guild_owner_name, &guild.Country, &guild.Motto, &guild.Motto, &guild.Guild_level, &guild.Guild_blessing_level)
+		err := result.Scan(&guild.Guild_id, &guild.Guild_name, &guild.Guild_initial, &guild.Guild_owner_id, &guild.Country_code, &guild.Private, &guild.Rank_requirement, &guild.Member_count, &guild.Max_member, &guild.Guild_owner_name, &guild.Country, &guild.Motto, &guild.Guild_level, &guild.Guild_blessing_level)
 		if err != nil {
 			panic(err)
 		}
