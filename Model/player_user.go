@@ -12,7 +12,7 @@ type Player struct {
 	Frame         int     `json:"frame"`
 	Referal_id    *string `json:"referal_id"`
 	Account_type  *string `json:"account_type"`
-	Register_date string  `json:"register_date"`
+	Register_date *string `json:"register_date"`
 	Last_login    *string `json:"last_login"`
 	Total_games   int64   `json:"total_games"`
 	Win_count     int64   `json:"win_count"`

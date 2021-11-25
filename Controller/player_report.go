@@ -18,7 +18,7 @@ func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare(`SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id LIMIT ? OFFSET ?`)
+	query, err := db.Prepare(`SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id ORDER BY report_id DESC LIMIT ? OFFSET ?`)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -54,7 +54,7 @@ func GetAllPlayerReportsByReportedUser(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare(`SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.reported_user_id = ? LIMIT ? OFFSET ? `)
+	query, err := db.Prepare(`SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.reported_user_id = ? ORDER BY report_id DESC LIMIT ? OFFSET ? `)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -90,7 +90,7 @@ func GetAllPlayerReportsByReporterUser(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.reporter_user_id = ? LIMIT ? OFFSET ?")
+	query, err := db.Prepare("SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.reporter_user_id = ? ORDER BY report_id DESC LIMIT ? OFFSET ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -126,7 +126,7 @@ func GetAllPlayerReportsByRoom(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.room_id = ? LIMIT ? OFFSET ?")
+	query, err := db.Prepare("SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.room_id = ? ORDER BY report_id DESC LIMIT ? OFFSET ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -214,7 +214,7 @@ func GetAllPlayerProfileReports(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_profile_report
 
-	result, err := db.Query("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user,D.user_id as reported_user_id, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id")
+	result, err := db.Query("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user,D.user_id as reported_user_id, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id ORDER BY A.report_profile_id DESC")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -243,7 +243,7 @@ func GetAllPlayerProfileReportsByReporterUser(w http.ResponseWriter, r *http.Req
 
 	var reports []model.Player_profile_report
 
-	query, err := db.Prepare("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user,D.user_id as reported_user_id, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id WHERE A.reporter_user_id = ?")
+	query, err := db.Prepare("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user,D.user_id as reported_user_id, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id WHERE A.reporter_user_id = ? ORDER BY A.report_profile_id DESC")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -277,7 +277,7 @@ func GetAllPlayerProfileReportsByReportedUser(w http.ResponseWriter, r *http.Req
 
 	var reports []model.Player_profile_report
 
-	query, err := db.Prepare("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id WHERE A.reported_user_id = ?")
+	query, err := db.Prepare("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id WHERE A.reported_user_id = ? ORDER BY A.report_profile_id DESC")
 	if err != nil {
 		panic(err.Error())
 	}
