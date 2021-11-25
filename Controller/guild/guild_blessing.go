@@ -36,6 +36,8 @@ func GetGuildBlessing(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(guild_blessings)
 
 }

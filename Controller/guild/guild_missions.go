@@ -66,6 +66,8 @@ func GetGuildMissionContributionLog(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(guild_missions)
 
 }

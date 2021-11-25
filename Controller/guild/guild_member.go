@@ -34,6 +34,8 @@ func GetGuildMembers(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(guild_members)
 
 }
@@ -63,6 +65,8 @@ func GetGuildMemberLogs(w http.ResponseWriter, r *http.Request) {
 		guild_member_logs = append(guild_member_logs, guild_member_log)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(guild_member_logs)
 
@@ -94,6 +98,8 @@ func GetGuildMemberRankLogs(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(guild_member_logs)
 
 }
@@ -123,6 +129,8 @@ func GetGuildMemberCheckInLogs(w http.ResponseWriter, r *http.Request) {
 		guild_member_logs = append(guild_member_logs, guild_member_log)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(guild_member_logs)
 

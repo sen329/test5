@@ -35,6 +35,8 @@ func GetAllGuild(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(guilds)
 
 }
@@ -59,6 +61,8 @@ func GetGuild(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(guild)
 

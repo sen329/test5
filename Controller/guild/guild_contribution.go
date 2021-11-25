@@ -36,6 +36,8 @@ func GetGuildOriContribution(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer result.Close()
+
 	json.NewEncoder(w).Encode(guild_contributions)
 
 }
@@ -65,6 +67,8 @@ func GetGuildCitrineContribution(w http.ResponseWriter, r *http.Request) {
 		guild_contributions = append(guild_contributions, guild_contribution)
 
 	}
+
+	defer result.Close()
 
 	json.NewEncoder(w).Encode(guild_contributions)
 
