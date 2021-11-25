@@ -43,10 +43,12 @@ func GetGuildMemberLogs(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	guild_id := r.URL.Query().Get("guild_id")
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
 
 	var guild_member_logs []model.Guild_member_log
 
-	result, err := db.Query("SELECT a.guild_member_changelog_id, a.guild_id, a.user_id, u.user_name, gc.description, a.changelog_date, a.user_id_incharge, u2.user_name FROM lokapala_guilddb.t_guild_member_changelog a LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id LEFT JOIN lokapala_guilddb.t_guild_member_changelog_item gc ON a.changelog = gc.guild_member_changelog_item_id LEFT JOIN lokapala_accountdb.t_user u2 ON a.user_id_incharge = u2.user_name WHERE guild_id = ?", guild_id)
+	result, err := db.Query("SELECT a.guild_member_changelog_id, a.guild_id, a.user_id, u.user_name, gc.description, a.changelog_date, a.user_id_incharge, u2.user_name FROM lokapala_guilddb.t_guild_member_changelog a LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id LEFT JOIN lokapala_guilddb.t_guild_member_changelog_item gc ON a.changelog = gc.guild_member_changelog_item_id LEFT JOIN lokapala_accountdb.t_user u2 ON a.user_id_incharge = u2.user_name WHERE guild_id = ? LIMIT ? OFFSET ?", guild_id, count, offset)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -71,10 +73,12 @@ func GetGuildMemberRankLogs(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	guild_id := r.URL.Query().Get("guild_id")
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
 
 	var guild_member_logs []model.Guild_member_rank_log
 
-	result, err := db.Query("SELECT a.guild_member_rank_changelog_id, a.guild_id, a.before_member_rank, tgmrBefore.description, a.after_member_rank, tgmrAfter.description, a.user_id, u.user_name, a.changelog_date, a.user_id_incharge, u2.user_name FROM lokapala_guilddb.t_guild_member_rank_changelog a LEFT JOIN lokapala_guilddb.t_guild_member_rank tgmrBefore ON a.before_member_rank = tgmrBefore.member_rank_id LEFT JOIN lokapala_guilddb.t_guild_member_rank tgmrAfter ON a.after_member_rank = tgmrAfter.member_rank_id LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user u2 ON a.user_id_incharge = u2.user_name WHERE a.guild_id = ?", guild_id)
+	result, err := db.Query("SELECT a.guild_member_rank_changelog_id, a.guild_id, a.before_member_rank, tgmrBefore.description, a.after_member_rank, tgmrAfter.description, a.user_id, u.user_name, a.changelog_date, a.user_id_incharge, u2.user_name FROM lokapala_guilddb.t_guild_member_rank_changelog a LEFT JOIN lokapala_guilddb.t_guild_member_rank tgmrBefore ON a.before_member_rank = tgmrBefore.member_rank_id LEFT JOIN lokapala_guilddb.t_guild_member_rank tgmrAfter ON a.after_member_rank = tgmrAfter.member_rank_id LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user u2 ON a.user_id_incharge = u2.user_name WHERE a.guild_id = ? LIMIT ? OFFSET ?", guild_id, count, offset)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -101,8 +105,10 @@ func GetGuildMemberCheckInLogs(w http.ResponseWriter, r *http.Request) {
 	guild_id := r.URL.Query().Get("guild_id")
 
 	var guild_member_logs []model.Guild_check_in_log
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
 
-	result, err := db.Query("SELECT a.check_in_id, a.user_id, b.user_name, a.guild_id, a.check_in_date FROM lokapala_guilddb.t_guild_check_in_log a LEFT JOIN lokapala_accountdb.t_user b ON a.user_id = b.user_id WHERE a.guild_id = ?", guild_id)
+	result, err := db.Query("SELECT a.check_in_id, a.user_id, b.user_name, a.guild_id, a.check_in_date FROM lokapala_guilddb.t_guild_check_in_log a LEFT JOIN lokapala_accountdb.t_user b ON a.user_id = b.user_id WHERE a.guild_id = ? LIMIT ? OFFSET ?", guild_id, count, offset)
 	if err != nil {
 		panic(err.Error())
 	}

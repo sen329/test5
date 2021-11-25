@@ -15,10 +15,12 @@ func GetGuildOriContribution(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	guild_id := r.URL.Query().Get("guild_id")
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
 
 	var guild_contributions []model.Guild_ori_cont
 
-	result, err := db.Query("SELECT a.guild_ori_contribution_id, a.user_id, u.user_name, a.year_week, a.guild_id, a.amount, a.contribution_date, a.room_id FROM lokapala_guilddb.t_guild_ori_contribution_log a LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id WHERE a.guild_id = ? ORDER BY a.contribution_date DESC", guild_id)
+	result, err := db.Query("SELECT a.guild_ori_contribution_id, a.user_id, u.user_name, a.year_week, a.guild_id, a.amount, a.contribution_date, a.room_id FROM lokapala_guilddb.t_guild_ori_contribution_log a LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id WHERE a.guild_id = ? ORDER BY a.contribution_date DESC LIMIT ? OFFSET ?", guild_id, count, offset)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -43,10 +45,12 @@ func GetGuildCitrineContribution(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	guild_id := r.URL.Query().Get("guild_id")
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
 
 	var guild_contributions []model.Guild_citrine_cont
 
-	result, err := db.Query("SELECT a.guild_citrine_donation_id, a.user_id, u.user_name, a.guild_id, a.amount, a.contribution_date FROM lokapala_guilddb.t_guild_citrine_donation_log a LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id WHERE a.guild_id = ? ORDER BY a.contribution_date DESC", guild_id)
+	result, err := db.Query("SELECT a.guild_citrine_donation_id, a.user_id, u.user_name, a.guild_id, a.amount, a.contribution_date FROM lokapala_guilddb.t_guild_citrine_donation_log a LEFT JOIN lokapala_accountdb.t_user u ON a.user_id = u.user_id WHERE a.guild_id = ? ORDER BY a.contribution_date DESC LIMIT ? OFFSET ?", guild_id, count, offset)
 	if err != nil {
 		panic(err.Error())
 	}
