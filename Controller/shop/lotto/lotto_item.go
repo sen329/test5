@@ -51,7 +51,7 @@ func GetlottoItems(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var l_item model.Lotto_item
-		err := result.Scan(&l_item.Lotto_item_id, &l_item.Item_type, &l_item.Item_id, &l_item.Amount, &l_item.Color_id, &l_item.Default_amount, &l_item.Item_name)
+		err := result.Scan(&l_item.Lotto_item_id, &l_item.Item_type, &l_item.Item_type_name, &l_item.Item_id, &l_item.Item_name_detail, &l_item.Amount, &l_item.Color_id, &l_item.Default_amount, &l_item.Item_name)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -76,7 +76,7 @@ func GetlottoItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
-		err := result.Scan(&l_item.Lotto_item_id, &l_item.Item_type, &l_item.Item_id, &l_item.Amount, &l_item.Color_id, &l_item.Default_amount, &l_item.Item_name)
+		err := result.Scan(&l_item.Lotto_item_id, &l_item.Item_type, &l_item.Item_type_name, &l_item.Item_id, &l_item.Item_name_detail, &l_item.Amount, &l_item.Color_id, &l_item.Default_amount, &l_item.Item_name)
 		if err != nil {
 			panic(err.Error())
 		}

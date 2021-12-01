@@ -3,26 +3,37 @@ package model
 //lotus shop
 
 type Shop_lotus_item struct {
-	Shop_lotus_item_id int64 `json:"shop_lotus_item_id"`
-	Item_type          int64 `json:"item_type"`
-	Item_id            int64 `json:"item_id"`
-	Amount             int   `json:"amount"`
-	Price              int   `json:"price"`
-	Default_limit      int   `json:"default_limit"`
+	Shop_lotus_item_id int64  `json:"shop_lotus_item_id"`
+	Item_type          int64  `json:"item_type"`
+	Item_type_name     string `json:"item_type_name"`
+	Item_id            int64  `json:"item_id"`
+	Item_name          string `json:"item_name"`
+	Amount             int    `json:"amount"`
+	Price              int    `json:"price"`
+	Default_limit      int    `json:"default_limit"`
 }
 
 type Shop_lotus_period struct {
 	Shop_lotus_period_id int64  `json:"shop_lotus_period_id"`
 	Start_date           string `json:"start_date"`
-	End_date             string `json:"end_datte"`
+	End_date             string `json:"end_date"`
 }
 
 //shop
 
 type Shop_lotus struct {
-	Shop_lotus_period_id int64 `json:"shop_lotus_period_id"`
-	Shop_lotus_item_id   int64 `json:"shop_lotus_item_id"`
-	Player_limit         int   `json:"player_limit"`
+	Shop_lotus_period_id int64  `json:"shop_lotus_period_id"`
+	Shop_lotus_item_id   int64  `json:"shop_lotus_item_id"`
+	Item_type            int64  `json:"item_type"`
+	Item_type_name       string `json:"item_type_name"`
+	Item_id              int64  `json:"item_id"`
+	Item_name            string `json:"item_name"`
+	Amount               int    `json:"amount"`
+	Price                int    `json:"price"`
+	Default_limit        int    `json:"default_limit"`
+	Start_date           string `json:"start_date"`
+	End_date             string `json:"end_date"`
+	Player_limit         int    `json:"player_limit"`
 }
 
 type Shop struct {

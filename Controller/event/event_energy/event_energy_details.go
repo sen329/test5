@@ -106,7 +106,7 @@ func AddEventEnergyDetails(w http.ResponseWriter, r *http.Request) {
 
 	queryIDs.Close()
 
-	stmt3, err := db.Prepare("INSERT INTO lokapala_accountdb.t_event_energy_detail (event_id, target_energy) VALUES (?,?)")
+	stmt3, err := db.Prepare("INSERT INTO lokapala_accountdb.t_event_energy_reward (event_energy_id, item_type, item_id, amount) VALUES (?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
