@@ -41,14 +41,14 @@ func GetlottoFeatures(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 	var l_features []model.Lotto_feature
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_lotto_feature")
+	result, err := db.Query("SELECT tlf.lotto_feature_id, lotto_id, tlf.lotto_item_id,tli.item_name, priority FROM lokapala_accountdb.t_lotto_feature tlf LEFT JOIN lokapala_accountdb.t_lotto_item tli ON tlf.lotto_item_id = tli.lotto_item_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var l_feature model.Lotto_feature
-		err := result.Scan(&l_feature.Lotto_feature_id, &l_feature.Lotto_id, &l_feature.Lotto_item_id, &l_feature.Priority)
+		err := result.Scan(&l_feature.Lotto_feature_id, &l_feature.Lotto_id, &l_feature.Lotto_item_id, &l_feature.Lotto_item_name, &l_feature.Priority)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -67,13 +67,13 @@ func GetlottoFeature(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var l_feature model.Lotto_feature
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_lotto_feature WHERE lotto_feature_id = ?", id)
+	result, err := db.Query("SELECT tlf.lotto_feature_id, lotto_id, tlf.lotto_item_id,tli.item_name, priority FROM lokapala_accountdb.t_lotto_feature tlf LEFT JOIN lokapala_accountdb.t_lotto_item tli ON tlf.lotto_item_id = tli.lotto_item_id WHERE lotto_feature_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
-		err := result.Scan(&l_feature.Lotto_feature_id, &l_feature.Lotto_id, &l_feature.Lotto_item_id, &l_feature.Priority)
+		err := result.Scan(&l_feature.Lotto_feature_id, &l_feature.Lotto_id, &l_feature.Lotto_item_id, &l_feature.Lotto_item_name, &l_feature.Priority)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -90,14 +90,14 @@ func GetlottoFeatureByLottoId(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var l_features []model.Lotto_feature
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_lotto_feature WHERE lotto_id = ?", id)
+	result, err := db.Query("SELECT tlf.lotto_feature_id, lotto_id, tlf.lotto_item_id,tli.item_name, priority FROM lokapala_accountdb.t_lotto_feature tlf LEFT JOIN lokapala_accountdb.t_lotto_item tli ON tlf.lotto_item_id = tli.lotto_item_id WHERE lotto_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var l_feature model.Lotto_feature
-		err := result.Scan(&l_feature.Lotto_feature_id, &l_feature.Lotto_id, &l_feature.Lotto_item_id, &l_feature.Priority)
+		err := result.Scan(&l_feature.Lotto_feature_id, &l_feature.Lotto_id, &l_feature.Lotto_item_id, &l_feature.Lotto_item_name, &l_feature.Priority)
 		if err != nil {
 			panic(err.Error())
 		}

@@ -41,14 +41,14 @@ func GetlottoLoots(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 	var l_loots []model.Lotto_loot_table
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_lotto_loot_table")
+	result, err := db.Query("SELECT tllt.lotto_id, tllt.lotto_item_id,tli.item_name, tllt.amount FROM lokapala_accountdb.t_lotto_loot_table tllt LEFT JOIN lokapala_accountdb.t_lotto_item tli ON tllt.lotto_item_id = tli.lotto_item_id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
 		var l_loot model.Lotto_loot_table
-		err := result.Scan(&l_loot.Lotto_id, &l_loot.Lotto_item_id, &l_loot.Amount)
+		err := result.Scan(&l_loot.Lotto_id, &l_loot.Lotto_item_id, &l_loot.Lotto_item_name, &l_loot.Amount)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -68,7 +68,7 @@ func GetlottoLoot(w http.ResponseWriter, r *http.Request) {
 	l_item_id := r.URL.Query().Get("item_id")
 
 	var l_loot model.Lotto_loot_table
-	results, err := db.Prepare("SELECT * from lokapala_accountdb.t_lotto_loot_table WHERE lotto_id = ? AND lotto_item_id = ?")
+	results, err := db.Prepare("SELECT tllt.lotto_id, tllt.lotto_item_id,tli.item_name, tllt.amount FROM lokapala_accountdb.t_lotto_loot_table tllt LEFT JOIN lokapala_accountdb.t_lotto_item tli ON tllt.lotto_item_id = tli.lotto_item_id WHERE lotto_id = ? AND lotto_item_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -79,7 +79,7 @@ func GetlottoLoot(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for result.Next() {
-		err := result.Scan(&l_loot.Lotto_id, &l_loot.Lotto_item_id, &l_loot.Amount)
+		err := result.Scan(&l_loot.Lotto_id, &l_loot.Lotto_item_id, &l_loot.Lotto_item_name, &l_loot.Amount)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -96,13 +96,13 @@ func GetlottoLootByLottoId(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	var l_loot model.Lotto_loot_table
-	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_lotto_loot_table WHERE lotto_id = ?", id)
+	result, err := db.Query("SELECT tllt.lotto_id, tllt.lotto_item_id,tli.item_name, tllt.amount FROM lokapala_accountdb.t_lotto_loot_table tllt LEFT JOIN lokapala_accountdb.t_lotto_item tli ON tllt.lotto_item_id = tli.lotto_item_id WHERE lotto_id = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for result.Next() {
-		err := result.Scan(&l_loot.Lotto_id, &l_loot.Lotto_item_id, &l_loot.Amount)
+		err := result.Scan(&l_loot.Lotto_id, &l_loot.Lotto_item_id, &l_loot.Lotto_item_name, &l_loot.Amount)
 		if err != nil {
 			panic(err.Error())
 		}

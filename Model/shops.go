@@ -68,13 +68,15 @@ type Lotto struct {
 }
 
 type Lotto_item struct {
-	Lotto_item_id  int64  `json:"lotto_item_id"`
-	Item_type      int64  `json:"item_type"`
-	Item_id        int64  `json:"item_id"`
-	Amount         int    `json:"amount"`
-	Color_id       int64  `json:"color_id"`
-	Default_amount int    `json:"default_amount"`
-	Item_name      string `json:"item_name"`
+	Lotto_item_id    int64  `json:"lotto_item_id"`
+	Item_type        int64  `json:"item_type"`
+	Item_type_name   string `json:"item_type_name"`
+	Item_id          int64  `json:"item_id"`
+	Item_name_detail string `json:"item_name_detail"`
+	Amount           int    `json:"amount"`
+	Color_id         int64  `json:"color_id"`
+	Default_amount   int    `json:"default_amount"`
+	Item_name        string `json:"item_name"`
 }
 
 type Lotto_item_color struct {
@@ -84,16 +86,18 @@ type Lotto_item_color struct {
 }
 
 type Lotto_loot_table struct {
-	Lotto_id      int64 `json:"lotto_id"`
-	Lotto_item_id int64 `json:"lotto_item_id"`
-	Amount        int   `json:"amount"`
+	Lotto_id        int64  `json:"lotto_id"`
+	Lotto_item_id   int64  `json:"lotto_item_id"`
+	Lotto_item_name string `json:"lotto_item_name"`
+	Amount          int    `json:"amount"`
 }
 
 type Lotto_feature struct {
-	Lotto_feature_id int64 `json:"lotto_feature_id"`
-	Lotto_id         int64 `json:"lotto_id"`
-	Lotto_item_id    int64 `json:"lotto_item_id"`
-	Priority         int   `json:"priority"`
+	Lotto_feature_id int64  `json:"lotto_feature_id"`
+	Lotto_id         int64  `json:"lotto_id"`
+	Lotto_item_id    int64  `json:"lotto_item_id"`
+	Lotto_item_name  string `json:"lotto_item_name"`
+	Priority         int    `json:"priority"`
 }
 
 //gacha

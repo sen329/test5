@@ -101,6 +101,8 @@ func main() {
 
 	route.Handle("/", Routers.RouteGuild(route))
 
+	route.Handle("/", Routers.RouteEvent(route))
+
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
 
