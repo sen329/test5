@@ -11,7 +11,7 @@ import (
 )
 
 type Itemlist struct {
-	Items []Items `json:"item"`
+	Items []Items `json:"items"`
 }
 
 type Items struct {
