@@ -121,10 +121,12 @@ type Gacha struct {
 }
 
 type Gacha_item struct {
-	Gacha_item_id int64 `json:"gacha_item_id"`
-	Item_type     int64 `json:"item_type"`
-	Item_id       int64 `json:"item_id"`
-	Amount        int   `json:"amount"`
+	Gacha_item_id  int64  `json:"gacha_item_id"`
+	Item_type      int64  `json:"item_type"`
+	Item_type_name string `json:"item_type_name"`
+	Item_id        int64  `json:"item_id"`
+	Item_name      string `json:"item_name"`
+	Amount         int    `json:"amount"`
 }
 
 type Gacha_feature struct {
@@ -135,9 +137,14 @@ type Gacha_feature struct {
 }
 
 type Gacha_loot_table struct {
-	Gacha_id      int64 `json:"gacha_id"`
-	Gacha_item_id int64 `json:"gacha_item_id"`
-	Chance        int   `json:"chance"`
-	Min_value     int   `json:"min_value"`
-	Max_value     int   `json:"max_value"`
+	Gacha_id       int64  `json:"gacha_id"`
+	Gacha_item_id  int64  `json:"gacha_item_id"`
+	Item_type      int64  `json:"item_type"`
+	Item_type_name string `json:"item_type_name"`
+	Item_id        int64  `json:"item_id"`
+	Item_name      string `json:"item_name"`
+	Amount         int    `json:"amount"`
+	Chance         int    `json:"chance"`
+	Min_value      int    `json:"min_value"`
+	Max_value      int    `json:"max_value"`
 }
