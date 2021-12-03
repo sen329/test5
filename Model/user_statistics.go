@@ -179,3 +179,13 @@ type Room_match_list struct {
 	Game_duration int    `json:"game_duration"`
 	Game_mode     int    `json:"game_mode"`
 }
+
+type Most_bought_item struct {
+	Shop_id        int64   `json:"shop_id"`
+	Item_type      *int64  `json:"item_type"`
+	Item_type_name *string `json:"item_type_name"`
+	Item_id        *int64  `json:"item_id"`
+	Item_name      *string `json:"item_name"`
+	Times_bought   int     `json:"times_bought"`
+	Description    *string `json:"description"`
+}
