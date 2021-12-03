@@ -133,8 +133,8 @@ func UpdateLotusShop(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	shop_lotus_period_id := r.Form.Get("start_date")
-	shop_lotus_item_id := r.Form.Get("end_date")
+	shop_lotus_period_id := r.Form.Get("shop_lotus_period_id")
+	shop_lotus_item_id := r.Form.Get("shop_lotus_item_id")
 	player_limit := r.Form.Get("player_limit")
 
 	_, err = stmt.Exec(shop_lotus_period_id, shop_lotus_item_id, player_limit, id1, id2)
