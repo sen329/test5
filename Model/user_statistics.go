@@ -189,3 +189,19 @@ type Most_bought_item struct {
 	Times_bought   int     `json:"times_bought"`
 	Description    *string `json:"description"`
 }
+
+type Top_up_transaction struct {
+	Trx_id           int64   `json:"trx_id"`
+	Item             *int    `json:"item"`
+	Item_id          *int    `json:"item_id"`
+	Item_name        *string `json:"item_name"`
+	Item_type        *int    `json:"item_type"`
+	Item_type_name   *string `json:"item_type_name"`
+	Amount           *int    `json:"amount"`
+	Price            *int    `json:"price"`
+	User_id          *int64  `json:"user_id"`
+	User_name        *string `json:"user_name"`
+	Partner_id       *int    `json:"partner_id"`
+	Request_date     *string `json:"request_date"`
+	Publisher_ref_id *string `json:"publisher_ref_id"`
+}
