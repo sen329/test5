@@ -79,7 +79,7 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 
 	var mails []model.Mail
 
-	query, err := db.Prepare("SELECT * from lokapala_accountdb.t_mail ORDER BY mail_id DESC LIMIT ? OFFSET ?")
+	query, err := db.Prepare("SELECT tm.mail_id, CASE WHEN tm.mail_template IS NOT NULL AND tm.custom_message_id IS NULL THEN (SELECT CONCAT_WS(" + `" - "` + ",'Mail template', tmt.template_id, tmt.subject) FROM lokapala_accountdb.t_mail_template tmt WHERE tmt.template_id = tm.mail_template) WHEN tm.mail_template IS NULL AND tm.custom_message_id IS NOT NULL THEN (SELECT CONCAT_WS(" + `" - "` + ",'Custom message', tmcm.message_id, tmcm.subject) FROM lokapala_accountdb.t_mail_custom_message tmcm WHERE tmcm.message_id = tm.custom_message_id) END AS subject, tm.mail_type, tm.sender_id, tm.receiver_id, tm.send_date, tm.mail_template, tm.confirm_read, tm.read_date, tm.confirm_claim, tm.claim_date, tm.parameter, tm.custom_message_id from lokapala_accountdb.t_mail tm ORDER BY mail_id DESC LIMIT ? OFFSET ?;")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -93,7 +93,7 @@ func Getmails(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var mail model.Mail
-		err := result.Scan(&mail.Mail_id, &mail.Mail_type, &mail.Sender_id, &mail.Receiver_id, &mail.Send_date, &mail.Mail_template, &mail.Confirm_read, &mail.Read_Date, &mail.Confirm_claim, &mail.Claim_date, &mail.Parameter, &mail.Custom_message_id)
+		err := result.Scan(&mail.Mail_id, &mail.Subject, &mail.Mail_type, &mail.Sender_id, &mail.Receiver_id, &mail.Send_date, &mail.Mail_template, &mail.Confirm_read, &mail.Read_Date, &mail.Confirm_claim, &mail.Claim_date, &mail.Parameter, &mail.Custom_message_id)
 		if err != nil {
 			panic(err.Error())
 		}

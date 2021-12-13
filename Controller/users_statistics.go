@@ -592,7 +592,7 @@ func UserTopUpHistory(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetUserKdaStats(w http.ResponseWriter, r *http.Request) {
+func GetUserKdaKsaStats(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 

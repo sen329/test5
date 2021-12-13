@@ -191,7 +191,7 @@ type Most_bought_item struct {
 }
 
 type Top_up_transaction struct {
-	Trx_id           int64   `json:"trx_id"`
+	Trx_id           string  `json:"trx_id"`
 	Item             *int    `json:"item"`
 	Item_id          *int    `json:"item_id"`
 	Item_name        *string `json:"item_name"`

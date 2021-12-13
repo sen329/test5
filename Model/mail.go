@@ -11,6 +11,7 @@ package model
 
 type Mail struct {
 	Mail_id           *int    `json:"mail_id"`
+	Subject           *string `json:"subject"`
 	Mail_type         *string `json:"mail_type"`
 	Sender_id         *int    `json:"sender_id"`
 	Receiver_id       *int    `json:"reciever_id"`

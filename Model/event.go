@@ -2,7 +2,7 @@ package model
 
 type Event struct {
 	Event_id     int64   `json:"event_id"`
-	Event_name   int64   `json:"event_name"`
+	Event_name   string  `json:"event_name"`
 	Start_time   string  `json:"start_time"`
 	End_time     string  `json:"end_time"`
 	Expired_date string  `json:"expired_date"`

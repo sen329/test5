@@ -66,7 +66,7 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var event model.Event
-		err := result.Scan(&event.Event_id, &event.Event_name, event.Start_time, &event.End_time, &event.Expired_date, &event.Image_name, &event.Menu_path, &event.Url_path, &event.Parameter)
+		err := result.Scan(&event.Event_id, &event.Event_name, &event.Start_time, &event.End_time, &event.Expired_date, &event.Image_name, &event.Menu_path, &event.Url_path, &event.Parameter)
 		if err != nil {
 			panic(err.Error())
 		}
