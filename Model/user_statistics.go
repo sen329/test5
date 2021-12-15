@@ -205,3 +205,9 @@ type Top_up_transaction struct {
 	Request_date     *string `json:"request_date"`
 	Publisher_ref_id *string `json:"publisher_ref_id"`
 }
+
+type Most_completed_daily_misisons struct {
+	Mission_id   int64  `json:"mission_id"`
+	Mission_name string `json:"mission_name"`
+	Done_count   int64  `json:"done_count"`
+}

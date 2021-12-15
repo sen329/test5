@@ -622,3 +622,31 @@ func GetUserKdaKsaStats(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stats)
 
 }
+
+func GetMostCompletedMission(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	var stats []model.Most_completed_daily_misisons
+
+	result, err := db.Query("SELECT tudm.mission_id,tmd.mission_description, COUNT(1) as done_missions FROM lokapala_accountdb.t_user_daily_mission tudm LEFT JOIN lokapala_accountdb.t_mission_daily tmd ON tudm.mission_id = tmd.mission_id WHERE done = 1 GROUP BY mission_id ORDER BY done_missions DESC;")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Most_completed_daily_misisons
+		err := result.Scan(&stat.Mission_id, &stat.Mission_name, &stat.Done_count)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(stats)
+
+}
