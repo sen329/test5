@@ -34,6 +34,9 @@ func RoutePlayerStats(r *mux.Router) *mux.Router {
 	route_player.HandleFunc("/getUserTopUpHistory", controller.UserTopUpHistory).Methods("GET")
 	route_player.HandleFunc("/getUserKdaKsaStats", controller.GetUserKdaKsaStats).Methods("GET")
 	route_player.HandleFunc("/getMostCompletedMission", controller.GetMostCompletedMission).Methods("GET")
+	route_player.HandleFunc("/getMostNotCompletedMission", controller.GetMostNotCompletedMission).Methods("GET")
+	route_player.HandleFunc("/getDailyRewardsDoneCount", controller.GetDailyRewardPointDoneCount).Methods("GET")
+	route_player.HandleFunc("/getWeeklyRewardsDoneCount", controller.GetWeeklyRewardPointDoneCount).Methods("GET")
 
 	return r
 }

@@ -211,3 +211,8 @@ type Most_completed_daily_misisons struct {
 	Mission_name string `json:"mission_name"`
 	Done_count   int64  `json:"done_count"`
 }
+
+type Reward_stage_earned struct {
+	Reward_desc string `json:"reward_desc"`
+	Done_count  int64  `json:"done_count"`
+}

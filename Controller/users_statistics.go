@@ -650,3 +650,87 @@ func GetMostCompletedMission(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stats)
 
 }
+
+func GetMostNotCompletedMission(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	var stats []model.Most_completed_daily_misisons
+
+	result, err := db.Query("SELECT tudm.mission_id,tmd.mission_description, COUNT(1) as done_missions FROM lokapala_accountdb.t_user_daily_mission tudm LEFT JOIN lokapala_accountdb.t_mission_daily tmd ON tudm.mission_id = tmd.mission_id WHERE done = 0 GROUP BY mission_id ORDER BY done_missions DESC;")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Most_completed_daily_misisons
+		err := result.Scan(&stat.Mission_id, &stat.Mission_name, &stat.Done_count)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(stats)
+
+}
+
+func GetDailyRewardPointDoneCount(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	var stats []model.Reward_stage_earned
+
+	result, err := db.Query("SELECT '0 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy = 0) as users_done UNION SELECT '10 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy BETWEEN 10 AND 34) as users_done UNION SELECT '35 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy BETWEEN 35 AND 49) UNION SELECT '50 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy BETWEEN 50 AND 74) UNION SELECT '75 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy >= 75);")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Reward_stage_earned
+		err := result.Scan(&stat.Reward_desc, &stat.Done_count)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(stats)
+
+}
+
+func GetWeeklyRewardPointDoneCount(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	var stats []model.Reward_stage_earned
+
+	result, err := db.Query("SELECT '250 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy_weekly WHERE energy BETWEEN 250 AND 499) as users_done UNION SELECT '500 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy_weekly WHERE energy >= 500);")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var stat model.Reward_stage_earned
+		err := result.Scan(&stat.Reward_desc, &stat.Done_count)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		stats = append(stats, stat)
+
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(stats)
+
+}
