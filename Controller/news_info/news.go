@@ -131,11 +131,9 @@ func UpdateReleaseDateNews(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	name := r.Form.Get("name")
 	release_date := r.Form.Get("release_date")
-	news_type := r.Form.Get("type")
 
-	_, err = stmt.Exec(name, release_date, news_type, id)
+	_, err = stmt.Exec(release_date, id)
 	if err != nil {
 		panic(err.Error())
 	}
