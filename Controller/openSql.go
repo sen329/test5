@@ -30,6 +30,7 @@ func Open() (dbase *sql.DB) {
 	if err != nil {
 		panic(err.Error())
 	}
+	dbase.SetConnMaxLifetime(900)
 	return dbase
 }
 

@@ -16,6 +16,7 @@ func RouteNews(r *mux.Router) *mux.Router {
 	route_news.HandleFunc("/getAll", newsinfo.GetAllNews).Methods("GET")
 	route_news.HandleFunc("/get", newsinfo.GetNews).Methods("GET")
 	route_news.HandleFunc("/update", newsinfo.UpdateNews).Methods("PUT")
+	route_news.HandleFunc("/updateReleaseDate", newsinfo.UpdateReleaseDateNews).Methods("PUT")
 	route_news.HandleFunc("/delete", newsinfo.DeleteNews).Methods("DELETE")
 
 	route_news.HandleFunc("/addDetail", newsinfo.AddNewsDetail).Methods("POST")

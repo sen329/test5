@@ -33,6 +33,7 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 
 	// news_id := r.Form.Get("news_id")
 	// lang := r.Form.Get("lang")
+	name := r.Form.Get("name")
 	titleEN := r.Form.Get("titleEN")
 	titleIN := r.Form.Get("titleIN")
 	news_type := r.Form.Get("type")
@@ -55,7 +56,7 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 
 	release_date := r.Form.Get("release_date")
 
-	_, err = stmt3.Exec(titleEN, release_date, news_type)
+	_, err = stmt3.Exec(name, release_date, news_type)
 	if err != nil {
 		panic(err)
 	}

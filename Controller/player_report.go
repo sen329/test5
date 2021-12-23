@@ -18,7 +18,7 @@ func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare(`SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id ORDER BY report_id DESC LIMIT ? OFFSET ?`)
+	query, err := db.Prepare(`SELECT MAX(report_id) as report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id GROUP BY reported_user_id, room_id  HAVING COUNT(reported_user_id) >=3 ORDER BY report_id DESC LIMIT ? OFFSET ?`)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -54,7 +54,7 @@ func GetAllPlayerReportsByReportedUser(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare(`SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.reported_user_id = ? ORDER BY report_id DESC LIMIT ? OFFSET ? `)
+	query, err := db.Prepare(`SELECT MAX(report_id) as report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE reported_user_id = ? GROUP BY reported_user_id, room_id  HAVING COUNT(reported_user_id) >=3 ORDER BY report_id DESC LIMIT ? OFFSET ?`)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -90,7 +90,7 @@ func GetAllPlayerReportsByReporterUser(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.reporter_user_id = ? ORDER BY report_id DESC LIMIT ? OFFSET ?")
+	query, err := db.Prepare("SELECT MAX(report_id) as report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE reporter_user_id = ? GROUP BY reported_user_id, room_id  HAVING COUNT(reported_user_id) >=3 ORDER BY report_id DESC LIMIT ? OFFSET ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -120,18 +120,16 @@ func GetAllPlayerReportsByRoom(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()
 
-	count := r.URL.Query().Get("count")
-	offset := r.URL.Query().Get("offset")
 	room_id := r.URL.Query().Get("room_id")
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare("SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE t.room_id = ? ORDER BY report_id DESC LIMIT ? OFFSET ?")
+	query, err := db.Prepare("SELECT report_id, tt.description as report_description, t.room_id, reporter_user_id, uu.user_name, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id WHERE room_id = ? GROUP BY reported_user_id, room_id  HAVING COUNT(reported_user_id) >=3")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	result, err := query.Query(room_id, count, offset)
+	result, err := query.Query(room_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -197,12 +195,38 @@ func ApprovePlayerReport(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	uid, err := db.Query(`SELECT reported_user_id FROM lokapala_playerreportdb.t_player_report WHERE report_id =?`, report_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var id int
+
+	for uid.Next() {
+		err := uid.Scan(&id)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	stmt2, err := db.Prepare("UPDATE lokapala_accountdb.t_user SET karma = karma - 10 where user_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
 	_, err = stmt.Exec(report_id)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	defer stmt.Close()
+
+	_, err = stmt2.Exec(id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt2.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
