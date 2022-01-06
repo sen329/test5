@@ -46,7 +46,7 @@ func UploadFileS3(r *http.Request, form string, paths ...string) (string, string
 
 	uploadedFile, fileHandler, err := r.FormFile(form)
 	if err != nil {
-		panic(err.Error())
+		return "", "", nil
 	}
 	defer uploadedFile.Close()
 

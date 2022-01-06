@@ -52,10 +52,10 @@ type Shop struct {
 
 type Shop_bundle struct {
 	Shop_id        int64   `json:"shop_id"`
-	Item_id        int64   `json:"item_id"`
-	Item_name      string  `json:"item_name"`
-	Item_type      int64   `json:"item_type"`
-	Item_type_name string  `json:"item_type_name"`
+	Item_id        *int64  `json:"item_id"`
+	Item_name      *string `json:"item_name"`
+	Item_type      *int64  `json:"item_type"`
+	Item_type_name *string `json:"item_type_name"`
 	Amount         int     `json:"amount"`
 	Start_date     *string `json:"start_date"`
 	End_date       *string `json:"end_date"`

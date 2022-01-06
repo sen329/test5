@@ -15,6 +15,10 @@ func RouteGuild(r *mux.Router) *mux.Router {
 	route_guild.HandleFunc("/getAllGuilds", guild.GetAllGuild).Methods("GET")
 	route_guild.HandleFunc("/getGuild", guild.GetGuild).Methods("GET")
 
+	route_guild.HandleFunc("/changeGuildName", guild.ChangeGuildName).Methods("PUT")
+	route_guild.HandleFunc("/changeGuildInitial", guild.ChangeGuildInitial).Methods("PUT")
+	route_guild.HandleFunc("/changeGuildMotto", guild.ChangeGuildMotto).Methods("PUT")
+
 	route_guild.HandleFunc("/getGuildMembers", guild.GetGuildMembers).Methods("GET")
 	route_guild.HandleFunc("/getGuildMemberLogs", guild.GetGuildMemberLogs).Methods("GET")
 	route_guild.HandleFunc("/getGuildMemberRankLogs", guild.GetGuildMemberRankLogs).Methods("GET")

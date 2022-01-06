@@ -67,3 +67,75 @@ func GetGuild(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(guild)
 
 }
+
+func ChangeGuildName(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+
+	guild_id := r.URL.Query().Get("guild_id")
+
+	stmt, err := db.Prepare("UPDATE lokapala_guilddb.t_guild SET name = ? where guild_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	guild_name := r.Form.Get("guild_name")
+
+	_, err = stmt.Exec(guild_name, guild_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	json.NewEncoder(w).Encode("Success")
+
+}
+
+func ChangeGuildInitial(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+
+	guild_id := r.URL.Query().Get("guild_id")
+
+	stmt, err := db.Prepare("UPDATE lokapala_guilddb.t_guild SET guild_initial = ? where guild_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	guild_initial := r.Form.Get("guild_initial")
+
+	_, err = stmt.Exec(guild_initial, guild_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	json.NewEncoder(w).Encode("Success")
+
+}
+
+func ChangeGuildMotto(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+
+	guild_id := r.URL.Query().Get("guild_id")
+
+	stmt, err := db.Prepare("UPDATE lokapala_guilddb.t_guild_motto SET motto = ? where guild_id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	guild_motto := r.Form.Get("guild_motto")
+
+	_, err = stmt.Exec(guild_motto, guild_id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	json.NewEncoder(w).Encode("Success")
+
+}
