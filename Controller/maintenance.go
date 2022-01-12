@@ -39,7 +39,7 @@ func GetAllMaintenance(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	var maintenance []model.Maintenance
 
-	result, err := db.Query("SELECT * lokapala_logindb.t_maintenance")
+	result, err := db.Query("SELECT * FROM lokapala_logindb.t_maintenance")
 	if err != nil {
 		panic(err.Error())
 	}
