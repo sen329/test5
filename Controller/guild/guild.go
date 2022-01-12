@@ -72,9 +72,14 @@ func ChangeGuildName(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
 	guild_id := r.URL.Query().Get("guild_id")
 
-	stmt, err := db.Prepare("UPDATE lokapala_guilddb.t_guild SET name = ? where guild_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_guilddb.t_guild SET guild_name = ? where guild_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -95,6 +100,11 @@ func ChangeGuildName(w http.ResponseWriter, r *http.Request) {
 func ChangeGuildInitial(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
 
 	guild_id := r.URL.Query().Get("guild_id")
 
@@ -119,6 +129,11 @@ func ChangeGuildInitial(w http.ResponseWriter, r *http.Request) {
 func ChangeGuildMotto(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
 
 	guild_id := r.URL.Query().Get("guild_id")
 

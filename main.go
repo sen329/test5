@@ -107,6 +107,10 @@ func main() {
 
 	route.Handle("/", Routers.RouteMaintenance(route))
 
+	route.Handle("/", Routers.RouteDailyReward(route))
+
+	route.Handle("/", Routers.RouteBroadcast(route))
+
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
 

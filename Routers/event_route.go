@@ -11,7 +11,7 @@ import (
 func RouteEvent(r *mux.Router) *mux.Router {
 
 	route_event := r.PathPrefix("/event").Subrouter()
-	route_event.Use(middleware.Middleware)
+	route_event.Use(middleware.Middleware, middleware.CheckRoleEvent)
 
 	route_event.HandleFunc("/addEventEnergy", event.AddEventEnergy).Methods("POST")
 	route_event.HandleFunc("/getAllEvent", event.GetAllEvents).Methods("GET")

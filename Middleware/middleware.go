@@ -262,3 +262,31 @@ func CheckRoleEvent(next http.Handler) http.Handler {
 		}
 	})
 }
+
+func CheckRoleMaintenance(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user_id := r.Context().Value("user_id").(string)
+		role_id := r.Context().Value("role_id").(string)
+		if Check_maintenance(user_id, role_id) {
+			next.ServeHTTP(w, r)
+		} else {
+			fmt.Println("Role doesn't match")
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Not authorized")
+		}
+	})
+}
+
+func CheckRoleDailyReward(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user_id := r.Context().Value("user_id").(string)
+		role_id := r.Context().Value("role_id").(string)
+		if Check_daily_reward_management(user_id, role_id) {
+			next.ServeHTTP(w, r)
+		} else {
+			fmt.Println("Role doesn't match")
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Not authorized")
+		}
+	})
+}

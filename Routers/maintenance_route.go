@@ -9,7 +9,7 @@ import (
 
 func RouteMaintenance(r *mux.Router) *mux.Router {
 	route_maintenance := r.PathPrefix("/maintenance").Subrouter()
-	route_maintenance.Use(middleware.Middleware)
+	route_maintenance.Use(middleware.Middleware, middleware.CheckRoleMaintenance)
 
 	route_maintenance.HandleFunc("/addMaintenance", controller.AddMaintenance).Methods("POST")
 	route_maintenance.HandleFunc("/getAllMaintenance", controller.GetAllMaintenance).Methods("GET")
