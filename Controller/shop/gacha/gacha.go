@@ -10,9 +10,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var db = controller.Open()
+
 func AddGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -38,8 +38,6 @@ func AddGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var gachas []model.Gacha
 
 	result, err := db.Query("SELECT * from lokapala_accountdb.t_gacha")
@@ -65,8 +63,6 @@ func GetAllGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var gacha model.Gacha
@@ -91,8 +87,6 @@ func GetGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -121,8 +115,6 @@ func UpdateGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_gacha WHERE gacha_id = ?")

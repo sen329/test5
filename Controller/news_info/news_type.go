@@ -4,14 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 )
 
 func GetNewsTypes(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	var newsTypes []model.News_type
 
 	result, err := db.Query("SELECT * FROM t_news_type")
@@ -35,8 +31,6 @@ func GetNewsTypes(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetNewsType(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var newsType model.News_type

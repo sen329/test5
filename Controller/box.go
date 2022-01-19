@@ -10,8 +10,6 @@ import (
 )
 
 func AddBox(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -34,8 +32,6 @@ func AddBox(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllBox(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var boxes []model.Box
 
 	result, err := db.Query("SELECT * from lokapala_accountdb.t_box")
@@ -61,8 +57,6 @@ func GetAllBox(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBox(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var box model.Box
@@ -87,8 +81,6 @@ func GetBox(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateBox(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -114,8 +106,6 @@ func UpdateBox(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteBox(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_box WHERE box_id = ?")
@@ -133,8 +123,6 @@ func DeleteBox(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddBoxLoot(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -162,14 +150,14 @@ func AddBoxLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllBoxLoot(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var loot_boxes []model.Box_loot_table
 
 	result, err := db.Query("SELECT * from lokapala_accountdb.t_box_loot_table")
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer result.Close()
 
 	for result.Next() {
 		var loot_box model.Box_loot_table
@@ -187,8 +175,6 @@ func GetAllBoxLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBoxLoot(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	uid := r.URL.Query().Get("uid")
 
 	var loot_box model.Box_loot_table
@@ -196,6 +182,8 @@ func GetBoxLoot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	defer result.Close()
 
 	for result.Next() {
 
@@ -211,8 +199,6 @@ func GetBoxLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateBoxLoot(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	uid := r.URL.Query().Get("uid")
 
 	err := r.ParseMultipartForm(4096)
@@ -243,8 +229,6 @@ func UpdateBoxLoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteBoxLoot(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	uid := r.URL.Query().Get("uid")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_box_loot_table WHERE uid = ?")

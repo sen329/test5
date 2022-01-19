@@ -4,16 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func GetGuildBlessing(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	var guild_blessings []model.Guild_blessing_log
 
 	guild_id := r.URL.Query().Get("guild_id")

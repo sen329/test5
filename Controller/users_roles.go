@@ -10,11 +10,9 @@ import (
 )
 
 func GetAllUsersRoles(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	var users_roles []model.Users_roles
 
-	result, err := db.Query("select users.id, users.name, roles.id, GROUP_CONCAT(roles.role_name) as roles_name from users left join users_roles on users_roles.user_id = users.id left join roles on roles.id = users_roles.role_id GROUP BY users.id ORDER BY users.id ASC")
+	result, err := dbAdmin.Query("select users.id, users.name, roles.id, GROUP_CONCAT(roles.role_name) as roles_name from users left join users_roles on users_roles.user_id = users.id left join roles on roles.id = users_roles.role_id GROUP BY users.id ORDER BY users.id ASC")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -37,13 +35,10 @@ func GetAllUsersRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserRole(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var users_role model.Users_roles
-	result, err := db.Query("select users.id, users.name, roles.id, GROUP_CONCAT(roles.role_name) as roles_name from users left join users_roles on users_roles.user_id = users.id left join roles on roles.id = users_roles.role_id WHERE users.id = ? GROUP BY users.id ORDER BY users.id ASC", user_id)
+	result, err := dbAdmin.Query("select users.id, users.name, roles.id, GROUP_CONCAT(roles.role_name) as roles_name from users left join users_roles on users_roles.user_id = users.id left join roles on roles.id = users_roles.role_id WHERE users.id = ? GROUP BY users.id ORDER BY users.id ASC", user_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -64,13 +59,10 @@ func GetUserRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddNewUserToRole(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 	role_id := r.URL.Query().Get("role_id")
 
-	stmt, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
+	stmt, err := dbAdmin.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -87,13 +79,10 @@ func AddNewUserToRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateRoleFromUser(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 	role_id := r.URL.Query().Get("role_id")
 
-	stmt, err := db.Prepare("UPDATE users_roles SET role_id = ? WHERE user_id = ?")
+	stmt, err := dbAdmin.Prepare("UPDATE users_roles SET role_id = ? WHERE user_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -110,12 +99,10 @@ func UpdateRoleFromUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func RemoveUserFromRole(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 	role_id := r.URL.Query().Get("role_id")
 
-	stmt, err := db.Prepare("DELETE FROM users_roles WHERE user_id = ? AND role_id = ?")
+	stmt, err := dbAdmin.Prepare("DELETE FROM users_roles WHERE user_id = ? AND role_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

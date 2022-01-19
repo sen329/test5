@@ -10,10 +10,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func AddMissionType(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
+var db = controller.Open()
 
+func AddMissionType(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -56,9 +55,6 @@ func AddMissionType(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllMissionType(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	var mission_types []model.Event_mission_type
 
 	result, err := db.Query("SELECT * FROM lokapala_eventdb.t_mission_type")
@@ -84,9 +80,6 @@ func GetAllMissionType(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMissionType(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	id := r.URL.Query().Get("mission_type_id")
 
 	var mission_type model.Event_mission_type
@@ -111,9 +104,6 @@ func GetMissionType(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateMissionTypeDesc(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	id := r.URL.Query().Get("mission_type_id")
 
 	stmt, err := db.Prepare("UPDATE lokapala_eventdb.t_mission_type SET description = ? WHERE misison_type_id = ?")
@@ -135,9 +125,6 @@ func UpdateMissionTypeDesc(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteMissionType(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	id := r.URL.Query().Get("mission_type_id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_eventdb.t_mission_type WHERE misison_type_id = ?")

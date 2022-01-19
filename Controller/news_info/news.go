@@ -8,10 +8,9 @@ import (
 	model "test5/Model"
 )
 
-func AddNews(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
+var db = controller.Open()
 
+func AddNews(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err.Error())
@@ -37,8 +36,6 @@ func AddNews(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllNews(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var allNews []model.News
 
 	result, err := db.Query("SELECT A.id, A.name, A.release_date,A.type, B.name AS news_type FROM lokapala_accountdb.t_news_v2 A LEFT JOIN lokapala_accountdb.t_news_v2_type B ON A.type = B.id")
@@ -61,8 +58,6 @@ func GetAllNews(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetNews(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var news model.News
@@ -86,9 +81,6 @@ func GetNews(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateNews(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -116,9 +108,6 @@ func UpdateNews(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateReleaseDateNews(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -144,8 +133,6 @@ func UpdateReleaseDateNews(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteNews(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_news_v2 WHERE id = ?")

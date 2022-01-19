@@ -10,9 +10,6 @@ import (
 )
 
 func GetDailyUserCountUnique(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	start_date := r.URL.Query().Get("start_date")
 	end_date := r.URL.Query().Get("end_date")
 
@@ -44,8 +41,6 @@ func GetDailyUserCountUnique(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDailyUserCount(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var stats []model.Daily_user
 
 	start_date := r.URL.Query().Get("start_date")
@@ -80,9 +75,6 @@ func GetDailyUserCount(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetConcurrentUserCount(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Concurrent_user
 
 	start_date := r.URL.Query().Get("start_date")
@@ -116,9 +108,6 @@ func GetConcurrentUserCount(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserLoginTypeCount(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.User_login_type
 
 	result, err := db.Query("SELECT * FROM lokapala_admindb.v_registered_user")
@@ -144,9 +133,6 @@ func GetUserLoginTypeCount(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsaStatCount(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	game_mode := r.URL.Query().Get("game_mode")
 
 	var stats []model.Ksa_stats
@@ -174,9 +160,6 @@ func GetKsaStatCount(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsaTotalOwned(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Most_ksa_owned
 
 	result, err := db.Query("SELECT x.ksatriya_id,x.ksatriya_name, COUNT(x.ksatriya_id) AS player_owned FROM (SELECT a.ksatriya_id, b.ksatriya_name FROM lokapala_accountdb.t_inventory_ksatriya a LEFT JOIN lokapala_accountdb.t_ksatriya b ON a.ksatriya_id = b.ksatriya_id UNION ALL SELECT c.ksatriya_id, d.ksatriya_name FROM lokapala_accountdb.t_inventory_ksatriya_trial c LEFT JOIN lokapala_accountdb.t_ksatriya d ON c.ksatriya_id = d.ksatriya_id) as x WHERE x.ksatriya_id NOT IN (3,7,6) GROUP BY x.ksatriya_id, x.ksatriya_name ORDER BY player_owned DESC")
@@ -202,9 +185,6 @@ func GetKsaTotalOwned(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsaTotalKda(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Ksa_kda_stats
 
 	game_mode := r.URL.Query().Get("game_mode")
@@ -231,9 +211,6 @@ func GetKsaTotalKda(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserStatCount(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var stats []model.User_match_stats
@@ -261,9 +238,6 @@ func GetUserStatCount(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserRank(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var stats []model.Users_rank_stats
@@ -290,9 +264,6 @@ func GetUserRank(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMatchData(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	room_id := r.URL.Query().Get("room_id")
 
 	var stats []model.Users_match_results
@@ -320,9 +291,6 @@ func GetMatchData(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserMatchHistory(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 	user_id := r.URL.Query().Get("user_id")
@@ -353,8 +321,6 @@ func GetUserMatchHistory(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetSocialMediaStats(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var stats []model.User_social_media_link_count
 	result, err := db.Query("SELECT account_type, COUNT(account_type) AS account_type_count FROM lokapala_logindb.t_account GROUP BY account_type")
 	if err != nil {
@@ -376,9 +342,6 @@ func GetSocialMediaStats(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserSocialMedia(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var stats []model.User_social_media_link
@@ -402,9 +365,6 @@ func GetUserSocialMedia(w http.ResponseWriter, r *http.Request) {
 }
 
 func UserLastLogin(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var stat model.User_last_login
@@ -426,9 +386,6 @@ func UserLastLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserTotalGames(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var stat model.User_total_games
@@ -450,9 +407,6 @@ func GetUserTotalGames(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserTotalKsa(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var stat model.User_ksa_count
@@ -474,9 +428,6 @@ func GetUserTotalKsa(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMatchLists(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	room_id := r.URL.Query().Get("room_id")
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
@@ -504,9 +455,6 @@ func GetMatchLists(w http.ResponseWriter, r *http.Request) {
 }
 
 func MostBoughtItem(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var items []model.Most_bought_item
 	result, err := db.Query("SELECT tstt.shop_id, ts.item_type, it.item_type_name, ts.item_id, CASE WHEN ts.item_type = 1 THEN (SELECT name FROM lokapala_accountdb.t_currency_type curr WHERE curr.currency_id = ts.item_id ) WHEN ts.item_type = 2 THEN (SELECT ksatriya_name FROM lokapala_accountdb.t_ksatriya ksa WHERE ksa.ksatriya_id = ts.item_id) WHEN ts.item_type = 3 THEN (SELECT CONCAT_WS(" + `" - "` + ", ksa_skin.ksatriya_skin_id, ksa.ksatriya_name ) FROM lokapala_accountdb.t_ksatriya_skin ksa_skin LEFT JOIN lokapala_accountdb.t_ksatriya ksa ON ksa_skin.ksatriya_id = ksa.ksatriya_id WHERE ksa_skin.ksatriya_skin_id = ts.item_id) WHEN ts.item_type = 4 THEN (SELECT rune.name FROM lokapala_accountdb.t_rune as rune WHERE rune.rune_id = ts.item_id) WHEN ts.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = ts.item_id) WHEN ts.item_type = 6 THEN (SELECT box.box_name FROM lokapala_accountdb.t_box box WHERE box.box_id = ts.item_id) WHEN ts.item_type = 7 THEN (SELECT chest.duration FROM lokapala_accountdb.t_chest chest WHERE chest.duration = ts.item_id) WHEN ts.item_type = 8 THEN (SELECT energy.description FROM lokapala_accountdb.t_energy energy WHERE energy_id = ts.item_id) WHEN ts.item_type = 9 THEN (SELECT skin_part.skin_part_id FROM lokapala_accountdb.t_ksatriya_skin_part skin_part WHERE skin_part_id = ts.item_id) WHEN ts.item_type = 10 THEN (SELECT CONCAT_WS(" + `" - "` + ",premium.item_id, premium.duration) FROM lokapala_accountdb.t_premium premium WHERE premium.item_id) WHEN ts.item_type = 11 THEN (SELECT frame.description FROM lokapala_accountdb.t_icon_frame frame WHERE frame.frame_id = ts.item_id) WHEN ts.item_type = 12 THEN (SELECT avatar.description FROM lokapala_accountdb.t_icon_avatar avatar WHERE avatar.avatar_id = ts.item_id) WHEN ts.item_type = 14 THEN (SELECT vahana.vahana_skin FROM lokapala_accountdb.t_vahana_skin vahana WHERE vahana.vahana_skin_id = ts.item_id) WHEN ts.item_type = 15 THEN (SELECT ksa_frag.ksatriya_id FROM lokapala_accountdb.t_ksatriya_fragment ksa_frag WHERE ksa_frag.ksatriya_id = ts.item_id) WHEN ts.item_type = 16 THEN (SELECT ksa_skin_frag.ksatriya_skin_id FROM lokapala_accountdb.t_ksatriya_skin_fragment ksa_skin_frag WHERE ksa_skin_frag.ksatriya_skin_id = ts.item_id) END as item_name,  COUNT(1) as times_bought, ts.description FROM lokapala_accountdb.t_shop_transaction_history tstt LEFT JOIN lokapala_accountdb.t_shop ts ON tstt.shop_id = ts.shop_id LEFT JOIN lokapala_accountdb.t_item_type it ON ts.item_type = it.item_type_id GROUP BY shop_id ORDER BY times_bought DESC")
 	if err != nil {
@@ -530,9 +478,6 @@ func MostBoughtItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func TopUpHistory(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var trx_history []model.Top_up_transaction
 
 	count := r.URL.Query().Get("count")
@@ -561,9 +506,6 @@ func TopUpHistory(w http.ResponseWriter, r *http.Request) {
 }
 
 func UserTopUpHistory(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var trx_history []model.Top_up_transaction
 
 	count := r.URL.Query().Get("count")
@@ -593,9 +535,6 @@ func UserTopUpHistory(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserKdaKsaStats(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Ksa_kda_stats
 
 	game_mode := r.URL.Query().Get("game_mode")
@@ -624,9 +563,6 @@ func GetUserKdaKsaStats(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMostCompletedMission(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Most_completed_daily_misisons
 
 	result, err := db.Query("SELECT tudm.mission_id,tmd.mission_description, COUNT(1) as done_missions FROM lokapala_accountdb.t_user_daily_mission tudm LEFT JOIN lokapala_accountdb.t_mission_daily tmd ON tudm.mission_id = tmd.mission_id WHERE done = 1 GROUP BY mission_id ORDER BY done_missions DESC;")
@@ -652,9 +588,6 @@ func GetMostCompletedMission(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMostNotCompletedMission(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Most_completed_daily_misisons
 
 	result, err := db.Query("SELECT tudm.mission_id,tmd.mission_description, COUNT(1) as done_missions FROM lokapala_accountdb.t_user_daily_mission tudm LEFT JOIN lokapala_accountdb.t_mission_daily tmd ON tudm.mission_id = tmd.mission_id WHERE done = 0 GROUP BY mission_id ORDER BY done_missions DESC;")
@@ -680,9 +613,6 @@ func GetMostNotCompletedMission(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDailyRewardPointDoneCount(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Reward_stage_earned
 
 	result, err := db.Query("SELECT '0 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy = 0) as users_done UNION SELECT '10 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy BETWEEN 10 AND 34) as users_done UNION SELECT '35 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy BETWEEN 35 AND 49) UNION SELECT '50 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy BETWEEN 50 AND 74) UNION SELECT '75 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy WHERE energy >= 75);")
@@ -708,9 +638,6 @@ func GetDailyRewardPointDoneCount(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetWeeklyRewardPointDoneCount(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var stats []model.Reward_stage_earned
 
 	result, err := db.Query("SELECT '250 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy_weekly WHERE energy BETWEEN 250 AND 499) as users_done UNION SELECT '500 points' as points, (SELECT COUNT(1) as users_done FROM lokapala_accountdb.t_user_energy_weekly WHERE energy >= 500);")

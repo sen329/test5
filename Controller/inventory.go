@@ -10,8 +10,6 @@ import (
 )
 
 func GetINVBox(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var boxes []model.Inventory_box
 
 	user_id := r.URL.Query().Get("user_id")
@@ -39,8 +37,6 @@ func GetINVBox(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetINViconAvatars(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var avatars []model.Inventory_icon_avatar
 
 	user_id := r.URL.Query().Get("user_id")
@@ -66,8 +62,6 @@ func GetINViconAvatars(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetINViconFrames(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var frames []model.Inventory_icon_frame
 	user_id := r.URL.Query().Get("user_id")
 	result, err := db.Query("SELECT tiif.user_id, tiif.frame_id, tif.description FROM lokapala_accountdb.t_inventory_icon_frame tiif LEFT JOIN lokapala_accountdb.t_icon_frame tif ON tiif.frame_id = tif.frame_id WHERE tiif.user_id = ?", user_id)
@@ -91,8 +85,6 @@ func GetINViconFrames(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetINVKsatriyas(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var ksatriyas []model.Inventory_ksatriya
 	user_id := r.URL.Query().Get("user_id")
 	result, err := db.Query("SELECT tik.user_id, tik.ksatriya_id, tk.ksatriya_name, tik.purchase_date, tik.last_played, tik.match_count, tik.win_count, tik.win_streak FROM lokapala_accountdb.t_inventory_ksatriya tik LEFT JOIN lokapala_accountdb.t_ksatriya tk ON tik.ksatriya_id = tk.ksatriya_id WHERE tik.user_id = ?", user_id)
@@ -116,8 +108,6 @@ func GetINVKsatriyas(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetINVKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var ksatriya_skin_fragments []model.Inventory_ksatriya_fragment
 
 	user_id := r.URL.Query().Get("user_id")
@@ -145,8 +135,6 @@ func GetINVKsatriyaSkinFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetINVMiscItems(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var misc_items []model.Inventory_misc
 
 	user_id := r.URL.Query().Get("user_id")
@@ -171,8 +159,6 @@ func GetINVMiscItems(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetINVRunes(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var runes []model.Inventory_rune
 	user_id := r.URL.Query().Get("user_id")
 	result, err := db.Query("SELECT tir.rune_item_id, tir.user_id, tir.rune_id,tr.name, tr.description, tir.level FROM lokapala_accountdb.t_inventory_rune tir LEFT JOIN lokapala_accountdb.t_rune tr ON tir.rune_id = tr.rune_id WHERE tir.user_id = ?", user_id)
@@ -195,8 +181,6 @@ func GetINVRunes(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetINVvahana(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var vahanas []model.Inventory_vahana
 	user_id := r.URL.Query().Get("user_id")
 	result, err := db.Query("SELECT tivs.user_id, tivs.vahana_skin_id,tvs.vahana_skin, tivs.purchase_date, tivs.last_played FROM lokapala_accountdb.t_inventory_vahana_skin tivs LEFT JOIN lokapala_accountdb.t_vahana_skin tvs ON tivs.vahana_skin_id = tvs.vahana_skin_id WHERE tivs.user_id = ?", user_id)

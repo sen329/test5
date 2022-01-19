@@ -4,15 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func AddKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -37,8 +34,6 @@ func AddKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyaFragments(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var fragments []model.Ksatriya_fragment
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_ksatriya_fragment")
 	if err != nil {
@@ -61,8 +56,6 @@ func GetKsatriyaFragments(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_id")
 
 	var fragment model.Ksatriya_fragment
@@ -84,8 +77,6 @@ func GetKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -111,8 +102,6 @@ func UpdateKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteKsatriyaFragment(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_ksatriya_fragment WHERE ksatriya_id = ?")

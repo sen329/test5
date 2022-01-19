@@ -4,15 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func AddFeaturedGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -38,8 +35,6 @@ func AddFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllFeaturedGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var gacha_features []model.Gacha_feature
 
 	result, err := db.Query("SELECT * from lokapala_accountdb.t_gacha_feature")
@@ -65,8 +60,6 @@ func GetAllFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetFeaturedGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var gacha_feature model.Gacha_feature
@@ -91,8 +84,6 @@ func GetFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateFeaturedGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -121,8 +112,6 @@ func UpdateFeaturedGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteFeaturedGacha(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_gacha_feature WHERE gacha_feature_id = ?")

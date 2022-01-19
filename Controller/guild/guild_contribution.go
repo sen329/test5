@@ -4,16 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func GetGuildOriContribution(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	guild_id := r.URL.Query().Get("guild_id")
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
@@ -43,9 +39,6 @@ func GetGuildOriContribution(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGuildCitrineContribution(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	guild_id := r.URL.Query().Get("guild_id")
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")

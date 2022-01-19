@@ -10,8 +10,6 @@ import (
 )
 
 func GetMiscItems(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var misc_items []model.Misc_items
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_misc_item")
 	if err != nil {
@@ -33,8 +31,6 @@ func GetMiscItems(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMiscItem(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("misc_id")
 
 	var misc_item model.Misc_items

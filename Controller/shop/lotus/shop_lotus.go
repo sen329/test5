@@ -19,9 +19,9 @@ type Itemids struct {
 	Player_limit  int `json:"player_limit"`
 }
 
+var db = controller.Open()
+
 func AddLotus(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -54,8 +54,6 @@ func AddLotus(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllLotus(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var shop_lotuss []model.Shop_lotus
 
 	count := r.URL.Query().Get("count")
@@ -84,8 +82,6 @@ func GetAllLotus(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetLotus(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id1 := r.URL.Query().Get("shop_lotus_period_id")
 	id2 := r.URL.Query().Get("shop_lotus_item_id")
 
@@ -118,8 +114,6 @@ func GetLotus(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateLotusShop(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id1 := r.URL.Query().Get("shop_lotus_item_id")
 	id2 := r.URL.Query().Get("shop_lotus_period_id")
 
@@ -149,8 +143,6 @@ func UpdateLotusShop(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteLotusShop(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id1 := r.URL.Query().Get("shop_lotus_period_id")
 	id2 := r.URL.Query().Get("shop_lotus_item_id")
 

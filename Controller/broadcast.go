@@ -6,7 +6,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -46,6 +45,6 @@ func BroadcastChat(w http.ResponseWriter, r *http.Request) {
 	// 	panic(err)
 	// }
 
-	fmt.Fprintf(w, string(postBody))
+	json.NewEncoder(w).Encode("Success")
 
 }

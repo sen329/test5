@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -19,8 +18,6 @@ type Ksatriya struct {
 }
 
 func AddnewKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -52,8 +49,6 @@ func AddnewKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllKsatriyasRotation(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var ksatriyas_rotation []model.Ksatriya_rotation
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_ksatriya_rotation")
 	if err != nil {
@@ -76,8 +71,6 @@ func GetAllKsatriyasRotation(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_rotation_id")
 
 	var ksatriya_rotation model.Ksatriya_rotation
@@ -99,8 +92,6 @@ func GetKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_rotation_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -126,8 +117,6 @@ func UpdateKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteKsatriyaRotation(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("ksatriya_rotation_id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_ksatriya_rotation WHERE ksatriya_rotation_id = ?")

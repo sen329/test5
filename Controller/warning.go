@@ -8,8 +8,6 @@ import (
 )
 
 func GetWarningKsaRotation(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	result, err := db.Query("SELECT IF((SELECT NOW()) > date_add((SELECT MAX(end_date) FROM lokapala_accountdb.t_ksatriya_rotation), INTERVAL -2 WEEK), true, false) as flag")
 	if err != nil {
 		panic(err.Error())
@@ -31,8 +29,6 @@ func GetWarningKsaRotation(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetWarningGacha(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	result, err := db.Query("SELECT IF((SELECT NOW()) > date_add((SELECT MAX(end_date) FROM lokapala_accountdb.t_gacha), INTERVAL -2 WEEK), true, false) as flag")
 	if err != nil {
 		panic(err.Error())
@@ -54,8 +50,6 @@ func GetWarningGacha(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetWarningLotto(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	result, err := db.Query("SELECT IF((SELECT NOW()) > date_add((SELECT MAX(end_date) FROM lokapala_accountdb.t_lotto), INTERVAL -2 WEEK), true, false) as flag")
 	if err != nil {
 		panic(err.Error())
@@ -77,8 +71,6 @@ func GetWarningLotto(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetWarningLotus(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	result, err := db.Query("SELECT IF((SELECT NOW()) > date_add((SELECT MAX(end_date) FROM lokapala_accountdb.t_shop_lotus_period), INTERVAL -2 WEEK), true, false) as flag")
 	if err != nil {
 		panic(err.Error())
@@ -100,8 +92,6 @@ func GetWarningLotus(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetWarningSeason(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	result, err := db.Query("SELECT IF((SELECT NOW()) > date_add((SELECT MAX(end_date) FROM lokapala_accountdb.t_season), INTERVAL -2 WEEK), true, false) as flag")
 	if err != nil {
 		panic(err.Error())

@@ -10,9 +10,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var db = controller.Open()
+
 func AddiconAvatar(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -36,8 +36,6 @@ func AddiconAvatar(w http.ResponseWriter, r *http.Request) {
 }
 
 func GeticonAvatars(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var avatars []model.Icon_avatar
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_icon_avatar")
 	if err != nil {
@@ -60,8 +58,6 @@ func GeticonAvatars(w http.ResponseWriter, r *http.Request) {
 }
 
 func GeticonAvatar(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("avatar_id")
 
 	var avatar model.Icon_avatar
@@ -83,8 +79,6 @@ func GeticonAvatar(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateiconAvatar(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("avatar_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -109,8 +103,6 @@ func UpdateiconAvatar(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteiconAvatar(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("avatar_id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_icon_avatar WHERE avatar_id = ?")

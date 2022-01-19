@@ -10,10 +10,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func GetAllGuild(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
+var db = controller.Open()
 
+func GetAllGuild(w http.ResponseWriter, r *http.Request) {
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 
@@ -42,9 +41,6 @@ func GetAllGuild(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGuild(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	guild_id := r.URL.Query().Get("guild_id")
 
 	var guild model.Guild
@@ -69,9 +65,6 @@ func GetGuild(w http.ResponseWriter, r *http.Request) {
 }
 
 func ChangeGuildName(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -98,9 +91,6 @@ func ChangeGuildName(w http.ResponseWriter, r *http.Request) {
 }
 
 func ChangeGuildInitial(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -127,9 +117,6 @@ func ChangeGuildInitial(w http.ResponseWriter, r *http.Request) {
 }
 
 func ChangeGuildMotto(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)

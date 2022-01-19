@@ -10,8 +10,6 @@ import (
 )
 
 func AddMaintenance(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -54,8 +52,6 @@ func AddMaintenance(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllMaintenance(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var maintenance []model.Maintenance
 
 	result, err := db.Query("SELECT * FROM lokapala_logindb.t_maintenance")
@@ -81,8 +77,6 @@ func GetAllMaintenance(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMaintenance(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var mt model.Maintenance
@@ -107,8 +101,6 @@ func GetMaintenance(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateMaintenanceReason(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -133,8 +125,6 @@ func UpdateMaintenanceReason(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateMaintenanceStart(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -158,8 +148,6 @@ func UpdateMaintenanceStart(w http.ResponseWriter, r *http.Request) {
 
 }
 func UpdateMaintenanceEnd(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -184,8 +172,6 @@ func UpdateMaintenanceEnd(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteMaintenance(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_logindb.t_maintenance WHERE mt_id = ?")

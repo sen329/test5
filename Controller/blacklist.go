@@ -10,8 +10,6 @@ import (
 )
 
 func BlacklistPlayer(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -35,8 +33,6 @@ func BlacklistPlayer(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllBlacklists(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var blacklists []model.Blacklist
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_blacklist")
 	if err != nil {
@@ -59,8 +55,6 @@ func GetAllBlacklists(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBlacklist(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 	target_id := r.URL.Query().Get("target_id")
 
@@ -83,8 +77,6 @@ func GetBlacklist(w http.ResponseWriter, r *http.Request) {
 }
 
 func UnblacklistPlayer(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 	target_id := r.URL.Query().Get("target_id")
 

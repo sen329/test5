@@ -10,8 +10,6 @@ import (
 )
 
 func RegisterJudge(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -36,8 +34,6 @@ func RegisterJudge(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllJudge(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var judges []model.Judge_acc
 
 	result, err := db.Query("SELECT * from lokapala_judgedb.t_judge")
@@ -63,8 +59,6 @@ func GetAllJudge(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetJudge(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var judge model.Judge_acc
@@ -89,8 +83,6 @@ func GetJudge(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateJudgeName(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -117,8 +109,6 @@ func UpdateJudgeName(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateJudgePassword(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -145,8 +135,6 @@ func UpdateJudgePassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteJudge(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_judgedb.t_judge WHERE user_id = ?")

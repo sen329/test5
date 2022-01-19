@@ -4,16 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func GetGuildMissions(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	var guild_missions []model.Guild_missions
 
 	guild_id := r.URL.Query().Get("guild_id")
@@ -41,9 +37,6 @@ func GetGuildMissions(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGuildMissionContributionLog(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	var guild_missions []model.Guild_mission_contribution_log
 
 	guild_mission_id := r.URL.Query().Get("guild_mission_id")

@@ -4,15 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func AddKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -36,8 +33,6 @@ func AddKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var ksatriya_skins []model.Ksatriya_skin
 
 	result, err := db.Query("SELECT B.ksatriya_skin_id, B.ksatriya_id, A.ksatriya_name, B.release_date FROM lokapala_accountdb.t_ksatriya A LEFT JOIN lokapala_accountdb.t_ksatriya_skin B ON A.ksatriya_id = B.ksatriya_id")
@@ -63,8 +58,6 @@ func GetAllKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	ksatriya_skin_id := r.URL.Query().Get("ksatriya_skin_id")
 
 	var ksatriya_skin model.Ksatriya_skin
@@ -89,8 +82,6 @@ func GetKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	ksatriya_skin_id := r.URL.Query().Get("ksatriya_skin_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -115,8 +106,6 @@ func UpdateKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteKsatriyaSkin(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	ksatriya_skin_id := r.URL.Query().Get("ksatriya_skin_id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_ksatriya_skin WHERE ksatriya_skin_id = ?")

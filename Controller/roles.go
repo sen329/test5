@@ -10,14 +10,12 @@ import (
 )
 
 func AddRoles(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO roles(role_name, description) VALUES (?,?)")
+	stmt, err := dbAdmin.Prepare("INSERT INTO roles(role_name, description) VALUES (?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -36,11 +34,9 @@ func AddRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllRoles(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	var roles []model.Roles
 
-	result, err := db.Query("SELECT id, role_name, description from roles")
+	result, err := dbAdmin.Query("SELECT id, role_name, description from roles")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -63,12 +59,10 @@ func GetAllRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetRole(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var role model.Roles
-	result, err := db.Query("SELECT id, role_name, description from roles where id = ? ", id)
+	result, err := dbAdmin.Query("SELECT id, role_name, description from roles where id = ? ", id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -89,8 +83,6 @@ func GetRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateRole(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -98,7 +90,7 @@ func UpdateRole(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE roles SET role_name = ?, description = ? where id = ?")
+	stmt, err := dbAdmin.Prepare("UPDATE roles SET role_name = ?, description = ? where id = ?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -118,11 +110,9 @@ func UpdateRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteRole(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
-	stmt, err := db.Prepare("DELETE FROM roles WHERE id = ?")
+	stmt, err := dbAdmin.Prepare("DELETE FROM roles WHERE id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

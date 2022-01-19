@@ -28,10 +28,9 @@ type Item_reward struct {
 	Amount    int `json:"amount"`
 }
 
-func AddEventEnergyDetails(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
+var db = controller.Open()
 
+func AddEventEnergyDetails(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -136,9 +135,6 @@ func AddEventEnergyDetails(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllEnergyEvent(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	var event_energies []model.Event_energy
 
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_event_energy")
@@ -164,9 +160,6 @@ func GetAllEnergyEvent(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetEnergyEventDetail(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	event_id := r.URL.Query().Get("event_id")
 
 	var event_energy_details []model.Event_energy_details
@@ -193,9 +186,6 @@ func GetEnergyEventDetail(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateEventEnergyTargetEnergy(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -222,9 +212,6 @@ func UpdateEventEnergyTargetEnergy(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateEventEnergyReward(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)

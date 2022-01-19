@@ -11,6 +11,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var db = controller.Open()
+
 func NewNullString(s string) sql.NullString {
 	if len(s) == 0 {
 		return sql.NullString{}
@@ -22,8 +24,6 @@ func NewNullString(s string) sql.NullString {
 }
 
 func AddShopItem(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -54,9 +54,6 @@ func AddShopItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetShopItems(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	item_type := r.URL.Query().Get("item_type")
 
 	var shops []model.Shop
@@ -83,8 +80,6 @@ func GetShopItems(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetShopItem(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var shop model.Shop
@@ -109,8 +104,6 @@ func GetShopItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateShopItemPrice(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -140,8 +133,6 @@ func UpdateShopItemPrice(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateShopItemDesc(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -168,8 +159,6 @@ func UpdateShopItemDesc(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateShopItemReleaseDate(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -196,8 +185,6 @@ func UpdateShopItemReleaseDate(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteShopItem(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_shop WHERE shop_id = ?")

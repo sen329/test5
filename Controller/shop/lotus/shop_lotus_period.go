@@ -4,15 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func AddLotusPeriod(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -37,8 +34,6 @@ func AddLotusPeriod(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusGetShopPeriods(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var shop_periods []model.Shop_lotus_period
 
 	result, err := db.Query("SELECT * from lokapala_accountdb.t_shop_lotus_period")
@@ -64,8 +59,6 @@ func LotusGetShopPeriods(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusGetShopPeriod(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var shop_item model.Shop_lotus_item
@@ -90,8 +83,6 @@ func LotusGetShopPeriod(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusUpdateShopPeriod(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -119,8 +110,6 @@ func LotusUpdateShopPeriod(w http.ResponseWriter, r *http.Request) {
 }
 
 func LotusDeleteShopPeriod(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_shop_lotus_period WHERE shop_lotus_period_id = ?")

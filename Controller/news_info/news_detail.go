@@ -4,13 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 )
 
 func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -100,8 +97,6 @@ func AddNewsDetail(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetNewsDetails(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var details []model.News_detail
 
 	result, err := db.Query("SELECT * FROM t_news_v2_detail")
@@ -125,8 +120,6 @@ func GetNewsDetails(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetNewsDetail(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var details []model.News_detail
@@ -151,9 +144,6 @@ func GetNewsDetail(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateNewsBanner(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err.Error())
@@ -183,9 +173,6 @@ func UpdateNewsBanner(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateNewsContent(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err.Error())
@@ -199,7 +186,7 @@ func UpdateNewsContent(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	content, content_checksum, err := UploadFile(r, "content", "Test", lang)
+	content, content_checksum, err := UploadFile(r, "content", "NewsInfo", lang)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +204,6 @@ func UpdateNewsContent(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateNewsTitle(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err.Error())
@@ -246,8 +230,6 @@ func UpdateNewsTitle(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteNewsDetail(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_news_v2_detail WHERE news_id = ?")

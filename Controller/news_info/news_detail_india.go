@@ -4,13 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 )
 
 func AddNewsDetailINTL(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -98,8 +95,6 @@ func AddNewsDetailINTL(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetNewsDetailsINTL(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var details []model.News_detail
 
 	result, err := db.Query("SELECT * FROM t_news_v2_detail")
@@ -123,8 +118,6 @@ func GetNewsDetailsINTL(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetNewsDetailINTL(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var details []model.News_detail
@@ -149,9 +142,6 @@ func GetNewsDetailINTL(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateNewsBannerINTL(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err.Error())
@@ -181,9 +171,6 @@ func UpdateNewsBannerINTL(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateNewsContentINTL(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err.Error())
@@ -215,9 +202,6 @@ func UpdateNewsContentINTL(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateNewsTitleINTL(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err.Error())
@@ -244,8 +228,6 @@ func UpdateNewsTitleINTL(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteNewsDetailINTL(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM t_news_v2_detail WHERE news_id = ?")

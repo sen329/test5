@@ -10,9 +10,6 @@ import (
 )
 
 func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 
@@ -45,9 +42,6 @@ func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllPlayerReportsByReportedUser(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 	user_id := r.URL.Query().Get("user_id")
@@ -81,9 +75,6 @@ func GetAllPlayerReportsByReportedUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllPlayerReportsByReporterUser(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 	user_id := r.URL.Query().Get("user_id")
@@ -117,9 +108,6 @@ func GetAllPlayerReportsByReporterUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllPlayerReportsByRoom(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	room_id := r.URL.Query().Get("room_id")
 
 	var reports []model.Player_report
@@ -151,9 +139,6 @@ func GetAllPlayerReportsByRoom(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPlayerReport(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	report_id := r.URL.Query().Get("report_id")
 
 	var reports []model.Player_report
@@ -185,9 +170,6 @@ func GetPlayerReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func ApprovePlayerReport(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	report_id := r.URL.Query().Get("report_id")
 
 	stmt, err := db.Prepare(`UPDATE lokapala_playerreportdb.t_player_report SET checked = 1 WHERE report_id = ?`)
@@ -233,9 +215,6 @@ func ApprovePlayerReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllPlayerProfileReports(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	var reports []model.Player_profile_report
 
 	result, err := db.Query("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user,D.user_id as reported_user_id, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id ORDER BY A.report_profile_id DESC")
@@ -260,9 +239,6 @@ func GetAllPlayerProfileReports(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllPlayerProfileReportsByReporterUser(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var reports []model.Player_profile_report
@@ -294,9 +270,6 @@ func GetAllPlayerProfileReportsByReporterUser(w http.ResponseWriter, r *http.Req
 }
 
 func GetAllPlayerProfileReportsByReportedUser(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 
 	var reports []model.Player_profile_report
@@ -328,9 +301,6 @@ func GetAllPlayerProfileReportsByReportedUser(w http.ResponseWriter, r *http.Req
 }
 
 func GetPlayerProfileReport(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	player_report_id := r.URL.Query().Get("player_report_id")
 
 	query, err := db.Prepare("SELECT A.report_profile_id as report_profile_id, B.description as report_type,C.user_id as reporter_id, C.user_name as reporter_user,D.user_id as reported_user_id, D.user_name as reported_user, A.report_date, A.checked FROM lokapala_playerreportdb.t_player_report_profile A LEFT JOIN lokapala_playerreportdb.t_player_report_type B ON B.report_type_id = A.report_type LEFT JOIN lokapala_accountdb.t_user C ON C.user_id = A.reporter_user_id LEFT JOIN lokapala_accountdb.t_user D ON D.user_id = A.reported_user_id WHERE A.report_profile_id = ?")
@@ -361,9 +331,6 @@ func GetPlayerProfileReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func ApprovePlayerProfileReport(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	report_id := r.URL.Query().Get("report_id")
 
 	stmt, err := db.Prepare(`UPDATE lokapala_playerreportdb.t_player_report_profile SET checked = 1 WHERE report_profile_id = ?`)

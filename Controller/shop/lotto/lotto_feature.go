@@ -4,15 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func AddlottoFeature(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -38,8 +35,6 @@ func AddlottoFeature(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoFeatures(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var l_features []model.Lotto_feature
 	result, err := db.Query("SELECT tlf.lotto_feature_id, lotto_id, tlf.lotto_item_id,tli.item_name, priority FROM lokapala_accountdb.t_lotto_feature tlf LEFT JOIN lokapala_accountdb.t_lotto_item tli ON tlf.lotto_item_id = tli.lotto_item_id")
 	if err != nil {
@@ -62,8 +57,6 @@ func GetlottoFeatures(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoFeature(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var l_feature model.Lotto_feature
@@ -85,8 +78,6 @@ func GetlottoFeature(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetlottoFeatureByLottoId(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var l_features []model.Lotto_feature
@@ -110,8 +101,6 @@ func GetlottoFeatureByLottoId(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatelottoFeature(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -139,8 +128,6 @@ func UpdatelottoFeature(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletelottoFeature(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_lotto_feature WHERE lotto_feature_id = ?")

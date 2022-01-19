@@ -4,16 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func GetGuildMembers(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	guild_id := r.URL.Query().Get("guild_id")
 
 	var guild_members []model.Guild_member
@@ -41,9 +37,6 @@ func GetGuildMembers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGuildMemberLogs(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	guild_id := r.URL.Query().Get("guild_id")
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
@@ -73,9 +66,6 @@ func GetGuildMemberLogs(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGuildMemberRankLogs(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	guild_id := r.URL.Query().Get("guild_id")
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
@@ -105,9 +95,6 @@ func GetGuildMemberRankLogs(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGuildMemberCheckInLogs(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
-
 	guild_id := r.URL.Query().Get("guild_id")
 
 	var guild_member_logs []model.Guild_check_in_log

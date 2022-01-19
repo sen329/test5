@@ -10,8 +10,6 @@ import (
 )
 
 func AddCurrencyType(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -33,8 +31,6 @@ func AddCurrencyType(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllCurrencyTypes(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var currencies []model.Currency
 
 	result, err := db.Query("SELECT * from lokapala_accountdb.t_currency_type")
@@ -60,8 +56,6 @@ func GetAllCurrencyTypes(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCurrencyType(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var currency model.Currency
@@ -86,8 +80,6 @@ func GetCurrencyType(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateCurrencyType(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -112,8 +104,6 @@ func UpdateCurrencyType(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteCurrencyType(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_currency_type WHERE currency_id = ?")

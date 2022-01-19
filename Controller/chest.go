@@ -10,8 +10,6 @@ import (
 )
 
 func AddChest(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -33,8 +31,6 @@ func AddChest(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllChest(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var chests []model.Chest
 
 	result, err := db.Query("SELECT * from lokapala_accountdb.t_chest")
@@ -60,8 +56,6 @@ func GetAllChest(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetChest(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	duration := r.URL.Query().Get("duration")
 
 	var chest model.Chest
@@ -86,8 +80,6 @@ func GetChest(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateChest(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	duration := r.URL.Query().Get("duration")
 
 	err := r.ParseMultipartForm(4096)
@@ -112,8 +104,6 @@ func UpdateChest(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteChest(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	duration := r.URL.Query().Get("duration")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_chest WHERE duration = ?")

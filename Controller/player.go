@@ -10,8 +10,6 @@ import (
 )
 
 func GetAllPlayers(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	var players []model.Player
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
@@ -44,8 +42,6 @@ func GetAllPlayers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPlayer(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 
 	var player model.Player
@@ -70,8 +66,6 @@ func GetPlayer(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPlayerByName(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_name := r.URL.Query().Get("user_name")
 
 	var players []model.Player
@@ -99,8 +93,6 @@ func GetPlayerByName(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPlayerByReferalId(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	ref_id := r.URL.Query().Get("ref_id")
 
 	var players []model.Player
@@ -128,8 +120,6 @@ func GetPlayerByReferalId(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatePlayerKarma(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -156,8 +146,6 @@ func UpdatePlayerKarma(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatePlayerAvatar(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -184,8 +172,6 @@ func UpdatePlayerAvatar(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatePlayerName(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -212,8 +198,6 @@ func UpdatePlayerName(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatePlayerNameAuto(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
 	user_id := r.URL.Query().Get("user_id")
 
 	query, err := db.Query("SELECT lokapala_namedb.f_username_generate()")
@@ -249,9 +233,6 @@ func UpdatePlayerNameAuto(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPlayerKsaRank(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	user_id := r.URL.Query().Get("user_id")
 	order_by := r.URL.Query().Get("order_by")
 
@@ -283,9 +264,6 @@ func GetPlayerKsaRank(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPlayerMatchHistory(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 	user_id := r.URL.Query().Get("user_id")

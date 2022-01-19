@@ -10,9 +10,6 @@ import (
 )
 
 func GetMatches(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 
@@ -46,9 +43,6 @@ func GetMatches(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMatch(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	count := r.URL.Query().Get("count")
 	offset := r.URL.Query().Get("offset")
 	room_id := r.URL.Query().Get("room_id")
@@ -81,9 +75,6 @@ func GetMatch(w http.ResponseWriter, r *http.Request) {
 }
 
 func CancelMatch(w http.ResponseWriter, r *http.Request) {
-	db := Open()
-	defer db.Close()
-
 	room_id := r.URL.Query().Get("room_id")
 
 	var match int

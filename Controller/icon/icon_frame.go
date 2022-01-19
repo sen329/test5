@@ -4,15 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	controller "test5/Controller"
 	model "test5/Model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func AddiconFrame(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -36,8 +33,6 @@ func AddiconFrame(w http.ResponseWriter, r *http.Request) {
 }
 
 func GeticonFrames(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var frames []model.Icon_frame
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_icon_frame")
 	if err != nil {
@@ -60,8 +55,6 @@ func GeticonFrames(w http.ResponseWriter, r *http.Request) {
 }
 
 func GeticonFrame(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("frame_id")
 
 	var frame model.Icon_frame
@@ -83,8 +76,6 @@ func GeticonFrame(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateiconFrame(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("frame_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -109,8 +100,6 @@ func UpdateiconFrame(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteiconFrame(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	id := r.URL.Query().Get("frame_id")
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_accountdb.t_icon_frame WHERE frame_id = ?")

@@ -11,9 +11,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var db = controller.Open()
+
 func AddnewLotto(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -38,8 +38,6 @@ func AddnewLotto(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetallLottos(w http.ResponseWriter, r *http.Request) {
-	db := controller.Open()
-	defer db.Close()
 	var lottos []model.Lotto
 
 	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_lotto")

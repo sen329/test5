@@ -39,8 +39,6 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	db := controller.OpenGMAdmin()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	var user model.User_details
