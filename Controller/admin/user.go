@@ -11,9 +11,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+var db = controller.OpenGMAdmin()
+
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	db := controller.OpenGMAdmin()
-	defer db.Close()
 	var users []model.User_details
 
 	result, err := db.Query("SELECT A.id, A.name, A.email, B.id, GROUP_CONCAT(B.role_name) as roles_name from users A left join users_roles on users_roles.user_id = A.id left join roles B on B.id = users_roles.role_id GROUP BY A.id, B.id ORDER BY A.id ASC")
@@ -65,8 +65,6 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCurrentUserLogin(w http.ResponseWriter, r *http.Request) {
-	db := controller.OpenGMAdmin()
-	defer db.Close()
 	id := r.Context().Value("user_id").(string)
 
 	var user model.User_details
@@ -91,8 +89,6 @@ func GetCurrentUserLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	db := controller.OpenGMAdmin()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -120,8 +116,6 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
-	db := controller.OpenGMAdmin()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	err := r.ParseMultipartForm(4096)
@@ -155,8 +149,6 @@ func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	db := controller.OpenGMAdmin()
-	defer db.Close()
 	id := r.URL.Query().Get("id")
 
 	stmt1, err := db.Prepare("DELETE FROM users_roles WHERE user_id = ?")

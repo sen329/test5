@@ -17,7 +17,25 @@ func AddMaintenance(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("INSERT INTO lokapala_logindb.t_maintenance(reason,start_date,end_date) VALUES (?,?,?)")
+	var id int
+
+	result, err := db.Query("SELECT MAX(mt_id) FROM lokapala_logindb.t_maintenance")
+	if err != nil {
+		panic(err)
+	}
+
+	for result.Next() {
+		err := result.Scan(&id)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	result.Close()
+
+	newId := id + 1
+
+	stmt, err := db.Prepare("INSERT INTO lokapala_logindb.t_maintenance(mt_id, reason,start_date,end_date) VALUES (?,?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -26,10 +44,11 @@ func AddMaintenance(w http.ResponseWriter, r *http.Request) {
 	start_date := r.Form.Get("start_date")
 	end_date := r.Form.Get("end_date")
 
-	_, err = stmt.Exec(reason, start_date, end_date)
+	_, err = stmt.Exec(newId, reason, start_date, end_date)
 	if err != nil {
 		panic(err.Error())
 	}
+	stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }
@@ -148,7 +167,7 @@ func UpdateMaintenanceEnd(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare("UPDATE lokapala_logindb.t_maintenance SET end_date = ? where box_id = ?")
+	stmt, err := db.Prepare("UPDATE lokapala_logindb.t_maintenance SET end_date = ? where mt_id = ?")
 	if err != nil {
 		panic(err.Error())
 	}

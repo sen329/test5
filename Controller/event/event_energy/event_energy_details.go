@@ -32,6 +32,11 @@ func AddEventEnergyDetails(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
 	event_id := r.Form.Get("event_id")
 	start_date := r.Form.Get("start_date")
 	end_date := r.Form.Get("end_date")
@@ -191,6 +196,11 @@ func UpdateEventEnergyTargetEnergy(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
 
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
 	event_energy_id := r.URL.Query().Get("event_energy_id")
 
 	stmt, err := db.Prepare("UPDATE lokapala_accountdb.t_event_energy_detail SET target_energy = ? WHERE event_energy_id = ?")
@@ -214,6 +224,11 @@ func UpdateEventEnergyTargetEnergy(w http.ResponseWriter, r *http.Request) {
 func UpdateEventEnergyReward(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
 
 	event_energy_id := r.URL.Query().Get("event_energy_reward_id")
 

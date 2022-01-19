@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -30,7 +31,8 @@ func Open() (dbase *sql.DB) {
 	if err != nil {
 		panic(err.Error())
 	}
-	dbase.SetConnMaxLifetime(900)
+	dbase.SetConnMaxIdleTime(10 * time.Second)
+	dbase.SetConnMaxLifetime(60 * time.Second)
 	return dbase
 }
 
@@ -44,5 +46,11 @@ func OpenGMAdmin() (dbase *sql.DB) {
 	if err != nil {
 		panic(err.Error())
 	}
+	dbase.SetConnMaxIdleTime(10 * time.Second)
+	dbase.SetConnMaxLifetime(60 * time.Second)
 	return dbase
 }
+
+var dbAdmin = OpenGMAdmin()
+
+var db = Open()

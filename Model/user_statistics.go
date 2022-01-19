@@ -26,12 +26,13 @@ type User_login_type struct {
 }
 
 type Ksa_stats struct {
-	Ksatriya_id int     `json:"ksatriya_id"`
-	Match_count int     `json:"match_count"`
-	Win_count   int     `json:"win_count"`
-	Win_rate    float64 `json:"win_rate"`
-	Lose_count  int     `json:"lose_count"`
-	Lose_rate   float64 `json:"lose_rate"`
+	Ksatriya_id   int     `json:"ksatriya_id"`
+	Ksatriya_name string  `json:"ksatriya_name"`
+	Match_count   int     `json:"match_count"`
+	Win_count     int     `json:"win_count"`
+	Win_rate      float64 `json:"win_rate"`
+	Lose_count    int     `json:"lose_count"`
+	Lose_rate     float64 `json:"lose_rate"`
 }
 
 type Most_ksa_owned struct {
@@ -104,6 +105,7 @@ type Users_match_results struct {
 	Ksatriya_damage_dealt *int     `json:"ksatriya_damage_dealt"`
 	Close_call_kill       *int     `json:"close_call_kill"`
 	Highest_kill_streak   *int     `json:"highest_kill_streak"`
+	Ksatriya_name         string   `json:"ksatriya_name"`
 	User_name             *string  `json:"user_name"`
 	Avatar_icon           *int     `json:"avatar_icon"`
 	Frame                 *int     `json:"frame"`
@@ -127,39 +129,59 @@ type User_last_login struct {
 }
 
 type User_match_history struct {
-	Room_id       int64  `json:"room_id"`
-	Game_duration int64  `json:"game_duration"`
-	Game_mode     int    `json:"game_mode"`
-	Start_time    string `json:"start_time"`
-	Win           int    `json:"win"`
-	Ksatriya_id   int64  `json:"ksatriya_id"`
-	Level         int    `json:"level"`
-	Kill          int    `json:"kill"`
-	Death         int    `json:"death"`
-	Assist        int    `json:"assist"`
-	Mvp_badge     int    `json:"mvp_badge"`
-	Slot0_ksa     int64  `json:"slot0_ksa"`
-	Slot1_ksa     int64  `json:"slot1_ksa"`
-	Slot2_ksa     int64  `json:"slot2_ksa"`
-	Slot3_ksa     int64  `json:"slot3_ksa"`
-	Slot4_ksa     int64  `json:"slot4_ksa"`
-	Slot5_ksa     int64  `json:"slot5_ksa"`
-	Slot6_ksa     int64  `json:"slot6_ksa"`
-	Slot7_ksa     int64  `json:"slot7_ksa"`
-	Slot8_ksa     int64  `json:"slot8_ksa"`
-	Slot9_ksa     int64  `json:"slot9_ksa"`
-	Blue_kill     int    `json:"blue_kill"`
-	Red_kill      int    `json:"red_kill"`
-	Slot0_user    int64  `json:"slot0_user"`
-	Slot1_user    int64  `json:"slot1_user"`
-	Slot2_user    int64  `json:"slot2_user"`
-	Slot3_user    int64  `json:"slot3_user"`
-	Slot4_user    int64  `json:"slot4_user"`
-	Slot5_user    int64  `json:"slot5_user"`
-	Slot6_user    int64  `json:"slot6_user"`
-	Slot7_user    int64  `json:"slot7_user"`
-	Slot8_user    int64  `json:"slot8_user"`
-	Slot9_user    int64  `json:"slot9_user"`
+	Room_id         int64  `json:"room_id"`
+	Game_duration   int64  `json:"game_duration"`
+	Game_mode       int    `json:"game_mode"`
+	Start_time      string `json:"start_time"`
+	Win             int    `json:"win"`
+	Ksatriya_id     int64  `json:"ksatriya_id"`
+	Level           int    `json:"level"`
+	Kill            int    `json:"kill"`
+	Death           int    `json:"death"`
+	Assist          int    `json:"assist"`
+	Mvp_badge       int    `json:"mvp_badge"`
+	Slot0_ksa       int64  `json:"slot0_ksa"`
+	Slot0_ksa_name  string `json:"slot0_ksa_name"`
+	Slot1_ksa       int64  `json:"slot1_ksa"`
+	Slot1_ksa_name  string `json:"slot1_ksa_name"`
+	Slot2_ksa       int64  `json:"slot2_ksa"`
+	Slot2_ksa_name  string `json:"slot2_ksa_name"`
+	Slot3_ksa       int64  `json:"slot3_ksa"`
+	Slot3_ksa_name  string `json:"slot3_ksa_name"`
+	Slot4_ksa       int64  `json:"slot4_ksa"`
+	Slot4_ksa_name  string `json:"slot4_ksa_name"`
+	Slot5_ksa       int64  `json:"slot5_ksa"`
+	Slot5_ksa_name  string `json:"slot5_ksa_name"`
+	Slot6_ksa       int64  `json:"slot6_ksa"`
+	Slot6_ksa_name  string `json:"slot6_ksa_name"`
+	Slot7_ksa       int64  `json:"slot7_ksa"`
+	Slot7_ksa_name  string `json:"slot7_ksa_name"`
+	Slot8_ksa       int64  `json:"slot8_ksa"`
+	Slot8_ksa_name  string `json:"slot8_ksa_name"`
+	Slot9_ksa       int64  `json:"slot9_ksa"`
+	Slot9_ksa_name  string `json:"slot9_ksa_name"`
+	Blue_kill       int    `json:"blue_kill"`
+	Red_kill        int    `json:"red_kill"`
+	Slot0_user      int64  `json:"slot0_user"`
+	Slot0_user_name string `json:"slot0_user_name"`
+	Slot1_user      int64  `json:"slot1_user"`
+	Slot1_user_name string `json:"slot1_user_name"`
+	Slot2_user      int64  `json:"slot2_user"`
+	Slot2_user_name string `json:"slot2_user_name"`
+	Slot3_user      int64  `json:"slot3_user"`
+	Slot3_user_name string `json:"slot3_user_name"`
+	Slot4_user      int64  `json:"slot4_user"`
+	Slot4_user_name string `json:"slot4_user_name"`
+	Slot5_user      int64  `json:"slot5_user"`
+	Slot5_user_name string `json:"slot5_user_name"`
+	Slot6_user      int64  `json:"slot6_user"`
+	Slot6_user_name string `json:"slot6_user_name"`
+	Slot7_user      int64  `json:"slot7_user"`
+	Slot7_user_name string `json:"slot7_user_name"`
+	Slot8_user      int64  `json:"slot8_user"`
+	Slot8_user_name string `json:"slot8_user_name"`
+	Slot9_user      int64  `json:"slot9_user"`
+	Slot9_user_name string `json:"slot9_user_name"`
 }
 
 type User_total_games struct {

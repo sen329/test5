@@ -11,3 +11,9 @@ type Daily_reward struct {
 	Item_name      string `json:"item_name"`
 	Amount         int64  `json:"amount"`
 }
+
+type Year_month struct {
+	Daily_id int `json:"daily_id"`
+	Month    int `json:"month"`
+	Year     int `json:"year"`
+}

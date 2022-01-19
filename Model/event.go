@@ -42,3 +42,8 @@ type Event_energy_reward struct {
 	Item_id                int   `json:"item_id"`
 	Amount                 int   `json:"amount"`
 }
+
+type Event_mission_type struct {
+	Mission_type_id int    `json:"mission_type_id"`
+	Description     string `json:"description"`
+}

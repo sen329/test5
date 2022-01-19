@@ -17,6 +17,8 @@ func RouteDailyReward(r *mux.Router) *mux.Router {
 	route_daily.HandleFunc("/updateDailyRewardItem", controller.UpdateDailyRewardItem).Methods("PUT")
 	route_daily.HandleFunc("/deleteDailyReward", controller.DeleteDailyReward).Methods("DELETE")
 
+	route_daily.HandleFunc("/getAllYearMonth", controller.GetAllYearMonth).Methods("GET")
+
 	return r
 
 }

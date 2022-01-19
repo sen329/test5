@@ -3,7 +3,6 @@ package controller
 //enter user stuff here
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -18,14 +17,9 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-var db *sql.DB
-var err error
-
 var JwtKey = []byte(goDotEnvVariable("SECRET_KEY"))
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	w.Header().Add("Content-Type", "application/json")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
@@ -35,7 +29,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	email := r.Form.Get("email")
 	password := r.Form.Get("password")
 
-	stmt, err := db.Query("SELECT users.id, users.email, users.password, roles.id FROM users LEFT JOIN users_roles ON users.id = users_roles.user_id LEFT JOIN roles ON users_roles.role_id = roles.id WHERE email LIKE ?  ", email)
+	stmt, err := dbAdmin.Query("SELECT users.id, users.email, users.password, roles.id FROM users LEFT JOIN users_roles ON users.id = users_roles.user_id LEFT JOIN roles ON users_roles.role_id = roles.id WHERE email LIKE ?  ", email)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -104,14 +98,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	db := OpenGMAdmin()
-	defer db.Close()
 	w.Header().Add("Content-Type", "application/json")
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
 	}
-	stmt, err := db.Prepare("INSERT INTO users(name, email, password) VALUES (?,?,?)")
+	stmt, err := dbAdmin.Prepare("INSERT INTO users(name, email, password) VALUES (?,?,?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -137,12 +129,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(role_id)
 
 	if len(role_id) > 0 {
-		stmt2, err := db.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
+		stmt2, err := dbAdmin.Prepare("INSERT INTO users_roles(user_id, role_id) VALUES (?,?)")
 		if err != nil {
 			panic(err.Error())
 		}
 
-		stmt3, err := db.Query("SELECT id FROM users WHERE email LIKE ?  ", email)
+		stmt3, err := dbAdmin.Query("SELECT id FROM users WHERE email LIKE ?  ", email)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -232,7 +224,6 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(jwtToken)
 
-	defer db.Close()
 }
 
 // func Checktest(w http.ResponseWriter, r *http.Request) {

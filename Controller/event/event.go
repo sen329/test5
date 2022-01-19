@@ -54,6 +54,34 @@ func AddEventEnergy(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
+func AddEventAnniversary(w http.ResponseWriter, r *http.Request) {
+	db := controller.Open()
+	defer db.Close()
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	event_name := r.Form.Get("event_name")
+	start_time := r.Form.Get("start_time")
+	end_time := r.Form.Get("end_time")
+	expired_date := r.Form.Get("expired_date")
+
+	stmt, err := db.Prepare(`INSERT INTO lokapala_accountdb.t_event (event_name, start_time, end_time, expired_date, parameter) VALUES (?,?,?,?,'{"type": "anniversary"}')`)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	_, err = stmt.Exec(event_name, start_time, end_time, expired_date)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	json.NewEncoder(w).Encode("Success")
+}
+
 func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 	db := controller.Open()
 	defer db.Close()

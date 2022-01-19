@@ -52,6 +52,33 @@ func CreateDailyRewards(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func GetAllYearMonth(w http.ResponseWriter, r *http.Request) {
+	db := Open()
+	defer db.Close()
+
+	var daily_rewards []model.Year_month
+
+	result, err := db.Query("SELECT * FROM lokapala_accountdb.t_daily_reward")
+	if err != nil {
+		panic(err)
+	}
+
+	defer result.Close()
+
+	for result.Next() {
+		var daily_reward model.Year_month
+		err := result.Scan(&daily_reward.Daily_id, &daily_reward.Month, &daily_reward.Year)
+		if err != nil {
+			panic(err)
+		}
+
+		daily_rewards = append(daily_rewards, daily_reward)
+
+	}
+
+	json.NewEncoder(w).Encode(daily_rewards)
+}
+
 func GetAllDailyReward(w http.ResponseWriter, r *http.Request) {
 	db := Open()
 	defer db.Close()

@@ -6,7 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 )
 
@@ -23,6 +23,8 @@ func BroadcastChat(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
+	url := "http://159.138.122.103:50050/api/chat/system"
+
 	messageRaw := r.Form.Get("message")
 
 	signature := ComputeHmac256(messageRaw, goDotEnvVariable("BROADCAST_KEY"))
@@ -33,12 +35,17 @@ func BroadcastChat(w http.ResponseWriter, r *http.Request) {
 	})
 	responseBody := bytes.NewBuffer(postBody)
 
-	resp, err := http.Post("http://159.138.122.103:50050/api/chat/system", "application/json", responseBody)
+	resp, err := http.Post(url, "application/json", responseBody)
 	if err != nil {
-		log.Fatalf("An Error Occured %v", err)
+		panic(err.Error())
 	}
 	defer resp.Body.Close()
 
-	json.NewEncoder(w).Encode("Success")
+	// req, err := http.NewRequest("POST", url, responseBody)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	fmt.Fprintf(w, string(postBody))
 
 }
