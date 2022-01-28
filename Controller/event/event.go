@@ -72,12 +72,29 @@ func AddEventAnniversary(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	_, err = stmt.Exec(event_name, start_time, end_time, expired_date)
+	res, err := stmt.Exec(event_name, start_time, end_time, expired_date)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	defer stmt.Close()
+
+	lid, err := res.LastInsertId()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	stmt2, err := db.Prepare("INSERT INTO lokapala_eventdb.t_mission_reward (event_id) VALUES (?)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	_, err = stmt2.Exec(lid)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	stmt2.Close()
 
 	json.NewEncoder(w).Encode("Success")
 }

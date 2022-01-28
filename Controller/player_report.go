@@ -15,7 +15,7 @@ func GetAllPlayerReports(w http.ResponseWriter, r *http.Request) {
 
 	var reports []model.Player_report
 
-	query, err := db.Prepare(`SELECT MAX(report_id) as report_id, tt.description as report_description, t.room_id, GROUP_CONCAT(reporter_user_id SEPARATOR ', ') as reporter_user_ids,GROUP_CONCAT(uu.user_name SEPARATOR ', ') as reporter_user_names, reported_user_id, u.user_name, COALESCE(message, '')  as message, report_date, checked FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id GROUP BY reported_user_id, room_id  HAVING COUNT(reported_user_id) >=3 ORDER BY report_id DESC LIMIT ? OFFSET ?`)
+	query, err := db.Prepare(`SELECT MAX(report_id) as report_id, MAX(tt.description) as report_description, t.room_id, GROUP_CONCAT(reporter_user_id SEPARATOR ', ') as reporter_user_ids,GROUP_CONCAT(uu.user_name SEPARATOR ', ') as reporter_user_names, reported_user_id, u.user_name, MAX(COALESCE(message, ''))  as message, MAX(report_date), MAX(checked) FROM lokapala_playerreportdb.t_player_report t LEFT JOIN lokapala_playerreportdb.t_player_report_type tt on t.report_type = tt.report_type_id LEFT JOIN lokapala_accountdb.t_user u ON t.reported_user_id = u.user_id LEFT JOIN lokapala_accountdb.t_user uu ON t.reporter_user_id = uu.user_id GROUP BY reported_user_id, room_id  HAVING COUNT(reported_user_id) >=3 ORDER BY report_id DESC LIMIT ? OFFSET ?`)
 	if err != nil {
 		panic(err.Error())
 	}

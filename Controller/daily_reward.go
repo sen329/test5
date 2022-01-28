@@ -44,7 +44,7 @@ func CreateDailyRewards(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	stmt.Close()
+	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
 
