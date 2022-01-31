@@ -52,7 +52,13 @@ func RouteEventAnniversary(r *mux.Router) *mux.Router {
 	route_event.HandleFunc("/addEventMission", event_anniversary.AddEventMission).Methods("POST")
 	route_event.HandleFunc("/getAllEventMissions", event_anniversary.GetAllEventMissions).Methods("GET")
 	route_event.HandleFunc("/getEventMission", event_anniversary.GetEventMission).Methods("GET")
-	route_event.HandleFunc("/deleteEventMission", event_anniversary.GetAllEventMissions).Methods("DELETE")
+	route_event.HandleFunc("/deleteEventMission", event_anniversary.DeleteEventMission).Methods("DELETE")
+
+	route_event.HandleFunc("/addEventMissionDetails", event_anniversary.AddEventMissionDetails).Methods("POST")
+	route_event.HandleFunc("/getAllEventMissionDetail", event_anniversary.GetAllEventMissionDetails).Methods("GET")
+	route_event.HandleFunc("/getAllEventMissionDetailByEventId", event_anniversary.GetAllEventMissionDetailsByEvent).Methods("GET")
+	route_event.HandleFunc("/getEventMissionDetail", event_anniversary.GetEventMissionDetail).Methods("GET")
+	route_event.HandleFunc("/deleteEventMissionDetail", event_anniversary.DeleteEventMissionDetails).Methods("DELETE")
 
 	route_event.HandleFunc("/getAllEventMissionRewards", event_anniversary.GetAllEventMissionReward).Methods("GET")
 	route_event.HandleFunc("/getEventMissionReward", event_anniversary.GetEventMissionReward).Methods("GET")
