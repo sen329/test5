@@ -49,29 +49,31 @@ type Event_mission_type struct {
 }
 
 type Mission struct {
-	Mission_id   int    `json:"misison_id"`
-	Description  string `json:"description"`
-	Target       int    `json:"target"`
-	Mission_type int    `json:"mission_type"`
+	Mission_id               int    `json:"misison_id"`
+	Description              string `json:"description"`
+	Target                   int    `json:"target"`
+	Mission_type             int    `json:"mission_type"`
+	Mission_type_description string `json:"mission_type_description"`
 }
 
 type Event_mission_date struct {
-	Event_mission_id int    `json:"event_mission_id"`
-	Event_id         int    `json:"event_id"`
-	Event_name       string `json:"event_name"`
-	Start_date       string `json:"start_date"`
-	End_date         string `json:"end_date"`
+	Event_mission_id int     `json:"event_mission_id"`
+	Event_id         int     `json:"event_id"`
+	Event_name       string  `json:"event_name"`
+	Start_date       *string `json:"start_date"`
+	End_date         *string `json:"end_date"`
 }
 
 type Event_mission_details struct {
-	Event_mission_detail_id int    `json:"event_mission_detail_id"`
-	Event_misison_id        int    `json:"event_misison_id"`
-	Event_id                int    `json:"event_id"`
-	Event_name              string `json:"event_name"`
-	Mission_id              int    `json:"mission_id"`
-	Description             string `json:"description"`
-	Start_date              string `json:"start_date"`
-	End_date                string `json:"end_date"`
+	Event_mission_detail_id  int     `json:"event_mission_detail_id"`
+	Event_misison_id         int     `json:"event_misison_id"`
+	Event_id                 int     `json:"event_id"`
+	Event_name               string  `json:"event_name"`
+	Mission_id               int     `json:"mission_id"`
+	Description              string  `json:"description"`
+	Mission_type_description string  `json:"mission_type_description"`
+	Start_date               *string `json:"start_date"`
+	End_date                 *string `json:"end_date"`
 }
 
 type Event_mission_reward struct {
@@ -95,13 +97,13 @@ type Event_mission_reward_detail struct {
 }
 
 type Event_shop struct {
-	Event_shop_id int    `json:"event_shop_id"`
-	Event_id      int    `json:"event_id"`
-	Event_name    string `json:"event_name"`
-	Misc_id       int    `json:"misc_id"`
-	Misc_name     string `json:"misc_name"`
-	Start_date    string `json:"start_date"`
-	End_date      string `json:"end_date"`
+	Event_shop_id int     `json:"event_shop_id"`
+	Event_id      int     `json:"event_id"`
+	Event_name    string  `json:"event_name"`
+	Misc_id       int     `json:"misc_id"`
+	Misc_name     string  `json:"misc_name"`
+	Start_date    *string `json:"start_date"`
+	End_date      *string `json:"end_date"`
 }
 
 type Shop_items struct {

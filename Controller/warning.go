@@ -111,3 +111,24 @@ func GetWarningSeason(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(flag)
 }
+
+func GetWarningDailyReward(w http.ResponseWriter, r *http.Request) {
+	result, err := db.Query("SELECT IF((SELECT NOW()) > date_add((SELECT MAX(CAST(CONCAT_WS('-', tdr.year, tdr.month, tdrlt.day) as DATE)) as date FROM lokapala_accountdb.t_daily_reward_loot_table tdrlt LEFT JOIN lokapala_accountdb.t_daily_reward tdr ON tdrlt.daily_id = tdr.daily_id), INTERVAL -2 WEEK), true, false) as flag")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var flag string
+
+	for result.Next() {
+
+		err := result.Scan(&flag)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(flag)
+}

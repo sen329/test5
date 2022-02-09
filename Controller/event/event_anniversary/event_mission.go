@@ -172,7 +172,7 @@ func AddMission(w http.ResponseWriter, r *http.Request) {
 func GetAllMissions(w http.ResponseWriter, r *http.Request) {
 	var missions []model.Mission
 
-	result, err := db.Query("SELECT * FROM lokapala_eventdb.t_mission")
+	result, err := db.Query("SELECT tm.mission_id, tm.description, tm.target, tm.mission_type, tmt.description as mission_type_description FROM lokapala_eventdb.t_mission tm LEFT JOIN lokapala_eventdb.t_mission_type tmt ON tm.mission_type = tmt.mission_type_id")
 	if err != nil {
 		panic(err)
 	}
@@ -181,7 +181,7 @@ func GetAllMissions(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var mission model.Mission
-		err := result.Scan(&mission.Mission_id, &mission.Description, &mission.Target, &mission.Mission_type)
+		err := result.Scan(&mission.Mission_id, &mission.Description, &mission.Target, &mission.Mission_type, &mission.Mission_type_description)
 		if err != nil {
 			panic(err)
 		}
@@ -357,7 +357,7 @@ func AddEventMissionDetails(w http.ResponseWriter, r *http.Request) {
 func GetAllEventMissionDetails(w http.ResponseWriter, r *http.Request) {
 	var mission_details []model.Event_mission_details
 
-	result, err := db.Query("SELECT temd.event_mission_detail_id, temd.event_mission_id, tem.event_id, te.event_name, temd.mission_id, tm.description, tem.start_date, tem.end_date FROM lokapala_eventdb.t_event_mission_detail temd LEFT JOIN lokapala_eventdb.t_event_mission tem ON temd.event_mission_id = tem.event_mission_id LEFT JOIN lokapala_accountdb.t_event te ON tem.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON temd.mission_id = tm.mission_id")
+	result, err := db.Query("SELECT temd.event_mission_detail_id, temd.event_mission_id, tem.event_id, te.event_name, temd.mission_id, tm.description, tmt.description as mission_type_description,  tem.start_date, tem.end_date FROM lokapala_eventdb.t_event_mission_detail temd LEFT JOIN lokapala_eventdb.t_event_mission tem ON temd.event_mission_id = tem.event_mission_id LEFT JOIN lokapala_accountdb.t_event te ON tem.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON temd.mission_id = tm.mission_id LEFT JOIN lokapala_eventdb.t_mission_type tmt ON tm.mission_type = tmt.mission_type_id")
 	if err != nil {
 		panic(err)
 	}
@@ -366,7 +366,7 @@ func GetAllEventMissionDetails(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var md model.Event_mission_details
-		err := result.Scan(&md.Event_mission_detail_id, &md.Event_misison_id, &md.Event_id, &md.Event_name, &md.Mission_id, &md.Description, &md.Start_date, &md.End_date)
+		err := result.Scan(&md.Event_mission_detail_id, &md.Event_misison_id, &md.Event_id, &md.Event_name, &md.Mission_id, &md.Description, &md.Mission_type_description, &md.Start_date, &md.End_date)
 		if err != nil {
 			panic(err)
 		}
@@ -384,7 +384,7 @@ func GetAllEventMissionDetailsByEvent(w http.ResponseWriter, r *http.Request) {
 
 	event_id := r.URL.Query().Get("event_id")
 
-	result, err := db.Query("SELECT temd.event_mission_detail_id, temd.event_mission_id, tem.event_id, te.event_name, temd.mission_id, tm.description, tem.start_date, tem.end_date FROM lokapala_eventdb.t_event_mission_detail temd LEFT JOIN lokapala_eventdb.t_event_mission tem ON temd.event_mission_id = tem.event_mission_id LEFT JOIN lokapala_accountdb.t_event te ON tem.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON temd.mission_id = tm.mission_id WHERE tem.event_id = ?", event_id)
+	result, err := db.Query("SELECT temd.event_mission_detail_id, temd.event_mission_id, tem.event_id, te.event_name, temd.mission_id, tm.description, tmt.description as mission_type_description,  tem.start_date, tem.end_date FROM lokapala_eventdb.t_event_mission_detail temd LEFT JOIN lokapala_eventdb.t_event_mission tem ON temd.event_mission_id = tem.event_mission_id LEFT JOIN lokapala_accountdb.t_event te ON tem.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON temd.mission_id = tm.mission_id LEFT JOIN lokapala_eventdb.t_mission_type tmt ON tm.mission_type = tmt.mission_type_id WHERE tem.event_id = ?", event_id)
 	if err != nil {
 		panic(err)
 	}
@@ -393,7 +393,7 @@ func GetAllEventMissionDetailsByEvent(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var md model.Event_mission_details
-		err := result.Scan(&md.Event_mission_detail_id, &md.Event_misison_id, &md.Event_id, &md.Event_name, &md.Mission_id, &md.Description, &md.Start_date, &md.End_date)
+		err := result.Scan(&md.Event_mission_detail_id, &md.Event_misison_id, &md.Event_id, &md.Event_name, &md.Mission_id, &md.Description, &md.Mission_type_description, &md.Start_date, &md.End_date)
 		if err != nil {
 			panic(err)
 		}
@@ -411,7 +411,7 @@ func GetEventMissionDetail(w http.ResponseWriter, r *http.Request) {
 
 	event_id := r.URL.Query().Get("event_mission_detail_id")
 
-	result, err := db.Query("SELECT temd.event_mission_detail_id, temd.event_mission_id, tem.event_id, te.event_name, temd.mission_id, tm.description, tem.start_date, tem.end_date FROM lokapala_eventdb.t_event_mission_detail temd LEFT JOIN lokapala_eventdb.t_event_mission tem ON temd.event_mission_id = tem.event_mission_id LEFT JOIN lokapala_accountdb.t_event te ON tem.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON temd.mission_id = tm.mission_id WHERE temd.event_mission_detail_id = ?", event_id)
+	result, err := db.Query("SELECT temd.event_mission_detail_id, temd.event_mission_id, tem.event_id, te.event_name, temd.mission_id, tm.description, tmt.description as mission_type_description,  tem.start_date, tem.end_date FROM lokapala_eventdb.t_event_mission_detail temd LEFT JOIN lokapala_eventdb.t_event_mission tem ON temd.event_mission_id = tem.event_mission_id LEFT JOIN lokapala_accountdb.t_event te ON tem.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON temd.mission_id = tm.mission_id LEFT JOIN lokapala_eventdb.t_mission_type tmt ON tm.mission_type = tmt.mission_type_id WHERE temd.event_mission_detail_id = ?", event_id)
 	if err != nil {
 		panic(err)
 	}
@@ -420,7 +420,7 @@ func GetEventMissionDetail(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var md model.Event_mission_details
-		err := result.Scan(&md.Event_mission_detail_id, &md.Event_misison_id, &md.Event_id, &md.Event_name, &md.Mission_id, &md.Description, &md.Start_date, &md.End_date)
+		err := result.Scan(&md.Event_mission_detail_id, &md.Event_misison_id, &md.Event_id, &md.Event_name, &md.Mission_id, &md.Description, &md.Mission_type_description, &md.Start_date, &md.End_date)
 		if err != nil {
 			panic(err)
 		}
@@ -468,7 +468,7 @@ func GetAllEventMissionReward(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 		var emr model.Event_mission_reward
-		err := result.Scan(&emr.Mission_reward_id, &emr.Event_id, &emr.Event_id)
+		err := result.Scan(&emr.Mission_reward_id, &emr.Event_id, &emr.Event_name)
 		if err != nil {
 			panic(err)
 		}
@@ -484,7 +484,7 @@ func GetAllEventMissionReward(w http.ResponseWriter, r *http.Request) {
 func GetEventMissionReward(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("mission_reward_id")
 
-	result, err := db.Query("SELECT tmr.mission_reward_id, tmr.event_id, te.event_name FROM lokapala_eventdb.t_mission_reward tmr LEFT JOIN lokapala_accountdb.t_event te ON tmr.event_id = te.event_id", id)
+	result, err := db.Query("SELECT tmr.mission_reward_id, tmr.event_id, te.event_name FROM lokapala_eventdb.t_mission_reward tmr LEFT JOIN lokapala_accountdb.t_event te ON tmr.event_id = te.event_id WHERE tmr.mission_reward_id = ?", id)
 	if err != nil {
 		panic(err)
 	}
@@ -495,7 +495,7 @@ func GetEventMissionReward(w http.ResponseWriter, r *http.Request) {
 
 	for result.Next() {
 
-		err := result.Scan(&emr.Mission_reward_id, &emr.Event_id, &emr.Event_id)
+		err := result.Scan(&emr.Mission_reward_id, &emr.Event_id, &emr.Event_name)
 		if err != nil {
 			panic(err)
 		}
@@ -578,7 +578,7 @@ func GetAllMissionRewardDetailByEvent(w http.ResponseWriter, r *http.Request) {
 
 	event_id := r.URL.Query().Get("event_id")
 
-	result, err := db.Query("SELECT tmrd.mission_reward_detail_id, tmrd.mission_reward_id, te.event_name, tmrd.mission_id, tm.description, tmrd.item_type, it.item_type_name, item_id, CASE WHEN tmrd.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = tmrd.item_id) END as item_name, amount FROM lokapala_eventdb.t_mission_reward_detail tmrd LEFT JOIN lokapala_eventdb.t_mission_reward tmr ON tmrd.mission_reward_id = tmr.mission_reward_id LEFT JOIN lokapala_accountdb.t_event te ON tmr.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON tmrd.mission_id = tm.mission_id LEFT JOIN lokapala_accountdb.t_item_type it ON tmrd.item_type = it.item_type_id WHERE tmr.event_id = ?", event_id)
+	result, err := db.Query("SELECT tmrd.mission_reward_detail_id, tmrd.mission_reward_id, tmr.event_id, te.event_name, tmrd.mission_id, tm.description, tmrd.item_type, it.item_type_name, item_id, CASE WHEN tmrd.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = tmrd.item_id) END as item_name, amount FROM lokapala_eventdb.t_mission_reward_detail tmrd LEFT JOIN lokapala_eventdb.t_mission_reward tmr ON tmrd.mission_reward_id = tmr.mission_reward_id LEFT JOIN lokapala_accountdb.t_event te ON tmr.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON tmrd.mission_id = tm.mission_id LEFT JOIN lokapala_accountdb.t_item_type it ON tmrd.item_type = it.item_type_id WHERE tmr.event_id = ?", event_id)
 	if err != nil {
 		panic(err)
 	}
@@ -603,7 +603,7 @@ func GetMissionRewardDetail(w http.ResponseWriter, r *http.Request) {
 
 	mission_reward_detail_id := r.URL.Query().Get("mission_reward_detail_id")
 
-	result, err := db.Query("SELECT tmrd.mission_reward_detail_id, tmrd.mission_reward_id, te.event_name, tmrd.mission_id, tm.description, tmrd.item_type, it.item_type_name, item_id, CASE WHEN tmrd.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = tmrd.item_id) END as item_name, amount FROM lokapala_eventdb.t_mission_reward_detail tmrd LEFT JOIN lokapala_eventdb.t_mission_reward tmr ON tmrd.mission_reward_id = tmr.mission_reward_id LEFT JOIN lokapala_accountdb.t_event te ON tmr.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON tmrd.mission_id = tm.mission_id LEFT JOIN lokapala_accountdb.t_item_type it ON tmrd.item_type = it.item_type_id WHERE tmrd.mission_reward_detail_id = ?", mission_reward_detail_id)
+	result, err := db.Query("SELECT tmrd.mission_reward_detail_id, tmrd.mission_reward_id,tmr.event_id, te.event_name, tmrd.mission_id, tm.description, tmrd.item_type, it.item_type_name, item_id, CASE WHEN tmrd.item_type = 5 THEN (SELECT item.misc_name FROM lokapala_accountdb.t_misc_item item WHERE item.misc_id = tmrd.item_id) END as item_name, amount FROM lokapala_eventdb.t_mission_reward_detail tmrd LEFT JOIN lokapala_eventdb.t_mission_reward tmr ON tmrd.mission_reward_id = tmr.mission_reward_id LEFT JOIN lokapala_accountdb.t_event te ON tmr.event_id = te.event_id LEFT JOIN lokapala_eventdb.t_mission tm ON tmrd.mission_id = tm.mission_id LEFT JOIN lokapala_accountdb.t_item_type it ON tmrd.item_type = it.item_type_id WHERE tmrd.mission_reward_detail_id = ?", mission_reward_detail_id)
 	if err != nil {
 		panic(err)
 	}

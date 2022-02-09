@@ -113,6 +113,8 @@ func main() {
 
 	route.Handle("/", Routers.RouteEventAnniversary(route))
 
+	route.Handle("/", Routers.RouteClientVersion(route))
+
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
 
