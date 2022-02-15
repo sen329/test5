@@ -132,6 +132,31 @@ func UpdateReleaseDateNews(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
+func UpdateTypeNews(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+
+	err := r.ParseMultipartForm(4096)
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare("UPDATE t_news_v2 SET type = ? WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	news_type := r.Form.Get("type")
+
+	_, err = stmt.Exec(news_type, id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer stmt.Close()
+
+	json.NewEncoder(w).Encode("Success")
+}
+
 func DeleteNews(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 

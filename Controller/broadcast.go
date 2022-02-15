@@ -22,7 +22,7 @@ func BroadcastChat(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	url := "http://159.138.122.103:50050/api/chat/system"
+	url := goDotEnvVariable("URL_BLAST")
 
 	messageRaw := r.Form.Get("message")
 
