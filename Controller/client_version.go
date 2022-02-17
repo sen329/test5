@@ -83,7 +83,7 @@ func GetVersion(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UpdateVersionString(w http.ResponseWriter, r *http.Request) {
+func UpdateVersionCodeVersion(w http.ResponseWriter, r *http.Request) {
 	version_id := r.URL.Query().Get("version_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -96,9 +96,9 @@ func UpdateVersionString(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	version_string := r.Form.Get("version_string")
+	code_version := r.Form.Get("code_version")
 
-	_, err = stmt.Exec(version_string, version_id)
+	_, err = stmt.Exec(code_version, version_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -106,7 +106,7 @@ func UpdateVersionString(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
-func UpdateVersionCodeVersion(w http.ResponseWriter, r *http.Request) {
+func UpdateVersionString(w http.ResponseWriter, r *http.Request) {
 	version_id := r.URL.Query().Get("version_id")
 
 	err := r.ParseMultipartForm(4096)
@@ -119,9 +119,9 @@ func UpdateVersionCodeVersion(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	code_version := r.Form.Get("code_version")
+	version_string := r.Form.Get("version_string")
 
-	_, err = stmt.Exec(code_version, version_id)
+	_, err = stmt.Exec(version_string, version_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -177,11 +177,6 @@ func UpdateVersionPlatform(w http.ResponseWriter, r *http.Request) {
 
 func DeleteVersion(w http.ResponseWriter, r *http.Request) {
 	version_id := r.URL.Query().Get("version_id")
-
-	err := r.ParseMultipartForm(4096)
-	if err != nil {
-		panic(err)
-	}
 
 	stmt, err := db.Prepare("DELETE FROM lokapala_logindb.t_version WHERE version_id = ?")
 	if err != nil {

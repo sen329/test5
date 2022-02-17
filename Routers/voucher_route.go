@@ -15,6 +15,7 @@ func RouteVouchers(r *mux.Router) *mux.Router {
 	route_match.HandleFunc("/GenerateVoucher", controller.GenerateVoucher).Methods("POST")
 	route_match.HandleFunc("/getVouchers", controller.GetAllVouchers).Methods("GET")
 	route_match.HandleFunc("/getVoucher", controller.GetVoucher).Methods("GET")
+	route_match.HandleFunc("/queryVoucherExport", controller.QueryVouchersExport).Methods("GET")
 	route_match.HandleFunc("/updateVoucher", controller.UpdateVoucher).Methods("PUT")
 	route_match.HandleFunc("/deleteVoucher", controller.DeleteVoucher).Methods("DELETE")
 

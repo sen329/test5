@@ -36,7 +36,9 @@ func GenerateVoucher(w http.ResponseWriter, r *http.Request) {
 
 func GetAllVouchers(w http.ResponseWriter, r *http.Request) {
 	var vouchers []model.Voucher
-	result, err := db.Query("SELECT A.id, A.`key`,  B.detail, A.created_date, A.voucher_id, A.user_id, C.user_name, A.claimed_date, A.expired_date FROM lokapala_melonpaymentdb.t_voucher A LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail B ON A.voucher_id = B.voucher_id LEFT JOIN lokapala_accountdb.t_user C ON A.user_id = C.user_id")
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
+	result, err := db.Query("SELECT A.id, A.`key`,  B.detail, A.created_date, A.voucher_id, A.user_id, C.user_name, A.claimed_date, A.expired_date FROM lokapala_melonpaymentdb.t_voucher A LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail B ON A.voucher_id = B.voucher_id LEFT JOIN lokapala_accountdb.t_user C ON A.user_id = C.user_id LIMIT ? OFFSET ?", count, offset)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -117,6 +119,29 @@ func DeleteVoucher(w http.ResponseWriter, r *http.Request) {
 	defer stmt.Close()
 
 	json.NewEncoder(w).Encode("Success")
+}
+
+func QueryVouchersExport(w http.ResponseWriter, r *http.Request) {
+	var vouchers []model.Voucher
+	count := r.URL.Query().Get("count")
+	offset := r.URL.Query().Get("offset")
+	result, err := db.Query("SELECT A.id, A.`key`,  B.detail, A.created_date, A.voucher_id, A.user_id, C.user_name, A.claimed_date, A.expired_date FROM lokapala_melonpaymentdb.t_voucher A LEFT JOIN lokapala_melonpaymentdb.t_voucher_detail B ON A.voucher_id = B.voucher_id LEFT JOIN lokapala_accountdb.t_user C ON A.user_id = C.user_id ORDER BY A.id DESC LIMIT ? OFFSET ?", count, offset)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for result.Next() {
+		var voucher model.Voucher
+		err := result.Scan(&voucher.Id, &voucher.Key, &voucher.Detail, &voucher.Created_date, &voucher.Voucher_id, &voucher.User_id, &voucher.User_name, &voucher.Claimed_date, &voucher.Expired_date)
+		if err != nil {
+			panic(err.Error())
+		}
+		vouchers = append(vouchers, voucher)
+	}
+
+	defer result.Close()
+
+	json.NewEncoder(w).Encode(vouchers)
 }
 
 func AddVoucher(w http.ResponseWriter, r *http.Request) {
