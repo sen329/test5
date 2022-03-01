@@ -15,6 +15,6 @@ type Ksatriya_fragment struct {
 }
 
 type Ksatriya_skin_part struct {
-	Skin_part_id int    `json:"skin_part_id"`
-	Release_date string `json:"release_date"`
+	Skin_part_id int     `json:"skin_part_id"`
+	Release_date *string `json:"release_date"`
 }

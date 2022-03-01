@@ -33,6 +33,13 @@ func RouteKsatriya(r *mux.Router) *mux.Router {
 	route_ksatriya.HandleFunc("/updateKsatriyaSkin", ksatriya.UpdateKsatriyaSkin).Methods("PUT")
 	route_ksatriya.HandleFunc("/deleteKsatriyaSkin", ksatriya.DeleteKsatriyaSkin).Methods("DELETE")
 
+	// ksatriya_skin_fragment
+	route_ksatriya.HandleFunc("/addKsatriyaSkinFragment", ksatriya.AddKsatriyaSkinFragment).Methods("POST")
+	route_ksatriya.HandleFunc("/getAllKsatriyaSkinFragments", ksatriya.GetAllKsatriyaSkinFragment).Methods("GET")
+	route_ksatriya.HandleFunc("/getKsatriyaSkinFragment", ksatriya.GetKsatriyaSkinFragment).Methods("GET")
+	route_ksatriya.HandleFunc("/updateKsatriyaSkinFragment", ksatriya.UpdateKsatriyaSkinFragment).Methods("PUT")
+	route_ksatriya.HandleFunc("/deleteKsatriyaSkinFragment", ksatriya.DeleteKsatriyaSkinFragment).Methods("DELETE")
+
 	//	ksatriya_skin_part
 	route_ksatriya.HandleFunc("/addKsatriyaSkinPart", ksatriya.AddKsatriyaSkinPart).Methods("POST")
 	route_ksatriya.HandleFunc("/getKsatriyaSkinParts", ksatriya.GetKsatriyaSkinParts).Methods("GET")
